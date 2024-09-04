@@ -6,6 +6,7 @@ import { AdminComponent } from './admin.component';
 import { CreatePostsComponent } from './create-posts/create-posts.component';
 import { ViewAllPostsComponent } from './view-all-posts/view-all-posts.component';
 import { ViewIdPostsComponent } from './view-id-posts/view-id-posts.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ViewIdPostsComponent } from './view-id-posts/view-id-posts.component';
   ],
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    SharedModule
   ]
 })
 export class AdminModule { }
