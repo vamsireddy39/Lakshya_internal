@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    height: 100%;
+    max-width: 1200px;
+    width: 100%;
+  }
+  .image-section {
+    background-image: url('https://via.placeholder.com/600'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px 0 0 20px;
+    height: 100%;
+  }
+  .form-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    border-radius: 0 20px 20px 0;
+    background: #fff;
+  }
+  .card-title {
+    color: #ffffff;
+    background: linear-gradient(45deg, #845ec2, #d65db1);
+    padding: 15px;
+    border-radius: 20px 20px 0 0;
+    text-align: center;
+    margin: 0;
+  }
+  .form-label {
+    color: #845ec2;
+    font-weight: bold;
+  }
+  .form-control {
+    border-radius: 10px;
+    border: 2px solid #d65db1;
+  }
+  .btn-primary {
+    background: linear-gradient(45deg, #845ec2, #d65db1);
+    border: none;
+    border-radius: 10px;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(45deg, #d65db1, #845ec2);
+  }
+  .custom-file-input {
+    border-radius: 10px;
+    border: 2px solid #d65db1;
+  }
