@@ -30,4 +30,21 @@
     justify-content: start;
     gap:12px;
 }
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: -webkit-center;
+
+
+}
+
+@media (max-width:770px) 
+{
+
+    .row{
+        gap: 10px;
+    }
+}
 
