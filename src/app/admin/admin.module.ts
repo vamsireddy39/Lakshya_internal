@@ -7,6 +7,8 @@ import { CreatePostsComponent } from './create-posts/create-posts.component';
 import { ViewAllPostsComponent } from './view-all-posts/view-all-posts.component';
 import { ViewIdPostsComponent } from './view-id-posts/view-id-posts.component';
 import { SharedModule } from '../shared/shared.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AdminHomeComponent } from './admin-home/admin-home.component';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import { SharedModule } from '../shared/shared.module';
     AdminComponent,
     CreatePostsComponent,
     ViewAllPostsComponent,
-    ViewIdPostsComponent
+    ViewIdPostsComponent,
+    DashboardComponent,
+    AdminHomeComponent
   ],
   imports: [
     CommonModule,
