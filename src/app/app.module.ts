@@ -12,7 +12,9 @@ import { ForgotPasswordComponent } from './common/forgot-password/forgot-passwor
 import { SharedModule } from './shared/shared.module';
 import { NgxEditorModule } from 'ngx-editor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './auth-interceptor';
+import { SharedService } from './shared.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModule,NgxEditorModule,FormsModule,
     ReactiveFormsModule,HttpClientModule
   ],
-  providers: [],
+  providers: [SharedService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
