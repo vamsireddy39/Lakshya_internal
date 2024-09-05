@@ -28,9 +28,15 @@ export class SharedService {
   Login(formData: any) {
     return this.http.post(`http://www.crocusglobal.com/forum/api/login`, formData);
   }
+  Register(formData: any) {
+    return this.http.post(`http://www.crocusglobal.com/forum/api/register`, formData);
+  }
 
 //user
   getUserData() {
     return this.http.get(`http://www.crocusglobal.com/forum/api/users`,)
   }
+ 
 }
+
+
