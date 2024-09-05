@@ -28,8 +28,8 @@ import { SharedService } from './shared.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule,NgxEditorModule,FormsModule,
-    ReactiveFormsModule,HttpClientModule
+    SharedModule,FormsModule,
+    ReactiveFormsModule,NgxEditorModule,HttpClientModule
   ],
   providers: [SharedService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
