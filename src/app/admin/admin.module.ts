@@ -9,6 +9,9 @@ import { ViewIdPostsComponent } from './view-id-posts/view-id-posts.component';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { NgxEditorModule } from 'ngx-editor';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -23,7 +26,9 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
   imports: [
     CommonModule,
     AdminRoutingModule,
-    SharedModule
+    SharedModule,NgxEditorModule,FormsModule,
+    ReactiveFormsModule,    HttpClientModule,
+
   ]
 })
 export class AdminModule { }

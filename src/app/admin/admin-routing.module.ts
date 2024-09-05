@@ -6,7 +6,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [{ path: '', component: AdminComponent ,children:[
 
-  {path:'',component:DashboardComponent}
+  {path:'',component:DashboardComponent},
+  {path:'createPosts' , component:CreatePostsComponent}
 ]},
 ];
 
