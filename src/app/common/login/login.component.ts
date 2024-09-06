@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared.service';
 import { catchError, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private sharedService: SharedService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router : Router
   ) {
     this.LoginForm = this.fb.group({
       username: ['', Validators.required],
@@ -38,31 +40,15 @@ export class LoginComponent {
       } else {
         console.error('No session key found in response.');
       }
+      if (response.role_id === 1 || response.role_id === 3) {
+        this.router.navigateByUrl('Admin');
+      } else if (response.role_id === 2) {
+        this.router.navigateByUrl('User');
+      } else {
+        console.error('Unknown role_id:', response.role_id);
+      }
     });
   }
 
-  getProtectedData() {
-    const sessionKey = this.sharedService.getSessionKey(); // Retrieve session key
-
-    if (sessionKey) {
-      console.log('Session Key:', sessionKey); // Debug: Print session key to verify
-
-      const headers = new HttpHeaders().set('X-Session-Key', ` ${sessionKey}`);
-
-    //   this.http.get('http://www.crocusglobal.com/forum/api/users', { headers })
-    //     .pipe(
-    //       catchError((error) => {
-    //         console.error('Error occurred:', error);
-    //         return throwError(error);
-    //       })
-    //     )
-    //     .subscribe((data) => {
-    //       console.log('Protected Data:', data);
-    //     });
-    // } else {
-    //   console.error('No session key found. Unable to fetch protected data.');
-    // }
-    this.sharedService.getUserData().subscribe((response)=>
-    console.log(response))
-  }}
+  
 }
