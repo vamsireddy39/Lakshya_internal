@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrl: './view-user-posts.component.scss'
 })
 export class ViewUserPostsComponent {
+  
+  
 
 }
