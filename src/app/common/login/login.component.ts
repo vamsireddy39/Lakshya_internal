@@ -4,6 +4,7 @@ import { SharedService } from '../../shared.service';
 import { catchError, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ObservablesService } from '../../observables.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private sharedService: SharedService,
     private http: HttpClient,
-    private router : Router
+    private router: Router,
+    public Observable: ObservablesService
   ) {
     this.LoginForm = this.fb.group({
       username: ['', Validators.required],
@@ -33,7 +35,7 @@ export class LoginComponent {
 
     this.sharedService.Login(formData).subscribe((response: any) => {
       console.log(response); // Debug: Check the login response
-
+      this.Observable.loginDetailsPathIndex$.next(response)
       if (response.session_key) {
         // Store the session key in the service
         this.sharedService.setSessionKey(response.session_key);
@@ -50,5 +52,5 @@ export class LoginComponent {
     });
   }
 
-  
+
 }

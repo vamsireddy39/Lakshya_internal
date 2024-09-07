@@ -15,6 +15,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth-interceptor';
 import { SharedService } from './shared.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatSort, MatSortModule} from '@angular/material/sort';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -29,10 +36,11 @@ import { SharedService } from './shared.service';
     BrowserModule,
     AppRoutingModule,
     SharedModule,FormsModule,
-    ReactiveFormsModule,NgxEditorModule,HttpClientModule
-  ],
+    ReactiveFormsModule,NgxEditorModule,HttpClientModule,
+    MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatSelectModule,  ],
   providers: [SharedService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

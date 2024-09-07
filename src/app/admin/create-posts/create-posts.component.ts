@@ -26,11 +26,10 @@ editpost = false;
     this.editorIntro = new Editor();
     this.editorDescr = new Editor();
     this.postForm = this.fb.group({
-      title: ['', [Validators.required, Validators.maxLength(500)]],
+      user_id: ['', Validators.required],
       descr: ['', [Validators.required, Validators.maxLength(4500)]],
-      intro: ['', [Validators.required, Validators.maxLength(4500)]],
-      takeaways: ['', [Validators.required, Validators.maxLength(4500)]],
-      post_ID:[''],
+      header_image: [''],
+      attached_file:[''],
     });
 
   }

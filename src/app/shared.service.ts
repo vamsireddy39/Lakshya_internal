@@ -10,6 +10,8 @@ export class SharedService {
   private headers: HttpHeaders;
   private sessionKey: string | null = null;
 
+  
+
   constructor(private http: HttpClient) {
     this.headers = new HttpHeaders();
   }
@@ -28,6 +30,10 @@ export class SharedService {
   Login(formData: any) {
     return this.http.post(`http://www.crocusglobal.com/forum/api/login`, formData);
   }
+//LogOut
+Logout(formData : any){
+  return this.http.post(`http://www.crocusglobal.com/forum/api/logout`,formData)
+}
   Register(formData: any) {
     return this.http.post(`http://www.crocusglobal.com/forum/api/register`, formData);
   }

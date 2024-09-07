@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../common/header/header.component';
 import { FooterComponent } from '../common/footer/footer.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -11,7 +14,9 @@ import { FooterComponent } from '../common/footer/footer.component';
     FooterComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule
+
   ],
   exports: [
     HeaderComponent,

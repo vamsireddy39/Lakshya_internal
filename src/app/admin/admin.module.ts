@@ -12,7 +12,12 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { RegisteredUsersComponent } from './registered-users/registered-users.component';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatSort, MatSortModule} from '@angular/material/sort';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -21,13 +26,15 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     ViewAllPostsComponent,
     ViewIdPostsComponent,
     DashboardComponent,
-    AdminHomeComponent
+    AdminHomeComponent,
+    RegisteredUsersComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     SharedModule,NgxEditorModule,FormsModule,
     ReactiveFormsModule,    HttpClientModule,
+    MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule
 
   ]
 })

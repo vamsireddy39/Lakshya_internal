@@ -1,0 +1,56 @@
+<main class="nxl-container">
+    <div class="nxl-content">
+      <div class="main-content">
+        <div class="row">
+          <div class="col-xxl-12">
+            <div class="card stretch stretch-full">
+              <div class="card-header">
+                <h5 class="card-title">Registered Users</h5>
+                <input type="text" (input)="applyFilter($event)" placeholder="Search users..." class="form-control" style="width: 80%;">
+              </div>
+              <div class="card-body custom-card-action p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover mb-0">
+                    <thead>
+                      <tr class="border-b">
+                        <th scope="row" (click)="sortData('id')">ID</th>
+                        <th (click)="sortData('name')">Name</th>
+                        <th (click)="sortData('mobile')">Mobile</th>
+                        <th (click)="sortData('email')">Email</th>
+                        <th (click)="sortData('created_at')">Created At</th>
+                        <th (click)="sortData('active')">Status</th>
+                        <th class="text-end" (click)="sortData('role_id')">Role ID</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let user of paginatedData">
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.firstname }} {{ user.lastname }}</td>
+                        <td>{{ user.mobile }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}</td>
+                        <td>
+                          <span [ngClass]="{'badge bg-soft-success text-success': user.active === 1, 'badge bg-soft-danger text-danger': user.active === 0}">
+                            {{ user.active === 1 ? 'Active' : 'Inactive' }}
+                          </span>
+                        </td>
+                        <td class="text-end">{{ user.role_id  === 2 ? 'User':'Admin' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card-footer">
+                <ul class="pagination">
+                  <li *ngFor="let page of pages" class="page-item">
+                    <a class="page-link" href="javascript:void(0)" (click)="setPage(page)">{{ page }}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
