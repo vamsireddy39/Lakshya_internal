@@ -13,13 +13,14 @@
 
     <div class="content1">
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-4"  *ngFor="let post of posts" >
     <div class="text-box"> 
-        <img src="../../../assets/images/employee.jpg" alt="Image description" width="300px" height="150px">
+        <img [src]="post.header_img_file_name" alt="Image description" width="300px" height="150px">
         <div class="content" >
        <h4> How Can My Business Win Awards? 
-        </h4><p>Business is the practice of making money by producing, buying, or selling products or services.
-        </p>
+        </h4>
+        <p>{{ post.descr }}</p>
+        
         </div>
         <div>
         <hr>
@@ -38,7 +39,7 @@
       </div>
       <div class="col-lg-4">
         <div class="text-box"> 
-            <img src="../../../assets/images/employee.jpg" alt="Image description"width="300px" height="150px"> 
+            <img [src]="post.header_img_file_name" alt="Image description"width="300px" height="150px"> 
             <div class="content" > <h4> How Can My Business Win Awards? 
             </h4> <p>Business is the practice of making money by producing,
                  buying, or selling products or services.</p>
@@ -66,7 +67,7 @@
           </div>
           <div class="col-lg-4">
             <div class="text-box"> 
-                <img src="../../../assets/images/employee.jpg" alt="Image description" 
+                <img [src]="post.header_img_file_name" alt="Image description" 
                 > 
                 <div class="content"> <h4> How Can My Business Win Awards? 
                 </h4> <p>Business is the practice of making money by producing, buying,
@@ -91,7 +92,7 @@
       <div class="row mt-4">
         <div class="col-lg-4">
     <div class="text-box"> 
-        <img src="../../../assets/images/employee.jpg" alt="Image description"
+        <img [src]="post.header_img_file_name" alt="Image description"
          > 
         <div class="content"> <h4> How Can My Business Win Awards? 
         </h4> <p>Business is the practice of making money by producing, buying,
@@ -114,7 +115,7 @@
       
       <div class="col-lg-4">
         <div class="text-box"> 
-            <img src="../../../assets/images/employee.jpg" alt="Image description" 
+            <img [src]="post.header_img_file_name" alt="Image description" 
             > 
             <div class="content"> <h4> How Can My Business Win Awards? 
             </h4><p>Business is the practice of making money by producing, buying, or selling
@@ -138,7 +139,7 @@
           
           <div class="col-lg-4">
             <div class="text-box"> 
-                <img src="../../../assets/images/employee.jpg" alt="Image description"
+                <img [src]="post.header_img_file_name" alt="Image description"
                 > 
                 <div class="content"><h4> How Can My Business Win Awards? 
                 </h4><p>Business is the practice of making money by producing,
