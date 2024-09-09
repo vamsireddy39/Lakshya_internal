@@ -1,5 +1,5 @@
 <div class="part">
- 
+ <div>
     <nav class="side-nav ">
         <h4>Blogs</h4>
         <ul class="list-group">
@@ -9,158 +9,36 @@
           <li class="list-group-item"><a href="#">Sports news</a></li>
         </ul>
         </nav>
-    
-
-    <div class="content1">
-    <div class="row">
-        <div class="col-lg-4"  *ngFor="let post of posts" >
-    <div class="text-box"> 
-        <img [src]="post.header_img_file_name" alt="Image description" width="300px" height="150px">
-        <div class="content" >
-       <h4> How Can My Business Win Awards? 
-        </h4>
-        <p>{{ post.descr }}</p>
-        
         </div>
-        <div>
-        <hr>
-        </div> 
-        <div class="last-content ">
-            <div class="circleimage">
-            <img src="../../../assets/images/employee.jpg" alt="Image description" width="300px" height="150px"> 
-            </div>
-            <div class="imagecontent ">
-            <p>K Vamsi<br>
-            October 10,1999</p>
-               </div>
-        </div>
-      
-      </div>
-      </div>
-      <div class="col-lg-4">
+        <div class="row ">
+            <div class="col-lg-4" *ngFor="let user of paginatedData">
         <div class="text-box"> 
-            <img [src]="post.header_img_file_name" alt="Image description"width="300px" height="150px"> 
-            <div class="content" > <h4> How Can My Business Win Awards? 
-            </h4> <p>Business is the practice of making money by producing,
-                 buying, or selling products or services.</p>
-                </div>
-                <div>
-                <hr>
-                </div> 
-            <div class="last-content ">
-                <div class="circleimage">
-                <img src="../../../assets/images/employee.jpg" alt="Image description" > 
-                </div>
-                <div class="imagecontent ">
-                <p>K Vamsi<br>
-                    October 10,1999</p>
-                   </div>
-              
-                
-            
-                
-
-            </div> 
-          </div>
-        
-
-          </div>
-          <div class="col-lg-4">
-            <div class="text-box"> 
-                <img [src]="post.header_img_file_name" alt="Image description" 
-                > 
-                <div class="content"> <h4> How Can My Business Win Awards? 
-                </h4> <p>Business is the practice of making money by producing, buying,
-                     or selling products or services.</p> 
-                    </div>
-                    <div>
-                    <hr>
-                    </div> 
-                <div class="last-content ">
-                    <div class="circleimage">
-                    <img src="../../../assets/images/employee.jpg" alt="Image description" > 
-                    </div>
-                    <div class="imagecontent ">
-                    <p>K Vamsi<br>
-                        October 10,1999</p>
-                       </div>
-              </div>
-              </div>
-            
-      </div>
-      </div>
-      <div class="row mt-4">
-        <div class="col-lg-4">
-    <div class="text-box"> 
-        <img [src]="post.header_img_file_name" alt="Image description"
-         > 
-        <div class="content"> <h4> How Can My Business Win Awards? 
-        </h4> <p>Business is the practice of making money by producing, buying,
-             or selling products or services.</p>
+            <img src="../../../assets/images/employee.jpg" alt="Image description" width="300px" height="150px">
+            <div class="content" >
+           <h4> {{ user.title }}
+            </h4><p [innerHTML]="sanitizeDescription(user.descr).slice(0, 100) + '...'"> </p>
             </div>
             <div>
             <hr>
-            </div>  
-        <div class="last-content ">
-            <div class="circleimage">
-            <img src="../../../assets/images/employee.jpg" alt="Image description" > 
-            </div>
-            <div class="imagecontent ">
-            <p>K Vamsi<br>
-                October 10,1999</p>
-               </div>
-      </div>
-      </div>
-      </div>
-      
-      <div class="col-lg-4">
-        <div class="text-box"> 
-            <img [src]="post.header_img_file_name" alt="Image description" 
-            > 
-            <div class="content"> <h4> How Can My Business Win Awards? 
-            </h4><p>Business is the practice of making money by producing, buying, or selling
-                 products or services.</p> 
-                </div>
-                <div>
-                <hr>
-                </div>  
+            </div> 
             <div class="last-content ">
                 <div class="circleimage">
-                <img src="../../../assets/images/employee.jpg" alt="Image description" > 
+                <img src="../../../assets/images/employee.jpg" alt="Image description" width="300px" height="150px"> 
                 </div>
                 <div class="imagecontent ">
-                <p>K Vamsi<br>
-                    October 10,1999</p>
+                <p>Created At: {{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}<br>
+                October 10,1999</p>
                    </div>
-          </div>
-          
-          </div>
-          </div>
-          
-          <div class="col-lg-4">
-            <div class="text-box"> 
-                <img [src]="post.header_img_file_name" alt="Image description"
-                > 
-                <div class="content"><h4> How Can My Business Win Awards? 
-                </h4><p>Business is the practice of making money by producing,
-                     buying, or selling products or services.</p> 
-                    </div>
-                    <div>
-                    <hr>
-                    </div> 
-                <div class="last-content">
-                    <div class="circleimage">
-                    <img src="../../../assets/images/employee.jpg" alt="Image description" > 
-                    </div>
-                    <div class="imagecontent ">
-                    <p>K Vamsi<br>
-                        October 10,1999</p>
-                       </div>
             </div>
-              </div>
-              </div>
-      </div>
-      <p style="text-align: center; color:red;" class="mt-4">The End</p>
+          
+          </div>
+          </div>
+       
+            
+          </div>
+       
+          </div>
+    
+    
 
-    </div>
-    </div>
+   
