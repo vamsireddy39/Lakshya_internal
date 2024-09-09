@@ -1,131 +1,83 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-// import { SharedService } from '../../shared.service';
 import { Editor } from 'ngx-editor';
+import { ObservablesService } from '../../observables.service';
+import { SharedService } from '../../shared.service';
+
 @Component({
   selector: 'app-create-posts',
   templateUrl: './create-posts.component.html',
-  styleUrl: './create-posts.component.scss'
+  styleUrls: ['./create-posts.component.scss']
 })
-export class CreatePostsComponent {
-
-
+export class CreatePostsComponent implements OnInit, OnDestroy {
+  roleID: any;
   editorIntro: Editor;
-  editorDescr: Editor;
-  editor: Editor ;
-  html = '';
+  CreatePost: FormGroup;
+  headerImageFile: File | null = null;
+  attachedFile: File | null = null;
 
-  // postForm: FormGroup | undefined;
-  postForm: FormGroup;
-  post_ID: any;
-editpost = false;
-
-  constructor(private fb: FormBuilder, private http: HttpClient) {
-    this.editor = new Editor();
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private observable: ObservablesService,
+    private sharedService: SharedService
+  ) {
     this.editorIntro = new Editor();
-    this.editorDescr = new Editor();
-    this.postForm = this.fb.group({
-      user_id: ['', Validators.required],
+    this.CreatePost = this.fb.group({
+      user_id: [''],
       descr: ['', [Validators.required, Validators.maxLength(4500)]],
       header_image: [''],
-      attached_file:[''],
+      attached_file: ['']
     });
-
   }
-//   ngOnInit(): void {
-//     this.sharedService.editpostPathIndexSubject$.subscribe((response) => {
-//       // console.log(response);
-//       this.post_ID = response
-//       this.getpostDetailsById(this.post_ID);
-//     })
 
-//   }
+  ngOnInit(): void {
+    this.observable.loginDetailsPathIndex$.subscribe((response) => {
+      this.roleID = response.role_id;
+    });
+  }
 
-//   getpostDetailsById(post_ID: string): void {
-//     this.sharedService.getpostDetailsById(post_ID).subscribe(
-//       (response: any) => {
-//         // console.log(response);
-//         this.postForm.patchValue({
-//           title: response.title,
-//           descr: response.description,
-//           intro: response.introduction,
-//           takeaways: response.takeaways
-//         });
-//         this.editor.setContent(response.description);
-//         this.editorIntro.setContent(response.introduction);
-//         this.editpost= true;
+  ngOnDestroy(): void {
+    this.editorIntro.destroy();
+  }
 
-//       },
-//       error => {
-//         console.log(error);
-//       }
-//     );
-//   }
-
-//   createpost() {
-//     let formData: FormData = new FormData();
-//     formData.append('title', this.postForm.controls['title'].value);
-//     formData.append('descr', this.postForm.controls['descr'].value);
-//     formData.append('intro', this.postForm.controls['intro'].value);
-//     formData.append('takeaways', this.postForm.controls['takeaways'].value);
-
-
-
-//     if (this.editpost == true){
-//       formData.append('post_ID', this.post_ID);      
-//       this.sharedService.editpost(formData).subscribe((response: any) => {
-//         // console.log(response)
+  createBlog(): void {
   
-//         // this.sharedService.postDetailsPathIndexSubject$.next(response)
-  
-//         Swal.fire({
-  
-//           text: "edited The post Successfully!",
-//           icon: "success"
-//         })
-//         this.postForm.reset()
-//       }
-//         , error => {
-//           Swal.fire({
-//             icon: "error",
-//             title: error,
-//             text: "Something went wrong!",
-  
-//           });
-//         });
-  
-//     }else{
-//     this.sharedService.createpost(formData).subscribe((response: any) => {
-//       // console.log(response)
+    // Create FormData to send files and other data
+    const formData = new FormData();
+    formData.append('descr', this.CreatePost.controls['descr'].value);
+    formData.append('user_id', this.roleID);
 
-//       this.sharedService.postDetailsPathIndexSubject$.next(response)
+    if (this.headerImageFile) {
+      formData.append('header_image', this.headerImageFile);
+    }
 
-//       Swal.fire({
+    if (this.attachedFile) {
+      formData.append('attached_file', this.attachedFile);
+    }
 
-//         text: "Created The post Successfully!",
-//         icon: "success"
-//       })
-//       this.postForm.reset()
+    const sessionKey = this.sharedService.getSessionKey(); // Retrieve session key
+    if (sessionKey) {
+      const headers = new HttpHeaders().set('X-Session-Key', sessionKey);
 
-//     }
-//       , error => {
-//         Swal.fire({
-//           icon: "error",
-//           title: error,
-//           text: "Something went wrong!",
+      this.sharedService.postBlog(formData).subscribe((response: any) => {
+        console.log(response); // Handle success
+      });
+    }
+  }
 
-//         });
-//       });
+  handleFileInputChange(event: Event, fileType: 'header_image' | 'attached_file'): void {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement.files && inputElement.files.length) {
+      const selectedFile = inputElement.files[0];
 
-
-//   }
-// }
-ngOnDestroy(): void {
-  this.editor.destroy();
-  this.editorIntro.destroy();
-  this.editorDescr.destroy();
+      // Assign the selected file to the correct form field
+      if (fileType === 'header_image') {
+        this.headerImageFile = selectedFile;
+      } else if (fileType === 'attached_file') {
+        this.attachedFile = selectedFile;
+      }
+    }
+  }
 }
-
-}
-

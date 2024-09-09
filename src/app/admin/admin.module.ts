@@ -34,7 +34,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     AdminRoutingModule,
     SharedModule,NgxEditorModule,FormsModule,
     ReactiveFormsModule,    HttpClientModule,
-    MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule
+    MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule 
 
   ]
 })

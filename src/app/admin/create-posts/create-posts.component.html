@@ -1,137 +1,82 @@
 <main class="nxl-container">
     <div class="nxl-content">
-        <div class="page-header">
-            <div class="page-header-left d-flex align-items-center">
-                <div class="page-header-title">
-                    <h5 class="m-b-10">Dashboard</h5>
-                </div>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a>post</a></li>
-                    <li class="breadcrumb-item">Create A post</li>
-                </ul>
-            </div>
-            <div class="page-header-right ms-auto">
-                <div class="page-header-right-items">
-                    <div class="d-flex d-md-none">
-                        <a href="javascript:void(0)" class="page-header-right-close-toggle">
-                            <i class="feather-arrow-left me-2"></i>
-                            <span>Back</span>
-                        </a>
-                    </div>
-             
-                </div>
-                <div class="d-md-none d-flex align-items-center">
-                    <a href="javascript:void(0)" class="page-header-right-open-toggle">
-                        <i class="feather-align-right fs-20"></i>
-                    </a>
-                </div>
-            </div>
-
+      <div class="page-header">
+        <div class="page-header-left d-flex align-items-center">
+          <div class="page-header-header_image">
+            <h5 class="m-b-10">Dashboard</h5>
+          </div>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a>post</a></li>
+            <li class="breadcrumb-item">Create A post</li>
+          </ul>
         </div>
-
-        <div class="main-content">
-            <div class="row">
-
-                <div class="card col-xxl-12 mb-4 mx-4 mx-sm-0 position-relative stretch stretch-full">
-
-                    <div class="card-body row p-sm-5">
-
-                        <form class=" pt-2 col-12">
-
-
-                            <div class="mb-3">
-                                <label for="Title" class="form-label">post Title</label>
-                                <input type="name" class="form-control" id="Title" aria-describedby="Title"
-                                    formControlName="title">
-                                <div
-                                    *ngIf="postForm.controls['title'].invalid && (postForm.controls['title'].dirty || postForm.controls['title'].touched)">
-                                    <div *ngIf="postForm.controls['title'].errors?.['required']" class="text-danger">
-                                        title is required.
-                                    </div>
-                                    <div *ngIf="postForm.controls['title'].errors?.['maxlength']" class="text-danger">
-                                        title cannot exceed 500 characters.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="Introduction" class="form-label">Introduction</label>
-                                <!-- <textarea rows="3" class="form-control" id="Introduction" 
-                                    formControlName="intro"></textarea> -->
-                                    <div class="NgxEditor__Wrapper">
-                                        <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
-                                        <ngx-editor class="form-control" id="Introduction" 
-                                        formControlName="intro" [editor]="editorIntro" [ngModel]="html" [disabled]="false" [placeholder]="'Type here...'"></ngx-editor>
-                                      </div>
-                                <div
-                                    *ngIf="postForm.controls['intro'].invalid && (postForm.controls['intro'].dirty || postForm.controls['intro'].touched)">
-                                    <div *ngIf="postForm.controls['intro'].errors?.['required']" class="text-danger">
-                                        Introduction is required.
-                                    </div>
-                                    <div *ngIf="postForm.controls['intro'].errors?.['maxlength']" class="text-danger">
-                                        Introduction cannot exceed 4500 characters.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="Description" class="form-label">Description</label>
-                                <!-- <textarea rows="3" type="text" class="form-control" id="Description" aria-describedby="Description"
-                                    formControlName="descr"> </textarea> -->
-                                    <div class="NgxEditor__Wrapper">
-                                        <ngx-editor-menu [editor]="editorDescr"> </ngx-editor-menu>
-                                        <ngx-editor class="form-control" id="Description" aria-describedby="Description"
-                                        formControlName="descr" [editor]="editor" [ngModel]="html" [disabled]="false" [placeholder]="'Type here...'"></ngx-editor>
-                                      </div>
-                                <div
-                                    *ngIf="postForm.controls['descr'].invalid && (postForm.controls['descr'].dirty || postForm.controls['descr'].touched)">
-                                    <div *ngIf="postForm.controls['descr'].errors?.['required']" class="text-danger">
-                                        Description is required.
-                                    </div>
-                                    <div *ngIf="postForm.controls['descr'].errors?.['maxlength']" class="text-danger">
-                                        Description cannot exceed 4500 characters.
-                                    </div>
-                                </div>
-                            </div>
-
-                         
-
-                            <div class="mb-3">
-                                <label for="Takeaway" class="form-label">Take Away</label>
-                                <textarea rows="3" class="form-control" id="Takeaway" rows="3"
-                                    formControlName="takeaways"></textarea>
-                                <div
-                                    *ngIf="postForm.controls['takeaways'].invalid && (postForm.controls['takeaways'].dirty || postForm.controls['takeaways'].touched)">
-                                    <div *ngIf="postForm.controls['takeaways'].errors?.['maxlength']"
-                                        class="text-danger">
-                                        Takeaway cannot exceed 4500 characters.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-lg btn-primary w-100"
-                                        >Create post</button>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                    <!-- </div></div> -->
-                </div>
-
-
-            </div>
+        <div class="page-header-right ms-auto">
+          <div class="d-md-none d-flex align-items-center">
+            <a href="javascript:void(0)" class="page-header-right-open-toggle">
+              <i class="feather-align-right fs-20"></i>
+            </a>
+          </div>
         </div>
+      </div>
+  
+      <div class="main-content">
+        <div class="row">
+          <div class="card col-xxl-12 mb-4 mx-4 mx-sm-0 position-relative stretch-full">
+            <div class="card-body row p-sm-5">
+              <form [formGroup]="CreatePost">
+                <div class="mb-3">
+                  <label for="header_image" class="form-label">Header Image</label>
+                  <input type="file" class="form-control" id="header_image" formControlName="header_image" (change)="handleFileInputChange($event, 'header_image')">
+                </div>
+  
+                <div class="mb-3">
+                  <label for="descr" class="form-label">Description</label>
+                  <div class="NgxEditor__Wrapper">
+                    <ngx-editor-menu [editor]="editorIntro"></ngx-editor-menu>
+                    <ngx-editor
+                      class="form-control"
+                      id="descr"
+                      formControlName="descr"
+                      [editor]="editorIntro"
+                      placeholder="Type here...">
+                    </ngx-editor>
+                  </div>
+                  <div *ngIf="CreatePost.controls['descr'].invalid && (CreatePost.controls['descr'].dirty || CreatePost.controls['descr'].touched)">
+                    <div *ngIf="CreatePost.controls['descr'].errors?.['required']" class="text-danger">
+                      Description is required.
+                    </div>
+                    <div *ngIf="CreatePost.controls['descr'].errors?.['maxlength']" class="text-danger">
+                      Description cannot exceed 4500 characters.
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="mb-3">
+                  <label for="attached_file" class="form-label">Attached File</label>
+                  <input type="file" class="form-control" id="attached_file" formControlName="attached_file" (change)="handleFileInputChange($event, 'attached_file')">
+                </div>
+  
+                <div class="row mt-5">
+                  <div class="col-12">
+                    <button class="btn btn-lg btn-primary w-100" (click)="createBlog()">Create Post</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   
     <footer class="footer">
-        <p class="fs-11 text-muted fw-medium text-uppercase mb-0 copyright">
-            <span>Copyright © 2024</span>
-        </p>
-        <div class="d-flex align-items-center gap-4">
-            <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Help</a>
-            <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Terms</a>
-            <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Privacy</a>
-        </div>
+      <p class="fs-11 text-muted fw-medium text-uppercase mb-0 copyright">
+        <span>Copyright © 2024</span>
+      </p>
+      <div class="d-flex align-items-center gap-4">
+        <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Help</a>
+        <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Terms</a>
+        <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Privacy</a>
+      </div>
     </footer>
-
-</main>
+  </main>
+  
