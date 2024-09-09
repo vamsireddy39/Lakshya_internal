@@ -25,6 +25,7 @@ export class CreatePostsComponent implements OnInit, OnDestroy {
   ) {
     this.editorIntro = new Editor();
     this.CreatePost = this.fb.group({
+      title:['',[Validators.required,Validators.maxLength(400)]],
       user_id: [''],
       descr: ['', [Validators.required, Validators.maxLength(4500)]],
       header_image: [''],
@@ -46,6 +47,7 @@ export class CreatePostsComponent implements OnInit, OnDestroy {
   
     // Create FormData to send files and other data
     const formData = new FormData();
+    formData.append('title', this.CreatePost.controls['title'].value);
     formData.append('descr', this.CreatePost.controls['descr'].value);
     formData.append('user_id', this.roleID);
 

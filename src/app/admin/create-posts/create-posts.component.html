@@ -25,6 +25,18 @@
             <div class="card-body row p-sm-5">
               <form [formGroup]="CreatePost">
                 <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="name" class="form-control" id="name" formControlName="title" >
+                    <div *ngIf="CreatePost.controls['title'].invalid && (CreatePost.controls['title'].dirty || CreatePost.controls['title'].touched)">
+                        <div *ngIf="CreatePost.controls['title'].errors?.['required']" class="text-danger">
+                          Title is required.
+                        </div>
+                        <div *ngIf="CreatePost.controls['title'].errors?.['maxlength']" class="text-danger">
+                          Title cannot exceed 450 characters.
+                        </div>
+                      </div>
+                  </div>
+                <div class="mb-3">
                   <label for="header_image" class="form-label">Header Image</label>
                   <input type="file" class="form-control" id="header_image" formControlName="header_image" (change)="handleFileInputChange($event, 'header_image')">
                 </div>

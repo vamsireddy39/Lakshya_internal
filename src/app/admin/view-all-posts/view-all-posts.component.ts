@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, SecurityContext } from '@angular/core';
 import { SharedService } from '../../shared.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -31,9 +31,14 @@ export class ViewAllPostsComponent {
       this.updatePagination();
     });
   }
-  sanitizeDescription(desc: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(desc);
+  // sanitizeDescription(desc: string): SafeHtml {
+  //   return this.sanitizer.bypassSecurityTrustHtml(desc);
+  // }
+  sanitizeDescription(descr: string, length: number = 100): string {
+    const sanitizedDescr = this.sanitizer.sanitize(SecurityContext.HTML, descr) || '';
+    return sanitizedDescr.length > length ? sanitizedDescr.slice(0, length) + '...' : sanitizedDescr;
   }
+  
 
   // Truncate the description to 150 characters
   truncateDescription(desc: string): string {
