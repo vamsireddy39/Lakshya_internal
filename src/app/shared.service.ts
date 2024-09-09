@@ -43,8 +43,14 @@ Logout(formData : any){
     return this.http.get(`http://www.crocusglobal.com/forum/api/users`,)
   }
  
+//get all posts
+
+getPosts(){
+  return this.http.get(`http://www.crocusglobal.com/forum/api/posts`)
+}
 
 
+//get
   //post blog
 
   postBlog(formData : any){
