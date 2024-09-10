@@ -1,0 +1,45 @@
+main {
+    background-image: url('../../../assets/images/background-1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh; /* Ensures full-screen height */
+}
+
+.full-screen {
+    display: flex;
+    justify-content: flex-end; /* Aligns the section to the right */
+    align-items: center;
+    height: 90vh;
+    margin-right: 0; /* Ensures the section sticks to the right edge */
+}
+
+.container {
+    width: 100%; /* Take full width of the screen */
+    max-width: none; /* Disable container's max-width restriction */
+}
+
+.form-box {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    background: white;
+    border-radius: 8px;
+    margin-right: 5%; /* Adjust to control distance from the right edge */
+}
+
+h2 {
+    color: #333;
+}
+
+.btn-dark {
+    background-color: #333;
+    border-color: #333;
+}
+
+.form-floating {
+    border: 1px solid rgb(197, 197, 197);
+    border-radius: 5px;
+}
+
+.logo{
+    width: 20%;
+}

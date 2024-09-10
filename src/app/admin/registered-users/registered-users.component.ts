@@ -10,7 +10,7 @@ export class RegisteredUsersComponent implements OnInit {
   userData: any[] = [];
   paginatedData: any[] = [];
   totalUsers: number = 0;
-  pageSize: number = 10;
+  pageSize: number = 1;
   currentPage: number = 1;
   pages: number[] = [];
   sortDirection: boolean = true; // true for ascending, false for descending
@@ -24,8 +24,8 @@ export class RegisteredUsersComponent implements OnInit {
 
   getUsers() {
     this.sharedService.getUserData().subscribe((response: any) => {
-      this.userData = response;
-      this.totalUsers = response.length;
+      this.userData = response.users;
+      this.totalUsers = response.users.length;
       this.updatePagination();
     });
   }

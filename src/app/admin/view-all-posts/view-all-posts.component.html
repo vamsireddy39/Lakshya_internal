@@ -2,101 +2,44 @@
   <div class="nxl-content">
     <div class="main-content">
       <div class="row">
-
-        <div  class="col-lg-12">
-          <div class="card stretch stretch-full">
+        <div class="row ">
+          <div class="card ">
             <div class="card-header">
               <h5 class="card-title">Our Posts</h5>
-              <input type="text" (input)="applyFilter($event)" placeholder="Search users..." class="form-control"
-                style="width: 80%;">            </div>
-            <div class="card-body custom-card-action" *ngFor="let user of paginatedData">
-              <div class="row g-0 align-items-center border border-dashed rounded-3 mb-4">
-                <div class="col-lg-4">
-                  <div class="d-lg-flex align-items-center">
-                    <div class="px-3">
-                      <a href="javascript:void(0);" class="fs-14 fw-bold text-truncate-1-line">{{ user.title }}
-                        <span class="badge bg-gray-200 text-dark ms-2">#{{ user.id }}</span>
-                      </a>
-                      <div class="fs-12 mt-3">
-                        <div class="hstack gap-2 text-muted mb-2">
-                          <div class="avatar-text avatar-sm">
-                            <i class="feather-calendar"></i>
-                          </div>
-                          <span class="text-truncate-1-line">Created At: {{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}</span>
-                        </div>
-                        <div class="hstack gap-2 text-muted mb-2">
-                          <div class="avatar-text avatar-sm">
-                            <i class="feather-file"></i>
-                          </div>
-                          <span class="text-truncate-1-line">Attached File: {{ user.attached_file_name }}</span>
-                        </div>
-                        <div class="hstack gap-2 text-muted mb-3">
-                          <div class="avatar-text avatar-sm">
-                            <i class="feather-image"></i>
-                          </div>
-                          <span class="text-truncate-1-line">Header Image: {{ user.header_img_file_name }}</span>
-                        </div>
-                        <a href="javascript:void(0);" class="hstack gap-2 lh-sm">
-                          <span>
-                            <i class="feather-more-horizontal"></i>
-                          </span>
-                          <span>Show More</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-8  p-3">
-                  <div class="row gy-4 gx-5 align-items-center">
-                    <div class="col-lg-12 col-xl-12">
-                      <div class="mb-4">
-                        <label class="fs-12 text-muted">Description</label>
-                        <!-- <div class="fs-14 fw-bold text-dark" [innerHTML]="sanitizeDescription(user.descr)"></div> -->
-                        <div class="fs-14 fw-bold text-dark" [innerHTML]="sanitizeDescription(user.descr).slice(0, 100) + '...'"></div>
-                        <!-- <div class="fs-14 fw-bold text-dark" [innerHTML]="sanitizeDescription(user.descr, 100)"></div> -->
-
-                      </div>
-                   
-                      <div class="hstack gap-2">
-                        <a href="javascript:void(0);" class="avatar-text avatar-md">
-                          <i class="feather-edit"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="avatar-text avatar-md">
-                          <i class="feather-trash"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <input type="text" (input)="applyFilter($event)" placeholder="Search Posts..." class="form-control"
+                style="width: 80%;">
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4" *ngFor="let user of paginatedData">
-      <div class="text-box"> 
-          <img src="../../../assets/images/employee.jpg" alt="Image description" width="300px" height="150px">
-          <div class="content" >
-         <h4> {{ user.title }}
-          </h4><p [innerHTML]="sanitizeDescription(user.descr).slice(0, 100) + '...'"> </p>
-          </div>
-          <div>
-          <hr>
-          </div> 
-          <div class="last-content ">
-              <div class="circleimage">
-              <img src="../../../assets/images/employee.jpg" alt="Image description" width="300px" height="150px"> 
+          <div class="col-lg-4  " *ngFor="let user of paginatedData">
+            <div class="card">
+            <div class=" card-body custom-card-action">
+              <img src="http://crocusglobal.com/ftp_forum_img/{{user.header_img_file_name}}" alt="Image description" >
+              <hr>
+              <div class="content">
+                <h4> {{ user.title }}
+                </h4>
+                <p [innerHTML]="sanitizeDescription(user.descr).slice(0, 100) + '...'"> </p>
               </div>
-              <div class="imagecontent ">
-              <p>Created At: {{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}<br>
-              October 10,1999</p>
-                 </div>
-          </div>
-        
-        </div>
-        </div>
-     
-          
+              <div>
+
+              </div>
+              <div class="last-content ">
+
+                <div class="hstack gap-2">
+                  <a>Created At: {{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}</a>
+                  <a href="javascript:void(0);" class="avatar-text avatar-md ">
+                    <i class="feather-edit"></i>
+                  </a>
+                  <a href="javascript:void(0);" class="avatar-text avatar-md">
+                    <i class="feather-trash"></i>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div></div>
+
+
         </div>
         <div class="card-footer">
           <ul class="pagination">

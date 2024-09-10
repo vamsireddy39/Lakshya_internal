@@ -26,8 +26,8 @@ export class ViewAllPostsComponent {
 
   getUsers() {
     this.sharedService.getPosts().subscribe((response: any) => {
-      this.userData = response;
-      this.totalUsers = response.length;
+      this.userData = response.posts;
+      this.totalUsers = response.posts.length;
       this.updatePagination();
     });
   }

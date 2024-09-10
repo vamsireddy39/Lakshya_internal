@@ -1,72 +1,56 @@
 
-<section class="py-3 py-md-5 py-xl-8">
-	<div class="container">
-	  <div class="row">
-		<div class="col-12">
-		  <div class="mb-5">
-			<h2 class="display-5 fw-bold text-center">Sign in</h2>
-		  </div>
-		</div>
-	  </div>
-	  <div class="row justify-content-center">
-		<div class="col-12 col-lg-10 col-xl-8">
-		  <div class="row gy-5 justify-content-center">
-			<div class="col-12 col-lg-5">
-			  <form [formGroup]="LoginForm">
-				<div class="row gy-3 overflow-hidden">
-				  <div class="col-12">
-					<div class="form-floating mb-3">
-					  <input type="name" class="form-control border-0 border-bottom rounded-0" formControlName="username" name="username" id="username" required>
-					  <label for="username" class="form-label">Username</label>
-					</div>
-				  </div>
-				  <div class="col-12">
-					<div class="form-floating mb-3">
-					  <input type="password" class="form-control border-0 border-bottom rounded-0" formControlName="password" name="password" id="password" value="" required>
-					  <label for="password" class="form-label">Password</label>
-					</div>
-				  </div>
-				  <div class="col-12">
-					<div class="row justify-content-between">
-					 
-					  <div class="col-6">
-						<div class="">
-						  <a class="link-secondary text-decoration-none">Forgot password?</a>
-						</div>
-					  </div>
-					</div>
-				  </div>
-				  <div class="col-12">
-					<div class="d-grid">
-					  <button class="btn btn-lg btn-dark rounded-0 fs-6" type="submit" (click)="Login()">Log in</button>
-					</div>
-				  </div>
-				</div>
-			  </form>
-			</div>
-			<div class="col-12 col-lg-2 d-flex align-items-center justify-content-center gap-3 flex-lg-column">
-			  <div class="bg-dark h-100 d-none d-lg-block" style="width: 1px; --bs-bg-opacity: .1;"></div>
-			  <div class="bg-dark w-100 d-lg-none" style="height: 1px; --bs-bg-opacity: .1;"></div>
-			  <div>or</div>
-			  <div class="bg-dark h-100 d-none d-lg-block" style="width: 1px; --bs-bg-opacity: .1;"></div>
-			  <div class="bg-dark w-100 d-lg-none" style="height: 1px; --bs-bg-opacity: .1;"></div>
-			</div>
-			<div class="col-12 col-lg-5 d-flex align-items-center">
-			  <div class="d-flex gap-3 flex-column w-100 ">
-				
-				<a routerLink="Admin" class="btn bsb-btn-2xl btn-outline-dark rounded-0 d-flex align-items-center">
-					
-					<span class="ms-2 fs-6 flex-grow-1">Admin Page</span>
-				  </a>
-				  <a routerLink="User" class="btn bsb-btn-2xl btn-outline-dark rounded-0 d-flex align-items-center">
-					
-					<span class="ms-2 fs-6 flex-grow-1">User Page</span>
-				  </a>
-
+<main>
+  <section class="full-screen">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+         
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8">
+			<div class="mb-3 justify-content-center" style="display: flex;">
+				<img src="../../../assets/images/logo_1.png" class="logo">
 			  </div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</div>
+          <div class="row gy-5 justify-content-center">
+
+            <div class="col-12 col-lg-5 form-box">
+			<h2 class=" fw-bold text-center mb-2">Sign in</h2>
+
+              <form [formGroup]="LoginForm">
+                <div class="row gy-3 overflow-hidden">
+                  <div class="col-12">
+                    <div class="form-floating mb-3">
+                      <input type="name" class="form-control border-0 border-bottom rounded-0" formControlName="username" name="username" id="username" required>
+                      <label for="username" class="form-label">Username</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-floating mb-3">
+                      <input type="password" class="form-control border-0 border-bottom rounded-0" formControlName="password" name="password" id="password" required>
+                      <label for="password" class="form-label">Password</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="row justify-content-between">
+                      <div class="col-6">
+                        <div class="">
+                          <a class="link-secondary text-decoration-none">Forgot password?</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-grid">
+                      <button class="btn btn-lg btn-dark rounded-0 fs-6" type="submit" (click)="Login()">Log in</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
+</main>
