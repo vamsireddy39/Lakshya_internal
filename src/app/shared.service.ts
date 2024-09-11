@@ -10,54 +10,63 @@ export class SharedService {
   private headers: HttpHeaders;
   private sessionKey: string | null = null;
 
-  
+
 
   constructor(private http: HttpClient) {
     this.headers = new HttpHeaders();
   }
 
   // Store the session key
-  setSessionKey(key: string) {
-    this.sessionKey = key;
-  }
+  // setSessionKey(key: string) {
+  //   this.sessionKey = key;
+  // }
 
-  // Retrieve the session key
-  getSessionKey() {
-    return this.sessionKey;
-  }
+  // // Retrieve the session key
+  // getSessionKey() {
+  //   return this.sessionKey;
+  // }
 
   // Login
   Login(formData: any) {
     return this.http.post(`http://www.crocusglobal.com/forum/api/login`, formData);
   }
-//LogOut
-Logout(formData : any){
-  return this.http.post(`http://www.crocusglobal.com/forum/api/logout`,formData)
-}
+  //LogOut
+  Logout(formData: any) {
+    return this.http.post(`http://www.crocusglobal.com/forum/api/logout`, formData)
+  }
+  //user
   Register(formData: any) {
     return this.http.post(`http://www.crocusglobal.com/forum/api/register`, formData);
   }
 
-//user
+  LoginRegister(formData: any) {
+    return this.http.post(`http://www.crocusglobal.com/forum/api/login_register`, formData)
+  }
+
+  UpdateRegister(userId: number, formData: any) {
+    return this.http.put(`http://www.crocusglobal.com/forum/api/users/${userId}`,formData)
+  }
+  
   getUserData() {
     return this.http.get(`http://www.crocusglobal.com/forum/api/users`,)
   }
- 
-//get all posts
-
-getPosts(){
-  return this.http.get(`http://www.crocusglobal.com/forum/api/posts`)
-}
-
-
-
-
-//get
-  //post blog
-
-  postBlog(formData : any){
-    return this.http.post(`http://www.crocusglobal.com/forum/api/posts`,formData)
+  
+  getUserDataById(userId: number) {
+    return this.http.get(`http://www.crocusglobal.com/forum/api/users/${userId}`)
   }
+
+  deleteUser(userId:number){
+    return this.http.delete(`http://www.crocusglobal.com/forum/api/users/${userId}`)
+  }
+  //get all posts
+  getPosts() {
+    return this.http.get(`http://www.crocusglobal.com/forum/api/posts`)
+  }
+  //post blog
+  postBlog(formData: any) {
+    return this.http.post(`http://www.crocusglobal.com/forum/api/posts`, formData)
+  }
+
 
 }
 

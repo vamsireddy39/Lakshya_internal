@@ -19,7 +19,9 @@
                         <th (click)="sortData('email')">Email</th>
                         <th (click)="sortData('created_at')">Created At</th>
                         <th (click)="sortData('active')">Status</th>
-                        <th class="text-end" (click)="sortData('role_id')">Role ID</th>
+                        <th (click)="sortData('role_id')">Role ID</th>
+                        <th class="text-end">Edit/Delete</th>
+
                       </tr>
                     </thead>
                     <tbody>
@@ -28,13 +30,23 @@
                         <td>{{ user.firstname }} {{ user.lastname }}</td>
                         <td>{{ user.mobile }}</td>
                         <td>{{ user.email }}</td>
-                        <td>{{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}</td>
+                        <td>{{ user.created_at | date: 'dd/MM/yyyy' }}</td>
                         <td>
                           <span [ngClass]="{'badge bg-soft-success text-success': user.active === 1, 'badge bg-soft-danger text-danger': user.active === 0}">
                             {{ user.active === 1 ? 'Active' : 'Inactive' }}
                           </span>
                         </td>
-                        <td class="text-end">{{ user.role_id  === 2 ? 'User':'Admin' }}</td>
+                        <td >{{ user.role_id  === 2 ? 'User':'Admin' }}</td>
+                        <td class="text-end edit-delete">
+                          <a (click)="editUser(user.id)" class="avatar-text avatar-md">
+                            <i class="feather-edit"></i>
+                          </a>
+                          <a (click)="deleteUser(user.id)" class="avatar-text avatar-md">
+                            <i class="feather-trash"></i>
+                          </a>
+                        </td>
+                        
+
                       </tr>
                     </tbody>
                   </table>

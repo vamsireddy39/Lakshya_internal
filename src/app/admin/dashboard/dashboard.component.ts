@@ -22,19 +22,19 @@ export class DashboardComponent {
 
   constructor(public sharedService: SharedService, private sanitizer: DomSanitizer) { }
   ngOnInit() {
-    const sessionKey = this.sharedService.getSessionKey(); // Retrieve session key
+    // const sessionKey = this.sharedService.getSessionKey(); // Retrieve session key
 
-    if (sessionKey) {
-      console.log('Session Key:', sessionKey); // Debug: Print session key to verify
+    // if (sessionKey) {
+    //   console.log('Session Key:', sessionKey); // Debug: Print session key to verify
 
-      const headers = new HttpHeaders().set('X-Session-Key', ` ${sessionKey}`);
+      // const headers = new HttpHeaders().set('X-Session-Key', ` ${sessionKey}`);
       this.sharedService.getUserData().subscribe((response: any) => {
         console.log(response); // Handle the response inside the subscribe callback
         this.userLength = response.users.length; // Assign the response length
       });
-    } else {
-      console.error('Session key is missing.');
-    }
+    // } else {
+    //   console.error('Session key is missing.');
+    // }
     this.getUsers();
 
   }
