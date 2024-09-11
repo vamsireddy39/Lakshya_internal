@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../shared.service';
+import { ObservablesService } from '../../observables.service';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-registered-users',
@@ -10,13 +12,13 @@ export class RegisteredUsersComponent implements OnInit {
   userData: any[] = [];
   paginatedData: any[] = [];
   totalUsers: number = 0;
-  pageSize: number = 1;
+  pageSize: number = 10;
   currentPage: number = 1;
   pages: number[] = [];
   sortDirection: boolean = true; // true for ascending, false for descending
   filterQuery: string = '';
 
-  constructor(private sharedService: SharedService) { }
+  constructor(private sharedService: SharedService, private observable : ObservablesService, public router: Router) { }
 
   ngOnInit() {
     this.getUsers();
@@ -69,4 +71,23 @@ export class RegisteredUsersComponent implements OnInit {
     this.filterQuery = filterValue;
     this.paginateData();
   }
+
+  editUser(userId: number) {
+      this.sharedService.getUserDataById(userId).subscribe(
+      (response: any) => {
+        console.log('User updated successfully:', response);
+        this.observable.userDetailsByIdPathIndex$.next(response);
+        this.observable.editUserPathIndex$.next(true);
+        this.router.navigateByUrl('/register');
+
+
+      },
+      (error: any) => {
+        console.error('Error updating user:', error);
+      }
+    );
+  }
+    deleteUser(userId: number){
+      this.sharedService.deleteUser(userId).subscribe(Response=>{console.log(Response)})
+    }
 }

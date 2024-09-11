@@ -59,14 +59,14 @@ export class CreatePostsComponent implements OnInit, OnDestroy {
       formData.append('attached_file', this.attachedFile);
     }
 
-    const sessionKey = this.sharedService.getSessionKey(); // Retrieve session key
-    if (sessionKey) {
-      const headers = new HttpHeaders().set('X-Session-Key', sessionKey);
+    // const sessionKey = this.sharedService.getSessionKey(); // Retrieve session key
+    // if (sessionKey) {
+    //   const headers = new HttpHeaders().set('X-Session-Key', sessionKey);
 
       this.sharedService.postBlog(formData).subscribe((response: any) => {
         console.log(response); // Handle success
       });
-    }
+    // }
   }
 
   handleFileInputChange(event: Event, fileType: 'header_image' | 'attached_file'): void {
