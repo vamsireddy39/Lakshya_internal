@@ -1,6 +1,6 @@
 import { Component, SecurityContext } from '@angular/core';
 import { SharedService } from '../../shared.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-view-user-posts',
@@ -8,6 +8,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrl: './view-user-posts.component.scss'
 })
 export class ViewUserPostsComponent {
+  
   
   userData: any[] = [];
   paginatedData: any[] = [];
