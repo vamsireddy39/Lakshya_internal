@@ -67,7 +67,9 @@ export class SharedService {
     return this.http.post(`http://www.crocusglobal.com/forum/api/posts`, formData)
   }
 
-
+  getPostsById(userId: number) {
+    return this.http.get(`http://www.crocusglobal.com/forum/api/posts/${userId}`)
+  }
 }
 
 

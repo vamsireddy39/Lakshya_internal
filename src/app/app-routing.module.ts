@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './common/login/login.component';
 import { RegisterComponent } from './common/register/register.component';
-import { view-user-idComponrnt } from './user/view-user-id/view-user-id.co;
+
 
 const routes: Routes = [
   { path: '', component: LoginComponent },

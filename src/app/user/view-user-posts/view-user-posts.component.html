@@ -16,10 +16,10 @@
             <img src="http://crocusglobal.com/ftp_forum_img/{{user.header_img_file_name}}"
              alt="Image description" width="150px" height="150px">
             <div class="content" >
-              <a [routerLink]="['/view-user-id-posts', 1]">Click for content</a>
-
+              
+<a (click)="getPostById(user.id)" routerLink="nby">
            <h4> {{ user.title }}
-            </h4><p [innerHTML]="sanitizeDescription(user.descr).slice(0, 100) + '...'"> </p>
+            </h4></a><p [innerHTML]="sanitizeDescription(user.descr).slice(0, 100) + '...'"> </p>
             </div>
             
             <div>

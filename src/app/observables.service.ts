@@ -10,4 +10,5 @@ export class ObservablesService {
    loginDetailsPathIndex$ = new BehaviorSubject<any>({});
    userDetailsByIdPathIndex$ = new BehaviorSubject<any>({})
    editUserPathIndex$ =  new BehaviorSubject<boolean>(false);
+   postDetailsPathIndex$ = new BehaviorSubject<any>({});
 }
