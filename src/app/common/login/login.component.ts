@@ -36,12 +36,12 @@ export class LoginComponent {
     this.sharedService.Login(formData).subscribe((response: any) => {
       console.log(response); // Debug: Check the login response
       this.Observable.loginDetailsPathIndex$.next(response)
-      if (response.session_key) {
-        // Store the session key in the service
-        this.sharedService.setSessionKey(response.session_key);
-      } else {
-        console.error('No session key found in response.');
-      }
+      // if (response.session_key) {
+      //   // Store the session key in the service
+      //   this.sharedService.setSessionKey(response.session_key);
+      // } else {
+      //   console.error('No session key found in response.');
+      // }
       if (response.role_id === 1 || response.role_id === 3) {
         this.router.navigateByUrl('Admin');
       } else if (response.role_id === 2) {
