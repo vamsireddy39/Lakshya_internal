@@ -25,6 +25,10 @@ export class DashboardComponent {
   inactivePercentage: number = 0;
   constructor(public sharedService: SharedService, private sanitizer: DomSanitizer) { }
   ngOnInit() {
+    // const sessionKey = this.sharedService.getSessionKey(); // Retrieve session key
+
+    // if (sessionKey) {
+    //   console.log('Session Key:', sessionKey); // Debug: Print session key to verify
 
     this.sharedService.getUserData().subscribe((response: any) => {
       console.log(response); // Handle the response inside the subscribe callback
@@ -42,6 +46,14 @@ export class DashboardComponent {
       this.inactivePercentage = (this.inactiveUsers / this.userLength) * 100;
     });
 
+      // const headers = new HttpHeaders().set('X-Session-Key', ` ${sessionKey}`);
+      this.sharedService.getUserData().subscribe((response: any) => {
+        console.log(response); // Handle the response inside the subscribe callback
+        this.userLength = response.users.length; // Assign the response length
+      });
+    // } else {
+    //   console.error('Session key is missing.');
+    // }
     this.getUsers();
 
   }

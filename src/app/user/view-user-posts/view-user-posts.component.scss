@@ -38,12 +38,13 @@
 }
 
 .text-box {
-  background-color: #ffffff; /* White background for content boxes */
-  border: 1px solid #ddd; /* Light border for content boxes */
+  background-color: #ffffff;
+  border: 1px solid #ddd; 
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 8px;
   transition: box-shadow 0.3s ease;
+  
 }
 
 .text-box:hover {

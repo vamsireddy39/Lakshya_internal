@@ -1,6 +1,8 @@
 import { Component, SecurityContext } from '@angular/core';
 import { SharedService } from '../../shared.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
+import { ObservablesService } from '../../observables.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-user-posts',
@@ -8,6 +10,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrl: './view-user-posts.component.scss'
 })
 export class ViewUserPostsComponent {
+  
   
   userData: any[] = [];
   paginatedData: any[] = [];
@@ -19,7 +22,8 @@ export class ViewUserPostsComponent {
   filterQuery: string = '';
 user: any;
 
-  constructor(private sharedService: SharedService, private sanitizer: DomSanitizer) { }
+  constructor(private sharedService: SharedService, private sanitizer: DomSanitizer,
+    private observable:ObservablesService, public router : Router) { }
 
   ngOnInit() {
     this.getUsers();
@@ -85,5 +89,14 @@ user: any;
     const filterValue = (event.target as HTMLInputElement).value;
     this.filterQuery = filterValue;
     this.paginateData();
+  }
+  getPostById(userId:any){
+    this.sharedService.getPostsById(userId).subscribe((response)=>{
+      console.log(response);
+      // alert(response);
+      this.observable.postDetailsPathIndex$.next(response)
+      this.router.navigateByUrl('/nby');
+
+    })
   }
 }
