@@ -5,13 +5,15 @@ import { FooterComponent } from '../common/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { GroupsComponent } from '../groups/groups.component';
 
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    GroupsComponent
   ],
   imports: [
     CommonModule,

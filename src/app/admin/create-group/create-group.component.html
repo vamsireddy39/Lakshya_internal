@@ -1,0 +1,108 @@
+<main class="nxl-container">
+  <div class="nxl-content">
+    <div class="page-header">
+      <div class="page-header-left d-flex align-items-center">
+        <div class="page-header-header_image">
+          <h5 class="m-b-10">Dashboard</h5>
+        </div>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a>post</a></li>
+          <li class="breadcrumb-item">Create A post</li>
+        </ul>
+      </div>
+      <div class="page-header-right ms-auto">
+        <div class="d-md-none d-flex align-items-center">
+          <a href="javascript:void(0)" class="page-header-right-open-toggle">
+            <i class="feather-align-right fs-20"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="row">
+        <div class="card col-xxl-12 mb-2 mx-4 mx-sm-0 position-relative stretch-full">
+          <div class="card-header">
+            <h5 class="card-title">Create Group</h5>
+           
+          </div>
+          <div class="card-body row p-sm-5">
+            <form [formGroup]="CreateGroup">
+              <div class="mb-1">
+                <label for="group_name" class="form-label">Group name</label>
+                <input type="name" class="form-control" id="name" formControlName="group_name" placeholder="enter the group name">
+                <div
+                  *ngIf="CreateGroup.controls['group_name'].invalid && (CreateGroup.controls['group_name'].dirty || CreateGroup.controls['group_name'].touched)">
+                  <div *ngIf="CreateGroup.controls['group_name'].errors?.['required']" class="text-danger">
+                    Group name is required.
+                  </div>
+                  <div *ngIf="CreateGroup.controls['group_name'].errors?.['maxlength']" class="text-danger">
+                    Group name cannot exceed 450 characters.
+                  </div>
+                </div>
+              </div>
+              <p class="text-danger">***Note: The group name entered above will be used as the parent group name.</p>
+              <div class="row mt-2">
+                <div class="col-12">
+                  <button class="btn btn-lg btn-primary w-100" (click)="createBlog()">Create Group</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card col-xxl-12 mb-2 mx-4 mx-sm-0 position-relative stretch-full">
+          <div class="card-header">
+            <h5 class="card-title">Create Sub Group</h5>
+           
+          </div>
+          <div class="card-body row p-sm-5">
+            <form [formGroup]="createSubGroup">
+              <div class="mb-1 row">
+                <div class="col-lg-6">
+                  <label for="parent_group_id" class="form-label">Choose a Group name:</label>
+                  <select class="form-control" id="parent_group_id" formControlName="parent_group_id">
+                    <option value="" disabled>--- Choose the group name ---</option>
+                    <option *ngFor="let group of parentGroups" [value]="group.group_id">{{ group.group_name }}</option>
+                  </select>
+                  <div *ngIf="createSubGroup.controls['parent_group_id'].invalid && (createSubGroup.controls['parent_group_id'].dirty || createSubGroup.controls['parent_group_id'].touched)">
+                    <div *ngIf="createSubGroup.controls['parent_group_id'].errors?.['required']" class="text-danger">
+                      Group name is required.
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="col-lg-6">
+                  <label for="group_name" class="form-label">Sub Group Name:</label>
+                  <input type="text" class="form-control" id="group_name" formControlName="group_name" placeholder="enter the sub group name">
+                  <div *ngIf="createSubGroup.controls['group_name'].invalid && (createSubGroup.controls['group_name'].dirty || createSubGroup.controls['group_name'].touched)">
+                    <div *ngIf="createSubGroup.controls['group_name'].errors?.['required']" class="text-danger">
+                      Sub group name is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+              <div class="row mt-2">
+                <div class="col-12">
+                  <button class="btn btn-lg btn-primary w-100" (click)="createSubGroups()">Create SubGroup</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p class="fs-11 text-muted fw-medium text-uppercase mb-0 copyright">
+      <span>Copyright © 2024</span>
+    </p>
+    <div class="d-flex align-items-center gap-4">
+      <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Help</a>
+      <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Terms</a>
+      <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Privacy</a>
+    </div>
+  </footer>
+</main>

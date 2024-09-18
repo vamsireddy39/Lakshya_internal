@@ -22,6 +22,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+// import { GroupsComponent } from './groups/groups.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MatSelectModule } from '@angular/material/select';
     
     LoginComponent,
     RegisterComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    
   ],
   imports: [
     BrowserModule,

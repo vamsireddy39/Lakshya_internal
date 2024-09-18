@@ -25,35 +25,22 @@ export class DashboardComponent {
   inactivePercentage: number = 0;
   constructor(public sharedService: SharedService, private sanitizer: DomSanitizer) { }
   ngOnInit() {
-    // const sessionKey = this.sharedService.getSessionKey(); // Retrieve session key
-
-    // if (sessionKey) {
-    //   console.log('Session Key:', sessionKey); // Debug: Print session key to verify
-
     this.sharedService.getUserData().subscribe((response: any) => {
       console.log(response); // Handle the response inside the subscribe callback
       this.userLength = response.users.length;
       this.userDetails = response.users;
       this.userDetails.sort((a: { created_at: string | number | Date; }, b: { created_at: string | number | Date; }) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      this.userLength = response.users.length; // Assign the response length
 
       // Get the latest five users
       this.latestFiveUsers = this.userDetails.slice(0, 4);
       this.activeUsers = this.userDetails.filter((user: any) => user.active === 1).length;
       this.inactiveUsers = this.userDetails.filter((user: any) => user.active === 0).length;
-      
 
-      // Calculate inactive percentage for the progress bar
       this.inactivePercentage = (this.inactiveUsers / this.userLength) * 100;
     });
 
-      // const headers = new HttpHeaders().set('X-Session-Key', ` ${sessionKey}`);
-      this.sharedService.getUserData().subscribe((response: any) => {
-        console.log(response); // Handle the response inside the subscribe callback
-        this.userLength = response.users.length; // Assign the response length
-      });
-    // } else {
-    //   console.error('Session key is missing.');
-    // }
+
     this.getUsers();
 
   }
@@ -62,8 +49,7 @@ export class DashboardComponent {
 
   getUsers() {
     this.sharedService.getPosts().subscribe((response: any) => {
-      // this.userData = response.posts;
-      // this.totalUsers = response.posts.length;
+
       this.userData = response.posts.sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
       this.totalUsers = this.userData.length;
       this.updatePagination();

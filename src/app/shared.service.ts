@@ -56,7 +56,7 @@ export class SharedService {
   }
 
   deleteUser(userId:number){
-    return this.http.delete(`http://www.crocusglobal.com/forum/api/users/${userId}`)
+    return this.http.delete(`http://www.crocusglobal.com/forum/api/users/deact/${userId}`)
   }
   //get all posts
   getPosts() {
@@ -70,6 +70,28 @@ export class SharedService {
   getPostsById(userId: number) {
     return this.http.get(`http://www.crocusglobal.com/forum/api/posts/${userId}`)
   }
+
+  //group
+  createGroup(formdata:any){
+    return this.http.post(`http://www.crocusglobal.com/forum/api/groups`,formdata)
+  }
+
+  getAllParentGroups(){
+    return this.http.get(`http://www.crocusglobal.com/forum/api/groups/parent`)
+  }
+
+  createSubGroup(formdata:any){
+    return this.http.post(`http://www.crocusglobal.com/forum/api/create_sub_group`,formdata)
+  }
+
+  getAllSubGroups(userId: number){
+    return this.http.get(`http://www.crocusglobal.com/forum/api/get_all_sub_groups_by_parent_id/${userId}`)
+  }
+
+  deActivateGroup(postId: number) {
+    return this.http.put(`http://www.crocusglobal.com/forum/api/groups/${postId}/deactivate`, {});
+  }
+  
 }
 
 

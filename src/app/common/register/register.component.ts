@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared.service';
 import { HttpClient } from '@angular/common/http';
 import { ObservablesService } from '../../observables.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +21,7 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private sharedService: SharedService,
     private http: HttpClient,
     private observable: ObservablesService
@@ -76,7 +79,6 @@ export class RegisterComponent {
       this.Register();
     }
   }
-
   Register() {
     const formData = {
       firstname: this.RegisterForm.controls['firstname'].value,
@@ -85,26 +87,72 @@ export class RegisterComponent {
       mobile: this.RegisterForm.controls['mobile'].value,
       role_id: this.RegisterForm.controls['role_id'].value
     };
-
-    this.sharedService.Register(formData).subscribe((response: any) => {
-      console.log(response); // Debug: Check the Register response
-      this.registerResponse = response;
-      this.isRegistrationSuccessful = true;
-    });
+  
+    this.sharedService.Register(formData).subscribe(
+      (response: any) => {
+        console.log(response); // Debug: Check the Register response
+        this.registerResponse = response;
+        this.isRegistrationSuccessful = true;
+  
+        // SweetAlert for success
+        Swal.fire({
+          icon: 'success',
+          title: 'Registration Successful',
+          text: 'User has been successfully registered!',
+          confirmButtonText: 'OK'
+        });
+  
+        // Reset the form after successful registration
+        this.RegisterForm.reset();
+      },
+      (error: any) => {
+        // SweetAlert for error
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration Failed',
+          text: 'There was an error during registration!',
+          confirmButtonText: 'OK'
+        });
+        console.error('Error:', error);
+      }
+    );
   }
-
+  
   submitloginRegisterForm() {
     const secondFormData = {
       username: this.loginRegisterForm.controls['username'].value,
       password: this.loginRegisterForm.controls['password'].value,
       user_id: this.registerResponse.user_id
     };
+  
+    this.sharedService.LoginRegister(secondFormData).subscribe(
+      (response: any) => {
+        console.log(response); // Handle success
+  
+        // SweetAlert for success
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Registered Successfully',
+          confirmButtonText: 'OK'
+        });
+  
+        // Reset the form after successful submission
+        this.loginRegisterForm.reset();
+        this.router.navigateByUrl('/');
 
-    this.sharedService.LoginRegister(secondFormData).subscribe((response: any) => {
-      console.log(response); // Handle success or error for the second form submission
-    });
+      },
+      (error: any) => {
+        // SweetAlert for error
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Register Failed',
+          confirmButtonText: 'OK'
+        });
+        console.error('Error:', error);
+      }
+    );
   }
-
+  
   editRegisteredUser(userid: number) {
     const formData = {
       firstname: this.RegisterForm.controls['firstname'].value,
@@ -113,9 +161,34 @@ export class RegisterComponent {
       mobile: this.RegisterForm.controls['mobile'].value,
       role_id: this.RegisterForm.controls['role_id'].value
     };
+  
+    this.sharedService.UpdateRegister(userid, formData).subscribe(
+      (response: any) => {
+        console.log(response); // Debug: Check the update response
+  
+        // SweetAlert for success
+        Swal.fire({
+          icon: 'success',
+          title: 'Update Successful',
+          text: 'User details have been updated successfully!',
+          confirmButtonText: 'OK'
+        });
+  
+        // Reset the form after successful update
+        this.RegisterForm.reset();
+        this.router.navigateByUrl('/');
 
-    this.sharedService.UpdateRegister(userid, formData).subscribe((response: any) => {
-      console.log(response); // Debug: Check the update response
-    });
+      },
+      (error: any) => {
+        // SweetAlert for error
+        Swal.fire({
+          icon: 'error',
+          title: 'Update Failed',
+          text: 'There was an error updating user details!',
+          confirmButtonText: 'OK'
+        });
+        console.error('Error:', error);
+      }
+    );
   }
-}
+}  
