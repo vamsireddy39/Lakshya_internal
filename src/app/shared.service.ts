@@ -70,6 +70,10 @@ export class SharedService {
   getPostsById(userId: number) {
     return this.http.get(`http://www.crocusglobal.com/forum/api/posts/${userId}`)
   }
+  getallgroupsbyuserid(userId: number) {
+    return this.http.get(`http://www.crocusglobal.com/forum/api/get_all_groups_by_user_id/${userId}`)
+  }
+
 }
 
 

@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
   styleUrl: './view-user-posts.component.scss'
 })
 export class ViewUserPostsComponent {
+  logindata:any;
+  groupdata:any;
   
   
   userData: any[] = [];
@@ -21,12 +23,25 @@ export class ViewUserPostsComponent {
   sortDirection: boolean = true; // true for ascending, false for descending
   filterQuery: string = '';
 user: any;
+group: any;
 
   constructor(private sharedService: SharedService, private sanitizer: DomSanitizer,
     private observable:ObservablesService, public router : Router) { }
 
   ngOnInit() {
     this.getUsers();
+    this.observable.loginDetailsPathIndex$.subscribe((response)=>{
+      console.log(response)
+      this.logindata=response;
+    }
+  )
+this.sharedService.getallgroupsbyuserid(this.logindata.user_id).subscribe((response: any) => {
+  console.log(response,'groupname')
+this.groupdata=response.groups;
+  }
+)
+ 
+
   }
 
   getUsers() {
@@ -36,6 +51,7 @@ user: any;
       this.updatePagination();
     });
   }
+  
   // sanitizeDescription(desc: string): SafeHtml {
   //   return this.sanitizer.bypassSecurityTrustHtml(desc);
   // }

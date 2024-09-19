@@ -2,11 +2,9 @@
  <div>
     <nav class="side-nav ">
         <h4>Blogs</h4>
-        <ul class="list-group">
-          <li class="list-group-item"><a href="#">Technology Trends</a></li>
-          <li class="list-group-item"><a href="#">Recruiting Trends</a></li>
-          <li class="list-group-item"><a href="#">Current Affairs</a></li>
-          <li class="list-group-item"><a href="#">Sports news</a></li>
+        <ul class="list-group" >
+          <li class="list-group-item" *ngfor="let group of groupdata;let i as index "><a href="#">{{group[i].group_name}}</a></li>
+         
         </ul>
         </nav>
         </div>
@@ -25,6 +23,7 @@
             <div>
             <hr>
             </div> 
+          
             <div class="last-content ">
                 <div class="circleimage">
                 <img src="../../../assets/images/employee.jpg" alt="Image description" width="300px" height="150px"> 
