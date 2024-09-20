@@ -54,8 +54,8 @@
                                 <span class="nxl-mtext">User Groups & SubGroups</span><span class="nxl-arrow"><i
                                         class="feather-chevron-right"></i></span>
                             </a>
-                            <ul class="nxl-submenu">
-                                <li class="nxl-item"><a class="nxl-link" routerLink="groups" >Adminstration</a></li>
+                            <ul class="nxl-submenu"*ngFor="let groups of parentGroups">
+                                <li class="nxl-item"><a class="nxl-link" routerLink="groups" (click)="getSubGroups(groups.group_id)" >{{groups.group_name}}</a></li>
 
                             </ul>
                         </li>

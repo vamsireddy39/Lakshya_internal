@@ -20,6 +20,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { RegisteredGroupsComponent } from './registered-groups/registered-groups.component';
+import { GroupsAndPostsComponent } from './groups-and-posts/groups-and-posts.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { RegisteredGroupsComponent } from './registered-groups/registered-groups
     AdminHomeComponent,
     RegisteredUsersComponent,
     CreateGroupComponent,
-    RegisteredGroupsComponent
+    RegisteredGroupsComponent,
+    GroupsAndPostsComponent
   ],
   imports: [
     CommonModule,

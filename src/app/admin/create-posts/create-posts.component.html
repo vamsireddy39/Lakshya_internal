@@ -67,7 +67,17 @@
                   <label for="attached_file" class="form-label">Attached File</label>
                   <input type="file" class="form-control" id="attached_file" formControlName="attached_file" (change)="handleFileInputChange($event, 'attached_file')">
                 </div>
-  
+                <div class="mb-3">                  <label for="group_id" class="form-label">Choose a Group name:</label>
+                  <select class="form-control" id="group_id" formControlName="group_id">
+                    <option value="" disabled>--- Choose the group name ---</option>
+                    <option *ngFor="let group of parentGroups" [value]="group.group_id">{{ group.group_name }}</option>
+                  </select>
+                  <div *ngIf="CreatePost.controls['group_id'].invalid && (CreatePost.controls['group_id'].dirty || CreatePost.controls['group_id'].touched)">
+                    <div *ngIf="CreatePost.controls['group_id'].errors?.['required']" class="text-danger">
+                      Group name is required.
+                    </div>
+                  </div>
+                </div>
                 <div class="row mt-5">
                   <div class="col-12">
                     <button class="btn btn-lg btn-primary w-100" (click)="createBlog()">Create Post</button>
