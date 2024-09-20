@@ -35,11 +35,16 @@ group: any;
       this.logindata=response;
     }
   )
-this.sharedService.getallgroupsbyuserid(this.logindata.user_id).subscribe((response: any) => {
+// this.sharedService.getallgroupsbyuserid(this.logindata.user_id).subscribe((response: any) => {
+//   console.log(response,'groupname')
+// this.groupdata=response.groups;
+//   }
+// )
+this.sharedService.getallgroupsbyuserid(this.logindata.user_id).subscribe((response:any)=>{
   console.log(response,'groupname')
-this.groupdata=response.groups;
-  }
-)
+ this.groupdata=response.groups;
+   }
+  )
  
 
   }

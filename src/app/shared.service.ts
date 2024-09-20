@@ -95,6 +95,10 @@ export class SharedService {
   getAllSubGroupsByParentId(groupId : number){
     return this.http.get(`http://www.crocusglobal.com/forum/api/get_all_sub_groups_by_parent_id/${groupId}`)
   }
+  getallgroupsbyuserid(userId: number) {
+    return this.http.get(`http://www.crocusglobal.com/forum/api/get_all_groups_by_user_id/${userId}`)
+  }
+  
 }
 
 
