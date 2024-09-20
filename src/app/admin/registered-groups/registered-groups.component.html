@@ -1,0 +1,120 @@
+<main class="nxl-container">
+    <div class="nxl-content">
+        <div class="main-content">
+            <div class="row">
+                <div class="col-xxl-12">
+                    <div class="card stretch stretch-full">
+                        <div class="card-header">
+                            <h5 class="card-title">Groups</h5>
+                            <input type="text" (input)="applyFilter($event)" placeholder="Search groups..."
+                                class="form-control" style="width: 80%;">
+                        </div>
+                        <div class="card-body custom-card-action p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr class="border-b">
+                                            <th scope="row" (click)="sortData('group_id')">Group ID</th>
+                                            <th (click)="sortData('group_name')">Group Name</th>
+                                            <th (click)="sortData('created_at')">Created At</th>
+                                            <th (click)="sortData('active_status')">Status</th>
+                                            <th>Sub Groups</th>
+                                            <th>Edit/Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let user of paginatedData">
+                                            <td>{{ user.group_id }}</td>
+                                            <td>{{ user.group_name }}</td>
+                                            <td>{{ user.created_at | date: 'dd/MM/yyyy' }}</td>
+                                            <td>
+                                                <span
+                                                    [ngClass]="{'badge bg-soft-success text-success': user.active_status === 1, 'badge bg-soft-danger text-danger': user.active_status === 0}">
+                                                    {{ user.active_status === 1 ? 'Active' : 'Inactive' }}
+                                                </span>
+                                            </td>
+                                            <td><a (click)="getSubGroups(user.group_id)">Click See the SubGroup</a></td>
+                                            <td class="edit-delete">
+                                                <a (click)="editUser(user.group_id)" class="avatar-text avatar-md">
+                                                    <i class="feather-edit"></i>
+                                                </a>
+                                                <a (click)="deleteUser(user.group_id)" class="avatar-text avatar-md">
+                                                    <i class="feather-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <ul class="pagination">
+                                <li *ngFor="let page of pages" class="page-item">
+                                    <a class="page-link" href="javascript:void(0)" (click)="setPage(page)">{{ page
+                                        }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SubGroup Table -->
+            <div class="row mt-4" *ngIf="subGroupsData.length > 0">
+                <div class="col-xxl-12">
+                    <div class="card stretch stretch-full">
+                        <div class="card-header">
+                            <h5 class="card-title">SubGroups </h5>
+                        </div>
+                        <div class="card-body custom-card-action p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr class="border-b">
+                                            <th scope="row">Sub Group ID</th>
+                                            <th>Sub Group Name</th>
+                                            <th>Created At</th>
+                                            <th>Status</th>
+                                            <th>Edit/Delete</th>
+                                            <th>Activate/DeActivate</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let subgroup of subGroupsData">
+                                            <td>{{ subgroup.group_id }}</td>
+                                            <td>{{ subgroup.group_name }}</td>
+                                            <td>{{ subgroup.created_at | date: 'dd/MM/yyyy' }}</td>
+                                            <td>
+                                                <span
+                                                    [ngClass]="{'badge bg-soft-success text-success': subgroup.active_status === 1, 'badge bg-soft-danger text-danger': subgroup.active_status === 0}">
+                                                    {{ subgroup.active_status === 1 ? 'Active' : 'Inactive' }}
+                                                </span>
+                                            </td>
+                                            <td class="edit-delete">
+                                                <a (click)="editUser(subgroup.group_id)" class="avatar-text avatar-md">
+                                                    <i class="feather-edit"></i>
+                                                </a>
+                                                <a (click)="deleteUser(subgroup.group_id)"
+                                                    class="avatar-text avatar-md">
+                                                    <i class="feather-trash"></i>
+                                                </a>
+                                            </td>
+                                            <td >
+                                                <a (click)="editUser(subgroup.group_id)" class="avatar-text avatar-md">
+                                                    <i class="feather-edit"></i>
+                                                </a>
+                                                
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>

@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Editor } from 'ngx-editor';
 import { ObservablesService } from '../../observables.service';
 import { SharedService } from '../../shared.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-posts',
@@ -65,8 +66,24 @@ export class CreatePostsComponent implements OnInit, OnDestroy {
 
       this.sharedService.postBlog(formData).subscribe((response: any) => {
         console.log(response); // Handle success
-      });
-    // }
+        Swal.fire({
+          title: "Post Created!",
+          text: "Your Post has been successfully created.",
+          icon: "success",
+          confirmButtonText: "OK"
+        });
+      },
+      (error: any) => {
+        // Error response
+        console.error(error);
+        Swal.fire({
+          title: "Error",
+          text: "There was an issue creating your Post. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK"
+        });
+      }
+    );
   }
 
   handleFileInputChange(event: Event, fileType: 'header_image' | 'attached_file'): void {

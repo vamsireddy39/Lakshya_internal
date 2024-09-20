@@ -5,13 +5,19 @@ import { CreatePostsComponent } from './create-posts/create-posts.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegisteredUsersComponent } from './registered-users/registered-users.component';
 import { ViewAllPostsComponent } from './view-all-posts/view-all-posts.component';
+import { GroupsComponent } from '../groups/groups.component';
+import { CreateGroupComponent } from './create-group/create-group.component';
+import { RegisteredGroupsComponent } from './registered-groups/registered-groups.component';
 
 const routes: Routes = [{ path: '', component: AdminComponent ,children:[
 
   {path:'',component:DashboardComponent},
   {path:'createPosts' , component:CreatePostsComponent},
   {path:'registerdUsers' , component:RegisteredUsersComponent},
-  {path:'AllPosts', component: ViewAllPostsComponent}
+  {path:'AllPosts', component: ViewAllPostsComponent},
+  {path:'creategroups',component:CreateGroupComponent},
+  {path:'registerdGroups',component:RegisteredGroupsComponent},
+  {path:'groups',component:GroupsComponent}
 
 ]},
 ];

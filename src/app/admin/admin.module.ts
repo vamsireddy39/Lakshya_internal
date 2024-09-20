@@ -18,6 +18,8 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { CreateGroupComponent } from './create-group/create-group.component';
+import { RegisteredGroupsComponent } from './registered-groups/registered-groups.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     ViewIdPostsComponent,
     DashboardComponent,
     AdminHomeComponent,
-    RegisteredUsersComponent
+    RegisteredUsersComponent,
+    CreateGroupComponent,
+    RegisteredGroupsComponent
   ],
   imports: [
     CommonModule,
