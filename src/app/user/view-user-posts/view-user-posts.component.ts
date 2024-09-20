@@ -27,6 +27,10 @@ user: any;
 
   ngOnInit() {
     this.getUsers();
+    this.observable.loginDetailsPathIndex$.subscribe((response)=>{
+console.log(response)
+    })
+    
   }
 
   getUsers() {

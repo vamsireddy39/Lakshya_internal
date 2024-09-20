@@ -91,7 +91,10 @@ export class SharedService {
   deActivateGroup(postId: number) {
     return this.http.put(`http://www.crocusglobal.com/forum/api/groups/${postId}/deactivate`, {});
   }
-  
+ 
+  getAllSubGroupsByParentId(groupId : number){
+    return this.http.get(`http://www.crocusglobal.com/forum/api/get_all_sub_groups_by_parent_id/${groupId}`)
+  }
 }
 
 

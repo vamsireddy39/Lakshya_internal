@@ -17,6 +17,7 @@ export class CreatePostsComponent implements OnInit, OnDestroy {
   CreatePost: FormGroup;
   headerImageFile: File | null = null;
   attachedFile: File | null = null;
+  parentGroups: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -30,7 +31,8 @@ export class CreatePostsComponent implements OnInit, OnDestroy {
       user_id: [''],
       descr: ['', [Validators.required, Validators.maxLength(4500)]],
       header_image: [''],
-      attached_file: ['']
+      attached_file: [''],
+      group_id:['']
     });
   }
 
@@ -38,6 +40,12 @@ export class CreatePostsComponent implements OnInit, OnDestroy {
     this.observable.loginDetailsPathIndex$.subscribe((response) => {
       this.roleID = response.role_id;
     });
+    this.sharedService.getAllParentGroups().subscribe((response) => {
+      console.log(response)
+      this.parentGroups = response;
+
+    }
+    )
   }
 
   ngOnDestroy(): void {
@@ -51,6 +59,7 @@ export class CreatePostsComponent implements OnInit, OnDestroy {
     formData.append('title', this.CreatePost.controls['title'].value);
     formData.append('descr', this.CreatePost.controls['descr'].value);
     formData.append('user_id', this.roleID);
+    formData.append('group_id',this.CreatePost.controls['group_id'].value)
 
     if (this.headerImageFile) {
       formData.append('header_image', this.headerImageFile);
