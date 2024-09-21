@@ -8,6 +8,12 @@
             <a href="#">{{ group[0].group_name }}</a>
           </li>
         </ul>
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let group of groupdata" ngIf="!group.parent_group_id">
+            <a href="#">{{ group.group_name }}</a>
+          </li>
+        </ul>
+        
         <!-- <ul class="list-group" >
           <li class="list-group-item" *ngfor="let group of groupdata;let i as index "><a href="#">{{group[i].group_name}}</a></li>
          

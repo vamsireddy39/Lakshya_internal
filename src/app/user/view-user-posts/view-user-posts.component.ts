@@ -40,12 +40,16 @@ group: any;
 // this.groupdata=response.groups;
 //   }
 // )
-this.sharedService.getallgroupsbyuserid(this.logindata.user_id).subscribe((response:any)=>{
-  console.log(response,'groupname')
- this.groupdata=response.groups;
-   }
-  )
- 
+this.observable.loginDetailsPathIndex$.subscribe((response) => {
+  console.log(response);
+  this.logindata = response;
+  if (this.logindata) {
+    this.sharedService.getallgroupsbyuserid(this.logindata.user_id).subscribe((groupResponse: any) => {
+      console.log(groupResponse, 'groupname');
+      this.groupdata = groupResponse.groups;
+    });
+  }
+});
 
   }
 
