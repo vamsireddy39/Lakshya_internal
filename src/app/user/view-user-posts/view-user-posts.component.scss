@@ -1,14 +1,14 @@
 .part {
-  padding: 20px;
+  // padding: 20px;
 }
 
 .side-nav {
-  background-color: #f8f9fa; /* Light grey background for the sidebar */
+  background-color: #ffffff; /* Light grey background for the sidebar */
   padding: 20px;
    /* Keep the sidebar content height dynamic */
   min-height: 100vh; /* Ensure full viewport height */
-  max-width: 250px; /* Limit the sidebar width */
-  border-right: 1px solid #ddd; /* Border to separate sidebar and content */
+  width: 280px; /* Limit the sidebar width */
+  // border-right: 1px solid #ddd; /* Border to separate sidebar and content */
 }
 
 .side-nav h4 {

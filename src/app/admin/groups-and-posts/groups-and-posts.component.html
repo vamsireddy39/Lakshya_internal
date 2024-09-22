@@ -61,31 +61,18 @@
                             <span>Back</span>
                         </a>
                     </div>
-                    <!-- <ul class="nav nav-tabs nav-tabs-custom-style" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overviewTab">Overview</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#activityTab">Activity</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#timesheetsTab">Timesheets</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#milestonesTab">Milestones</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#discussionsTab">Discussions</button>
-                        </li>
-                    </ul> -->
-                    <ul class="nav nav-tabs nav-tabs-custom-style" id="myTab" role="tablist">
-                        <!-- Check if subGroupDetails and sub_groups exist -->
-                        <ng-container *ngIf="subGroupDetails?.sub_groups?.length > 0; else noSubGroups">
-                            <li class="nav-item" *ngFor="let subgroup of subGroupDetails.sub_groups; let i = index" role="presentation">
-                                <!-- Add the 'active' class only to the first item (i === 0) -->
-                                <button class="nav-link" [ngClass]="{ 'active': i === 0 }" [attr.data-bs-target]="'#' + subgroup.group_name.replace(' ', '') + 'Tab'" data-bs-toggle="tab">
-                                  {{ subgroup.group_name }}
-                                </button>
+                
+            
+                    <ul class="nav nav-tabs" role="tablist">
+                        <!-- Check if there are any sub_groups before displaying them -->
+                        <ng-container *ngIf="subGroupDetails?.sub_groups && subGroupDetails.sub_groups.length > 0; else noSubGroups">
+                          <li class="nav-item" *ngFor="let subgroup of subGroupDetails.sub_groups; let i = index" role="presentation">
+                            <button class="nav-link" [ngClass]="{ 'active': i === 0 }" 
+                              [attr.data-bs-target]="'#' + subgroup.group_name.replace(' ', '') + 'Tab'" 
+                              data-bs-toggle="tab" 
+                              (click)="getPosts(subgroup.group_id)">
+                              {{ subgroup.group_name }}
+                            </button>
                           </li>
                         </ng-container>
                       </ul>
@@ -95,28 +82,69 @@
                 </div>
             </div>
         </div>
-        <!-- Display this if no subgroups exist -->
 
-          
-        <!-- [ Main Content ] start -->
         <div class="main-content">
-             <!-- Display this if no subgroups exist -->
              <ng-template #noSubGroups>
                 <p>No subgroups created yet.</p>
               </ng-template>
               
-              <!-- Tab content -->
               <div class="tab-content">
                 <div class="tab-pane fade show active" *ngFor="let subgroup of subGroupDetails.sub_groups" [id]="subgroup.group_name.replace(' ', '') + 'Tab'">
-                  <!-- Content for the specific tab -->
-                  <p>Details for {{ subgroup.group_name }}</p>
-                </div>
+          
+                          <div class="row">
+                            <div class="row ">
+                              <div class="card ">
+                                <div class="card-header">
+                                  <h5 class="card-title">Our Posts</h5>
+                                  <input type="text" (input)="applyFilter($event)" placeholder="Search Posts..." class="form-control"
+                                    style="width: 80%;">
+                                </div>
+                              </div>
+                              <div class="col-lg-4  " *ngFor="let user of paginatedData">
+                                <div class="card">
+                                <div class=" card-body custom-card-action">
+                                  <img src="http://crocusglobal.com/ftp_forum_img/{{user.header_img_file_name}}" alt="Image description" >
+                                  <hr>
+                                  <div class="content">
+                                    <h4> {{ user.title }}
+                                    </h4>
+                                    <p [innerHTML]="sanitizeDescription(user.descr).slice(0, 100) + '...'"> </p>
+                                  </div>
+                                  <div>
+                    
+                                  </div>
+                                  <div class="last-content ">
+                    
+                                    <div class="hstack gap-2">
+                                      <a>Created At: {{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}</a>
+                                      <a href="javascript:void(0);" class="avatar-text avatar-md ">
+                                        <i class="feather-edit"></i>
+                                      </a>
+                                      <a href="javascript:void(0);" class="avatar-text avatar-md">
+                                        <i class="feather-trash"></i>
+                                      </a>
+                                    </div>
+                                  </div>
+                    
+                                </div>
+                              </div></div>
+                    
+                    
+                            </div>
+                            <div class="card-footer">
+                              <ul class="pagination">
+                                <li *ngFor="let page of pages" class="page-item">
+                                  <a class="page-link" href="javascript:void(0)" (click)="setPage(page)">{{ page }}</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                     
               </div>
          
         </div>
-        <!-- [ Main Content ] end -->
     </div>
-    <!-- [ Footer ] start -->
     <footer class="footer">
         <p class="fs-11 text-muted fw-medium text-uppercase mb-0 copyright">
             <span>Copyright ©</span>
