@@ -24,35 +24,57 @@ export class ViewUserPostsComponent {
   filterQuery: string = '';
 user: any;
 group: any;
+// groupdata: any[] = [];
+selectedGroup: any = null; // Stores the currently selected group
+activeSubGroup: any = null; // Stores the currently active subgroup
 
-  constructor(private sharedService: SharedService, private sanitizer: DomSanitizer,
-    private observable:ObservablesService, public router : Router) { }
+constructor(
+  private sharedService: SharedService,
+  private sanitizer: DomSanitizer,
+  private observable: ObservablesService,
+  public router: Router
+) {}
 
-  ngOnInit() {
-    this.getUsers();
-    this.observable.loginDetailsPathIndex$.subscribe((response)=>{
-      console.log(response)
-      this.logindata=response;
+ngOnInit() {
+  // Fetch user and group data
+  this.observable.loginDetailsPathIndex$.subscribe((response) => {
+    console.log(response);
+    this.logindata = response;
+    if (this.logindata) {
+      this.sharedService
+        .getallgroupsbyuserid(this.logindata.user_id)
+        .subscribe((groupResponse: any) => {
+          console.log(groupResponse, 'groupname');
+          this.groupdata = groupResponse.groups;
+        });
     }
-  )
-// this.sharedService.getallgroupsbyuserid(this.logindata.user_id).subscribe((response: any) => {
-//   console.log(response,'groupname')
-// this.groupdata=response.groups;
-//   }
-// )
-this.observable.loginDetailsPathIndex$.subscribe((response) => {
-  console.log(response);
-  this.logindata = response;
-  if (this.logindata) {
-    this.sharedService.getallgroupsbyuserid(this.logindata.user_id).subscribe((groupResponse: any) => {
-      console.log(groupResponse, 'groupname');
-      this.groupdata = groupResponse.groups;
-    });
-  }
-});
+  });
+}
 
-  }
+// Method to select a group and display its subgroups
+selectGroup(group: any) {
+  this.selectedGroup = group;
+  this.activeSubGroup = null;
+}
 
+// Method to select a subgroup and display its content
+selectSubGroup(subGroup: any) {
+  this.activeSubGroup = subGroup;
+  this.getForumPostsByUserId(subGroup.group_id,this.logindata.user_id) // Reset the active subgroup when a new group is selected
+
+}
+posts: any;
+
+getForumPostsByUserId(groupId:number,userId:number){
+this.sharedService.getForumPostsByUserId(groupId,userId).subscribe((response)=>{
+  console.log(response)
+  this.posts = response; // Store the posts data
+
+})
+}
+sanitizePostDescription(description: string) {
+  return this.sanitizer.bypassSecurityTrustHtml(description);
+}
   getUsers() {
     this.sharedService.getPosts().subscribe((response: any) => {
       this.userData = response.posts;
@@ -120,8 +142,9 @@ this.observable.loginDetailsPathIndex$.subscribe((response) => {
       console.log(response);
       // alert(response);
       this.observable.postDetailsPathIndex$.next(response)
-      this.router.navigateByUrl('/nby');
 
     })
+    // this.router.navigateByUrl('/userPosts');
+
   }
 }

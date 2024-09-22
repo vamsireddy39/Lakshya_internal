@@ -104,6 +104,10 @@ export class SharedService {
   getForumPosts(postId:number){
     return this.http.get(`http://www.crocusglobal.com/forum/api/posts/group_id/${postId}`)
   }
+
+  getForumPostsByUserId(groupId:number,userId:number){
+    return this.http.get(`http://www.crocusglobal.com/forum/api/posts/group_id/${groupId}/user_id/${userId}`)
+  }
 }
 
 

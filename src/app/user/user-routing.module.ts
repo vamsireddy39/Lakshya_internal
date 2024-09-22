@@ -6,9 +6,9 @@ import { ViewUserIdPostsComponent } from './view-user-id-posts/view-user-id-post
 
 const routes: Routes = [{ path: '', component: UserComponent,
   children:[
-
     {path :'',component:ViewUserPostsComponent},
-    {path:'nby',component:ViewUserIdPostsComponent}
+    // {path:'userPosts',component:ViewUserIdPostsComponent}
+    {path:'Post',component:ViewUserIdPostsComponent}
   ]
  },
 ];
