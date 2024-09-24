@@ -61,13 +61,14 @@
              [id]="subgroup.group_name.replace(' ', '') + 'Tab'">
           <div class="row">
             <div class="col-lg-4" *ngFor="let user of userData">
-              <div class="card" (click)="getPostsById(user.id)">
+              <div class="card">
                 <div class="card-body custom-card-action">
                   <img src="http://crocusglobal.com/ftp_forum_img/{{user.header_img_file_name}}" alt="Image description">
                   <hr>
-                  <div class="content">
+                  <div class="content"  (click)="getPostsById(user.id)">
                     <h4>{{ user.title }}</h4>
                     <p [innerHTML]="sanitizeDescription(user.descr)"></p>
+                    <a >Click To Read More >>></a>
                   </div>
                 </div>
               </div>

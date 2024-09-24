@@ -108,6 +108,19 @@ export class SharedService {
   getForumPostsByUserId(groupId:number,userId:number){
     return this.http.get(`http://www.crocusglobal.com/forum/api/posts/group_id/${groupId}/user_id/${userId}`)
   }
+
+
+
+
+  //comments
+
+  createAComment(postId:number,formdata:any){
+    return this.http.post(`http://www.crocusglobal.com/forum/api/posts/${postId}/comments`,formdata)
+  }
+
+  getAllComments(postId:number){
+    return this.http.get(`http://www.crocusglobal.com/forum/api/posts/${postId}/comments_all`)
+  }
 }
 
 

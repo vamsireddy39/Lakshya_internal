@@ -1,29 +1,35 @@
 <main class="nxl-container">
-    <div class="nxl-content">
-      <div class="main-content">
-        <div class="row">
-          <div class="row ">
-            <div class="card ">
-              <div class="card-header">
-                <h5 class="card-title">Our Posts</h5>
-               
-              </div>
+  <div class="nxl-content">
+    <div class="main-content">
+      <div class="row">
+        <div class="row ">
+          <div class="card ">
+            <div class="card-header">
+              <h5 class="card-title">{{postIdDetails.post.title}}</h5>
+
             </div>
-              <div class="card">
-              <div class=" card-body custom-card-action">
-                {{postIdDetails.post | json}}
-                <hr>
-                <div class="content">
-                </div>
-                <div>
-  
-                </div>
-             
-  
+
+            <!-- <div class="card"> -->
+            <div class=" card-body custom-card-action">
+              <!-- {{postIdDetails.post | json}} -->
+               <!-- {{postIdDetails.post.attached_file_name}}  -->
+              <img src="http://crocusglobal.com/ftp_forum_img/{{postIdDetails.post.header_img_file_name}}"
+                alt="Image description">
+              <p [innerHTML]="sanitizeDescription(postIdDetails.post.descr)"> </p>
+
+              <div class="file-attachment"> 
+                <i class="feather-paperclip"></i>
+                <a href="https://crocusglobal.com/ftp_forum_docs/{{postIdDetails.post.attached_file_name}}"> {{postIdDetails.post.attached_file_name}}</a>
               </div>
+              <div>
+
+              </div>
+
+
             </div>
-  
-  
+            <!-- </div> -->
+
+
           </div>
           <div class="card-footer">
             <ul class="pagination">
@@ -32,6 +38,6 @@
         </div>
       </div>
     </div>
-  
-  </main>
-  <!-- { "auth": 1, "post": { "active": 1, "attached_file_name": "Lakshya_Logo_20240923025001.pptx", "created_at": "Mon, 23 Sep 2024 02:50:01 GMT", "descr": "I am testing ", "group_id": 4, "header_img_file_name": "favicon_20240923025001.png", "id": 14, "title": "testing group 4", "user_id": 1 } } -->
+  </div>
+
+</main>

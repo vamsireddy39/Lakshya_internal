@@ -1,0 +1,22 @@
+.file-attachment{
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    width: max-content;
+    padding: 6px;
+    border-radius: 5px;
+}
+p {
+    margin: 1rem 0;
+}
+.card .card-header .card-title {
+    margin-bottom: 0;
+    color: #283c50;
+    font-size: 25px;
+    font-weight: 700;
+}
+.card .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+}

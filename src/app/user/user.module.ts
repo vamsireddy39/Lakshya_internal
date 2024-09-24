@@ -6,6 +6,7 @@ import { UserComponent } from './user.component';
 import { ViewUserPostsComponent } from './view-user-posts/view-user-posts.component';
 import { ViewUserIdPostsComponent } from './view-user-id-posts/view-user-id-posts.component';
 import { SharedModule } from "../shared/shared.module";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { SharedModule } from "../shared/shared.module";
   imports: [
     CommonModule,
     UserRoutingModule,
-    SharedModule
+    SharedModule,ReactiveFormsModule,FormsModule
 ]
 })
 export class UserModule { }

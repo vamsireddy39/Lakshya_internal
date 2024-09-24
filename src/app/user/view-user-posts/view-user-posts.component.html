@@ -29,6 +29,8 @@
                 <h5>Selected Subgroup: {{ activeSubGroup.group_name }}</h5>
                 <div class="" *ngFor="let post of posts.posts">
                     <div class="text-box">
+                      <a (click)="getPostById(post.id)" routerLink="Post" >
+
                       <!-- Display the header image -->
                       <img
                         *ngIf="post.header_img_file_name"
@@ -40,33 +42,24 @@
                   
                       <!-- Post content -->
                       <div class="content">
-                        <a (click)="getPostById(post.id)" routerLink="Post" >
                           <h4>{{ post.title }}</h4>
-                        </a>
+                  
                         <p [innerHTML]="sanitizeDescription(post.descr).slice(0, 100) + '...'"> </p>
                       </div>
                   
-                      <div>
+                      <div>      
                         <hr />
                       </div>
                   
                       <!-- Created At Section -->
                       <div class="last-content">
-                        <div class="circleimage">
-                          <img
-                            src="../../../assets/images/employee.jpg"
-                            alt="Image description"
-                            width="300px"
-                            height="150px"
-                          />
-                        </div>
+                        
                         <div class="imagecontent">
                           <p>
-                            Created At: {{ post.created_at | date: 'dd/MM/yyyy HH:mm' }}<br />
-                            October 10, 1999
+                            Created At: {{ post.created_at | date: 'dd/MM/yyyy HH:mm' }}
                           </p>
                         </div>
-                      </div>
+                      </div></a>
                     </div>
                   </div>
                   

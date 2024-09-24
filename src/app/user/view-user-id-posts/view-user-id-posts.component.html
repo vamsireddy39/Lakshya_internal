@@ -1,82 +1,69 @@
-<div class="container">
+<div class="part">
     <div>
-        <img src="../../../assets/images/employee.jpg" alt="Image description" width="800px" height="500px">
-        <p class="col-lg-10">
-            {{this.userDetails.title}}<br>
-            {{this.userDetails.descr}}
-           
-        </p>
+      <nav class="side-nav">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <a>Public Group</a>
+          </li>
+        </ul>
+      </nav>
     </div>
-    
-    
-   
-    <div class="profile-box">
-        <div class="last-content col-lg-10 mt-4">
-           
-            <div class="imagecontent ">
-                <p>
-{{userDetails | json}}
-                </p><br>
-                <p>Ratan Tata is a prominent Indian industrialist, philanthropist, and former chairman of Tata Sons, the
-                    holding company of the Tata Group, one of India's largest and most respected conglomerates. Known
-                    for his leadership, vision, and commitment to ethical business practices,
-                    Ratan Tata has played a pivotal role in transforming the Tata Group into a
-                     global powerhouse.
-         
-        
-                </p>
-                <p>
-                    Ratan Tata is a prominent Indian industrialist, philanthropist, and former chairman of Tata Sons, the
-                    holding company of the Tata Group, one of India's largest and most respected conglomerates. Known
-                    for his leadership, vision, and commitment to ethical business practices,
-                    Ratan Tata has played a pivotal role in transforming the Tata Group into a
-                     global powerhouse.
-                </p>
-                </div>
-                </div>
-                </div>
-                <div class="comment-section col-lg-10 mt-4">
-                    <h2>Comments</h2>
-                    <div class="comment-form">
-                        <textarea placeholder="Write a comment..."></textarea>
-                        <button type="button">Post Comment</button>
-                    </div>
-                    <div class="comments">
-                        <div class="comment">
-                            <p class="comment-author">User123</p>
-                            <p class="comment-text">This is a great post!</p>
-                            <div class="reply-form">
-                                <textarea placeholder="Write a reply..."></textarea>
-                                <button type="button">Post Reply</button>
-                            </div>
-                           
-                            <div class="replies">
-                                <div class="reply">
-                                    <p class="reply-author">User456</p>
-                                    <p class="reply-text">Thanks! Glad you liked it.</p>
-                                    <div class="reply-form">
-                                        <textarea placeholder="Write a reply..."></textarea>
-                                        <button type="button">Post Reply</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="replies">
-                                <div class="reply">
-                                    <p class="reply-author">User123</p>
-                                    <p class="reply-text">No mention!.</p>
-                                    <div class="reply-form">
-                                        <textarea placeholder="Write a reply..."></textarea>
-                                        <button type="button">Post Reply</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Add more comments here -->
-                    </div>
-                </div>
-               
-                </div>
-                
-             
-          
-    
+  
+    <div class="row mt-5 pt-5">
+      <h3 class="text-center">{{ userDetails.title }}</h3>
+      <img src="http://crocusglobal.com/ftp_forum_img/{{ userDetails.header_img_file_name }}" alt="Image description">
+      <p [innerHTML]="sanitizeDescription(userDetails.descr)"> </p>
+      <div class="profile-box">
+        <div class="last-content col-lg-10 ">
+          <i class="feather-paperclip"></i>
+          <a href="https://crocusglobal.com/ftp_forum_docs/{{ userDetails.attached_file_name }}">
+            {{ userDetails.attached_file_name }}
+          </a>
+        </div>
+      </div>
+  
+      <!-- Comments Section -->
+      <div class="comment-section col-lg-10 mt-4">
+        <h3>Comments</h3>
+        <div class="comment-form">
+          <form [formGroup]="commentForm">
+            <textarea placeholder="Write a comment..." formControlName="comment_text"></textarea>
+            <button type="button" (click)="postComment(null, commentForm)">Post Comment</button>
+          </form>
+        </div>
+  
+        <!-- Display Comments -->
+        <div *ngIf="allComments?.Comments && allComments.Comments.length > 0">
+          <!-- Loop through parent comments -->
+          <div *ngFor="let parentComment of allComments.Comments" class="comment">
+            <p class="comment-author">{{ parentComment.user_name }} commented as</p>
+            <h5 class="comment-text">{{ parentComment.comment_text }}</h5>
+  
+            <!-- Reply Form for parent comment -->
+            <form [formGroup]="replyForms[parentComment.id]" style="display: flex;">
+              <textarea  rows="1" placeholder="Write a reply..." formControlName="comment_text" class="reply-textarea"></textarea>
+              <button type="button" class="reply-button" (click)="postComment(parentComment.id, replyForms[parentComment.id])">Post Reply</button>
+            </form>
+  
+            <!-- Display replies for parent comment -->
+            <div class="replies" *ngIf="parentComment.replies && parentComment.replies.length > 0">
+              <div *ngFor="let reply of parentComment.replies" class="reply">
+                <p class="reply-author">{{ reply.user_name }} commented as </p>
+                <h5 class="reply-text">{{ reply.comment_text }}</h5>
+  
+                <!-- Reply Form for reply (sub-reply) -->
+                <form [formGroup]="replyForms[reply.id]" style="display: flex;">
+                  <textarea   rows="1" placeholder="Write a reply..." formControlName="comment_text"  class="reply-textarea"></textarea>
+                  <button type="button"  class="reply-button"  (click)="postComment(reply.id, replyForms[reply.id])">Post Reply</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- If no comments available -->
+        <p *ngIf="!allComments?.Comments || allComments.Comments.length === 0">No comments yet. Be the first to comment!</p>
+      </div>
+    </div>
+  </div>
+  
