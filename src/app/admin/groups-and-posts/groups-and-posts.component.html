@@ -1,162 +1,80 @@
 <main class="nxl-container">
-    <div class="nxl-content">
-        <!-- [ page-header ] start -->
-        <div class="page-header">
-            <div class="page-header-left d-flex align-items-center">
-                <div class="page-header-title">
-                    <h5 class="m-b-10">Posts</h5>
-                </div>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">View</li>
-                </ul>
-            </div>
-            <div class="page-header-right ms-auto">
-                <div class="page-header-right-items">
-                    <div class="d-flex d-md-none">
-                        <a href="javascript:void(0)" class="page-header-right-close-toggle">
-                            <i class="feather-arrow-left me-2"></i>
-                            <span>Back</span>
-                        </a>
-                    </div>
-                    <div class="d-flex align-items-center gap-2 page-header-right-items-wrapper">
-                        <div class="dropdown">
-                            <a class="btn btn-icon btn-light-brand" data-bs-toggle="dropdown" data-bs-offset="0, 10" data-bs-auto-close="outside">
-                                <i class="feather-more-vertical"></i>
-                            </a>
-                        
-                        </div>
-                        <a href="Posts-create.html" class="btn btn-primary">
-                            <i class="feather-plus me-2"></i>
-                            <span>Create Post</span>
-                        </a>
-                        <div class="dropdown">
-                            <a href="javascript:void(0);" class="btn btn-primary" data-bs-toggle="dropdown" data-bs-offset="0,11">
-                                <i class="feather-share-2 me-2"></i>
-                                <span>Share Post</span>
-                            </a>
-                  
-                        </div>
-                    </div>
-                </div>
-                <div class="d-md-none d-flex align-items-center">
-                    <a href="javascript:void(0)" class="page-header-right-open-toggle">
-                        <i class="feather-align-right fs-20"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- [ page-header ] end -->
-        <div class="bg-white py-3 border-bottom rounded-0 p-md-0 mb-0">
-            <div class="d-md-none d-flex align-items-center justify-content-between">
-                <a href="javascript:void(0)" class="page-content-left-open-toggle">
-                    <i class="feather-align-left fs-20"></i>
-                </a>
-            </div>
-            <div class="d-flex align-items-center justify-content-between">
-                <div class="nav-tabs-wrapper page-content-left-sidebar-wrapper">
-                    <div class="d-flex d-md-none">
-                        <a href="javascript:void(0)" class="page-content-left-close-toggle">
-                            <i class="feather-arrow-left me-2"></i>
-                            <span>Back</span>
-                        </a>
-                    </div>
-                
-            
-                    <ul class="nav nav-tabs" role="tablist">
-                        <!-- Check if there are any sub_groups before displaying them -->
-                        <ng-container *ngIf="subGroupDetails?.sub_groups && subGroupDetails.sub_groups.length > 0; else noSubGroups">
-                          <li class="nav-item" *ngFor="let subgroup of subGroupDetails.sub_groups; let i = index" role="presentation">
-                            <button class="nav-link" [ngClass]="{ 'active': i === 0 }" 
-                              [attr.data-bs-target]="'#' + subgroup.group_name.replace(' ', '') + 'Tab'" 
-                              data-bs-toggle="tab" 
-                              (click)="getPosts(subgroup.group_id)">
-                              {{ subgroup.group_name }}
-                            </button>
-                          </li>
-                        </ng-container>
-                      </ul>
-                      
-                   
-                      
-                </div>
-            </div>
-        </div>
+  <div class="nxl-content">
+    <!-- Page Header remains unchanged -->
 
-        <div class="main-content">
-             <ng-template #noSubGroups>
-                <p>No subgroups created yet.</p>
-              </ng-template>
-              
-              <div class="tab-content">
-                <div class="tab-pane fade show active" *ngFor="let subgroup of subGroupDetails.sub_groups" [id]="subgroup.group_name.replace(' ', '') + 'Tab'">
-          
-                          <div class="row">
-                            <div class="row ">
-                              <div class="card ">
-                                <div class="card-header">
-                                  <h5 class="card-title">Our Posts</h5>
-                                  <input type="text" (input)="applyFilter($event)" placeholder="Search Posts..." class="form-control"
-                                    style="width: 80%;">
-                                </div>
-                              </div>
-                              <div class="col-lg-4  " *ngFor="let user of paginatedData">
-                                <div class="card">
-                                <div class=" card-body custom-card-action">
-                                  <img src="http://crocusglobal.com/ftp_forum_img/{{user.header_img_file_name}}" alt="Image description" >
-                                  <hr>
-                                  <div class="content">
-                                    <h4> {{ user.title }}
-                                    </h4>
-                                    <p [innerHTML]="sanitizeDescription(user.descr).slice(0, 100) + '...'"> </p>
-                                  </div>
-                                  <div>
-                    
-                                  </div>
-                                  <div class="last-content ">
-                    
-                                    <div class="hstack gap-2">
-                                      <a>Created At: {{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}</a>
-                                      <a href="javascript:void(0);" class="avatar-text avatar-md ">
-                                        <i class="feather-edit"></i>
-                                      </a>
-                                      <a href="javascript:void(0);" class="avatar-text avatar-md">
-                                        <i class="feather-trash"></i>
-                                      </a>
-                                    </div>
-                                  </div>
-                    
-                                </div>
-                              </div></div>
-                    
-                    
-                            </div>
-                            <div class="card-footer">
-                              <ul class="pagination">
-                                <li *ngFor="let page of pages" class="page-item">
-                                  <a class="page-link" href="javascript:void(0)" (click)="setPage(page)">{{ page }}</a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                     
-              </div>
-         
+    <!-- Navigation for Sub Groups and All Posts -->
+    <div class="bg-white py-3 border-bottom rounded-0 p-md-0 mb-0">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="nav-tabs-wrapper page-content-left-sidebar-wrapper">       
+          <ul class="nav nav-tabs" role="tablist">
+            <!-- All Posts Tab (default active tab) -->
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" 
+                      [attr.data-bs-target]="'#allPostsTab'"
+                      data-bs-toggle="tab">
+                All Posts
+              </button>
+            </li>
+
+            <!-- Subgroup Tabs -->
+            <ng-container *ngIf="subGroupDetails?.sub_groups?.length > 0; else noSubGroups">
+              <li class="nav-item" *ngFor="let subgroup of subGroupDetails.sub_groups" role="presentation">
+                <button class="nav-link" 
+                        [attr.data-bs-target]="'#' + subgroup.group_name.replace(' ', '') + 'Tab'"
+                        data-bs-toggle="tab" 
+                        (click)="getPosts(subgroup.group_id)">
+                  {{ subgroup.group_name }}
+                </button>
+              </li>
+            </ng-container>
+          </ul>
         </div>
+      </div>
     </div>
-    <footer class="footer">
-        <p class="fs-11 text-muted fw-medium text-uppercase mb-0 copyright">
-            <span>Copyright ©</span>
-            <script>
-                document.write(new Date().getFullYear());
-            </script>2024
-        </p>
-        <div class="d-flex align-items-center gap-4">
-            <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Help</a>
-            <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Terms</a>
-            <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Privacy</a>
-        </div>
-    </footer>
 
+    <!-- Main Content -->
+    <div class="main-content">
+      <ng-template #noSubGroups>
+        <p>No subgroups created yet.</p>
+      </ng-template>
+      <div class="tab-content">
+        <!-- All Posts Tab Content (default active tab) -->
+        <div class="tab-pane fade show active" id="allPostsTab">
+          <div class="row">
+            <div class="col-lg-4" *ngFor="let post of parentGroupPosts">
+              <div class="card" (click)="getPostsById(post.id)">
+                <div class="card-body custom-card-action">
+                  <img src="http://crocusglobal.com/ftp_forum_img/{{post.header_img_file_name}}" alt="Image description">
+                  <hr>
+                  <div class="content">
+                    <h4>{{ post.title }}</h4>
+                    <p [innerHTML]="sanitizeDescription(post.descr)"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subgroup Tabs Content -->
+        <div class="tab-pane fade" *ngFor="let subgroup of subGroupDetails.sub_groups" 
+             [id]="subgroup.group_name.replace(' ', '') + 'Tab'">
+          <div class="row">
+            <div class="col-lg-4" *ngFor="let user of userData">
+              <div class="card" (click)="getPostsById(user.id)">
+                <div class="card-body custom-card-action">
+                  <img src="http://crocusglobal.com/ftp_forum_img/{{user.header_img_file_name}}" alt="Image description">
+                  <hr>
+                  <div class="content">
+                    <h4>{{ user.title }}</h4>
+                    <p [innerHTML]="sanitizeDescription(user.descr)"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>

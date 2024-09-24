@@ -12,7 +12,7 @@ export class ViewAllPostsComponent {
   userData: any[] = [];
   paginatedData: any[] = [];
   totalUsers: number = 0;
-  pageSize: number = 10;
+  pageSize: number = 12;
   currentPage: number = 1;
   pages: number[] = [];
   sortDirection: boolean = true; // true for ascending, false for descending

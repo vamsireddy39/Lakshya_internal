@@ -9,6 +9,7 @@ import { GroupsComponent } from '../groups/groups.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { RegisteredGroupsComponent } from './registered-groups/registered-groups.component';
 import { GroupsAndPostsComponent } from './groups-and-posts/groups-and-posts.component';
+import { ViewIdPostsComponent } from './view-id-posts/view-id-posts.component';
 
 const routes: Routes = [{ path: '', component: AdminComponent ,children:[
 
@@ -18,7 +19,8 @@ const routes: Routes = [{ path: '', component: AdminComponent ,children:[
   {path:'AllPosts', component: ViewAllPostsComponent},
   {path:'creategroups',component:CreateGroupComponent},
   {path:'registerdGroups',component:RegisteredGroupsComponent},
-  {path:'groups',component:GroupsAndPostsComponent}
+  {path:'groups',component:GroupsAndPostsComponent},
+  {path:'Post',component:ViewIdPostsComponent}
 
 ]},
 ];

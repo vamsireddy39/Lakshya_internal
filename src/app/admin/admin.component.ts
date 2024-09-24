@@ -9,7 +9,8 @@ import { ObservablesService } from '../observables.service';
 })
 export class AdminComponent {
   parentGroups: any = {};
-  constructor(public sharedService: SharedService,public observable : ObservablesService) {
+  userData: any;
+  constructor(public sharedService: SharedService, public observable: ObservablesService) {
 
   }
   ngOnInit() {
@@ -18,10 +19,20 @@ export class AdminComponent {
       this.parentGroups = response
     })
   }
-  getSubGroups(groupId:number){
-    this.sharedService.getAllSubGroupsByParentId(groupId).subscribe((Response=>{
-      console.log(Response,'subgroups')
-this.observable.subGroupsPathIndex$.next(Response)
+  getSubGroups(groupId: number) {
+    this.sharedService.getAllSubGroupsByParentId(groupId).subscribe((Response => {
+      console.log(Response, 'subgroups')
+      this.observable.subGroupsPathIndex$.next(Response)
+      this.getPosts(groupId)
     }))
+  }
+  getPosts(groupId: number) {
+    this.sharedService.getForumPosts(groupId).subscribe((response: any) => {
+      if (response && response.post) {
+        this.userData = response.post;
+        console.log(response.post, 'posts') // Assign the posts to userData
+        this.observable.parentGroupPostsPathIndex$.next(this.userData)
+      }
+    });
   }
 }
