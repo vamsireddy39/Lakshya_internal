@@ -18,7 +18,7 @@ export class CreatePostsComponent implements OnInit, OnDestroy {
   headerImageFile: File | null = null;
   attachedFile: File | null = null;
   parentGroups: any = [];
-
+  SubparentGroups:any=[];
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -32,7 +32,7 @@ export class CreatePostsComponent implements OnInit, OnDestroy {
       descr: ['', [Validators.required, Validators.maxLength(4500)]],
       header_image: [''],
       attached_file: [''],
-      group_id:['']
+      group_id:[''],
     });
   }
 
@@ -47,53 +47,72 @@ export class CreatePostsComponent implements OnInit, OnDestroy {
     }
     )
   }
+  onGroupSelect(event: any) {
+    const groupId = event.target.value;
+    if (groupId) {
+      this.getAllSubGroupsByParentId(groupId);
+    }
+  }
+
+  // API call to get subgroups based on selected group
+  getAllSubGroupsByParentId(groupid: number) {
+    this.sharedService.getAllSubGroupsByParentId(groupid).subscribe((response) => {
+      this.SubparentGroups = response; // Assigning the API response to SubparentGroups
+    }, (error) => {
+      console.error('Error fetching subgroups:', error);
+    });
+  }
+
 
   ngOnDestroy(): void {
     this.editorIntro.destroy();
   }
 
   createBlog(): void {
+    // Get the values for group_id and subgroup_id
+    const groupId = this.CreatePost.controls['group_id'].value;
+    const subgroupId = this.CreatePost.controls['subgroup_id']?.value;
+  
+    // Determine whether to use the groupId or subgroupId
+    const finalGroupId = subgroupId ? subgroupId : groupId;
   
     // Create FormData to send files and other data
     const formData = new FormData();
     formData.append('title', this.CreatePost.controls['title'].value);
     formData.append('descr', this.CreatePost.controls['descr'].value);
     formData.append('user_id', this.roleID);
-    formData.append('group_id',this.CreatePost.controls['group_id'].value)
-
+    formData.append('group_id', finalGroupId); // Use finalGroupId here
+  
     if (this.headerImageFile) {
       formData.append('header_image', this.headerImageFile);
     }
-
+  
     if (this.attachedFile) {
       formData.append('attached_file', this.attachedFile);
     }
-
-    // const sessionKey = this.sharedService.getSessionKey(); // Retrieve session key
-    // if (sessionKey) {
-    //   const headers = new HttpHeaders().set('X-Session-Key', sessionKey);
-
-      this.sharedService.postBlog(formData).subscribe((response: any) => {
-        console.log(response); // Handle success
-        Swal.fire({
-          title: "Post Created!",
-          text: "Your Post has been successfully created.",
-          icon: "success",
-          confirmButtonText: "OK"
-        });
-      },
-      (error: any) => {
-        // Error response
-        console.error(error);
-        Swal.fire({
-          title: "Error",
-          text: "There was an issue creating your Post. Please try again.",
-          icon: "error",
-          confirmButtonText: "OK"
-        });
-      }
-    );
+  
+    // Send the request
+    this.sharedService.postBlog(formData).subscribe((response: any) => {
+      console.log(response); // Handle success
+      Swal.fire({
+        title: "Post Created!",
+        text: "Your Post has been successfully created.",
+        icon: "success",
+        confirmButtonText: "OK"
+      });
+    },
+    (error: any) => {
+      // Error response
+      console.error(error);
+      Swal.fire({
+        title: "Error",
+        text: "There was an issue creating your Post. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK"
+      });
+    });
   }
+  
 
   handleFileInputChange(event: Event, fileType: 'header_image' | 'attached_file'): void {
     const inputElement = event.target as HTMLInputElement;
