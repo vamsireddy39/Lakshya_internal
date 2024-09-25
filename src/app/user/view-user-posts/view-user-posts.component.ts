@@ -10,141 +10,81 @@ import { Router } from '@angular/router';
   styleUrl: './view-user-posts.component.scss'
 })
 export class ViewUserPostsComponent {
-  logindata:any;
-  groupdata:any;
+  logindata: any;
+  groupdata: any;
+  selectedGroup: any = null; // Currently selected group
+  activeSubGroup: any = null; // Currently active subgroup
+  posts: any; // Stores the posts data
+  publicPosts: any; // Public posts data
   
-  
-  userData: any[] = [];
-  paginatedData: any[] = [];
-  totalUsers: number = 0;
-  pageSize: number = 10;
-  currentPage: number = 1;
-  pages: number[] = [];
-  sortDirection: boolean = true; // true for ascending, false for descending
-  filterQuery: string = '';
-user: any;
-group: any;
-// groupdata: any[] = [];
-selectedGroup: any = null; // Stores the currently selected group
-activeSubGroup: any = null; // Stores the currently active subgroup
+  constructor(
+    private sharedService: SharedService,
+    private sanitizer: DomSanitizer,
+    private observable: ObservablesService,
+    public router: Router
+  ) {}
 
-constructor(
-  private sharedService: SharedService,
-  private sanitizer: DomSanitizer,
-  private observable: ObservablesService,
-  public router: Router
-) {}
-
-ngOnInit() {
-  // Fetch user and group data
-  this.observable.loginDetailsPathIndex$.subscribe((response) => {
-    console.log(response);
-    this.logindata = response;
-    if (this.logindata) {
-      this.sharedService
-        .getallgroupsbyuserid(this.logindata.user_id)
-        .subscribe((groupResponse: any) => {
-          console.log(groupResponse, 'groupname');
+  ngOnInit() {
+    // Fetch login and group data
+    this.observable.loginDetailsPathIndex$.subscribe((response) => {
+      this.logindata = response;
+      if (this.logindata) {
+        // Fetch all groups by user ID
+        this.sharedService.getallgroupsbyuserid(this.logindata.user_id).subscribe((groupResponse: any) => {
           this.groupdata = groupResponse.groups;
         });
-    }
-  });
-}
-
-// Method to select a group and display its subgroups
-selectGroup(group: any) {
-  this.selectedGroup = group;
-  this.activeSubGroup = null;
-}
-
-// Method to select a subgroup and display its content
-selectSubGroup(subGroup: any) {
-  this.activeSubGroup = subGroup;
-  this.getForumPostsByUserId(subGroup.group_id,this.logindata.user_id) // Reset the active subgroup when a new group is selected
-
-}
-posts: any;
-
-getForumPostsByUserId(groupId:number,userId:number){
-this.sharedService.getForumPostsByUserId(groupId,userId).subscribe((response)=>{
-  console.log(response)
-  this.posts = response; // Store the posts data
-
-})
-}
-sanitizePostDescription(description: string) {
-  return this.sanitizer.bypassSecurityTrustHtml(description);
-}
-  getUsers() {
-    this.sharedService.getPosts().subscribe((response: any) => {
-      this.userData = response.posts;
-      this.totalUsers = response.posts.length;
-      this.updatePagination();
+        // Load public posts initially
+        this.displayPublicPosts();
+      }
     });
   }
-  
-  // sanitizeDescription(desc: string): SafeHtml {
-  //   return this.sanitizer.bypassSecurityTrustHtml(desc);
-  // }
+
+  // Display public posts initially
+  displayPublicPosts() {
+    this.selectedGroup = null; // No group selected
+    this.activeSubGroup = null; // No subgroup selected
+    // Assuming 5 is the group_id for the public group
+    this.sharedService.getForumPostsByUserId(5, this.logindata.user_id).subscribe((response) => {
+      this.posts = response;
+    });
+  }
+
+  // Select a group and fetch its posts
+  selectGroup(group: any) {
+    this.selectedGroup = group;
+    this.activeSubGroup = null; // Reset active subgroup when a group is selected
+    this.getForumPostsByUserId(group.id, this.logindata.user_id); // Use the group's ID
+  }
+
+  // Select a subgroup and fetch its posts
+  selectSubGroup(subGroup: any) {
+    this.activeSubGroup = subGroup;
+    if (subGroup) {
+      // If a subgroup is selected, fetch its posts
+      this.getForumPostsByUserId(subGroup.group_id, this.logindata.user_id);
+    } else {
+      // Fetch all posts for the selected group if 'All Posts' is selected
+      this.getForumPostsByUserId(this.selectedGroup.id, this.logindata.user_id);
+    }
+  }
+
+  // Fetch posts by group and user ID
+  getForumPostsByUserId(groupId: number, userId: number) {
+    this.sharedService.getForumPostsByUserId(groupId, userId).subscribe((response) => {
+      this.posts = response;
+    });
+  }
+
+  // Sanitize description to safely display HTML content
   sanitizeDescription(descr: string, length: number = 100): string {
     const sanitizedDescr = this.sanitizer.sanitize(SecurityContext.HTML, descr) || '';
     return sanitizedDescr.length > length ? sanitizedDescr.slice(0, length) + '...' : sanitizedDescr;
   }
-  
 
-  // Truncate the description to 150 characters
-  truncateDescription(desc: string): string {
-    return desc.length > 150 ? desc.slice(0, 150) + '...' : desc;
-  }
-  updatePagination() {
-    this.pages = Array(Math.ceil(this.totalUsers / this.pageSize)).fill(0).map((x, i) => i + 1);
-    this.paginateData();
-  }
-
-  paginateData() {
-    const start = (this.currentPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    this.paginatedData = this.userData
-      .filter(user => this.filterQuery === '' ||
-                      user.descr.toLowerCase().includes(this.filterQuery.toLowerCase()) || // filter by description
-                      user.header_img_file_name.toLowerCase().includes(this.filterQuery.toLowerCase()) || // filter by header_img_file_name
-                      user.attached_file_name.toLowerCase().includes(this.filterQuery.toLowerCase())) // filter by attached_file_name
-      .slice(start, end);
-  }
-
-  setPage(page: number) {
-    this.currentPage = page;
-    this.paginateData();
-  }
-
-  sortData(column: string) {
-    this.sortDirection = !this.sortDirection;
-    this.userData.sort((a, b) => {
-      const valA = typeof a[column] === 'string' ? a[column].toLowerCase() : a[column];
-      const valB = typeof b[column] === 'string' ? b[column].toLowerCase() : b[column];
-      
-      if (this.sortDirection) {
-        return valA > valB ? 1 : -1;
-      } else {
-        return valA < valB ? 1 : -1;
-      }
+  // Get post details by ID
+  getPostById(postId: any) {
+    this.sharedService.getPostsById(postId).subscribe((response) => {
+      this.observable.postDetailsPathIndex$.next(response);
     });
-    this.paginateData();
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.filterQuery = filterValue;
-    this.paginateData();
-  }
-  getPostById(userId:any){
-    this.sharedService.getPostsById(userId).subscribe((response)=>{
-      console.log(response);
-      // alert(response);
-      this.observable.postDetailsPathIndex$.next(response)
-
-    })
-    // this.router.navigateByUrl('/userPosts');
-
   }
 }

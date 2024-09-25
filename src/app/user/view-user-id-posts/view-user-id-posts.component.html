@@ -31,39 +31,66 @@
             <button type="button" (click)="postComment(null, commentForm)">Post Comment</button>
           </form>
         </div>
-  
+      
         <!-- Display Comments -->
         <div *ngIf="allComments?.Comments && allComments.Comments.length > 0">
           <!-- Loop through parent comments -->
           <div *ngFor="let parentComment of allComments.Comments" class="comment">
-            <p class="comment-author">{{ parentComment.user_name }} commented as</p>
+            <p class="comment-author">
+              <i class="feather-user"></i> {{ parentComment.user_name }} commented as
+            </p>
             <h5 class="comment-text">{{ parentComment.comment_text }}</h5>
-  
+      
             <!-- Reply Form for parent comment -->
             <form [formGroup]="replyForms[parentComment.id]" style="display: flex;">
-              <textarea  rows="1" placeholder="Write a reply..." formControlName="comment_text" class="reply-textarea"></textarea>
+              <textarea rows="1" placeholder="Write a reply..." formControlName="comment_text" class="reply-textarea"></textarea>
               <button type="button" class="reply-button" (click)="postComment(parentComment.id, replyForms[parentComment.id])">Post Reply</button>
             </form>
-  
+      
             <!-- Display replies for parent comment -->
-            <div class="replies" *ngIf="parentComment.replies && parentComment.replies.length > 0">
-              <div *ngFor="let reply of parentComment.replies" class="reply">
-                <p class="reply-author">{{ reply.user_name }} commented as </p>
+            <div *ngIf="parentComment.replies && parentComment.replies.length > 0" class="replies">
+              <!-- Show only the first two replies -->
+              <div *ngFor="let reply of parentComment.replies | slice:0:2" class="reply">
+                <p class="reply-author">
+                  <i class="feather-user"></i> {{ reply.user_name }} commented as
+                </p>
                 <h5 class="reply-text">{{ reply.comment_text }}</h5>
-  
+      
                 <!-- Reply Form for reply (sub-reply) -->
                 <form [formGroup]="replyForms[reply.id]" style="display: flex;">
-                  <textarea   rows="1" placeholder="Write a reply..." formControlName="comment_text"  class="reply-textarea"></textarea>
-                  <button type="button"  class="reply-button"  (click)="postComment(reply.id, replyForms[reply.id])">Post Reply</button>
+                  <textarea rows="1" placeholder="Write a reply..." formControlName="comment_text" class="reply-textarea"></textarea>
+                  <button type="button" class="reply-button" (click)="postComment(reply.id, replyForms[reply.id])">Post Reply</button>
                 </form>
+      
+                <!-- Recursive replies for the reply -->
+                <div *ngIf="reply.replies && reply.replies.length > 0">
+                  <div *ngFor="let subReply of reply.replies" class="reply">
+                    <p class="reply-author">
+                      <i class="feather-user"></i> {{ subReply.user_name }} commented as
+                    </p>
+                    <h5 class="reply-text">{{ subReply.comment_text }}</h5>
+                  </div>
+                </div>
+              </div>
+      
+              <!-- Show "See all replies" button if there are more than 2 replies -->
+              <button *ngIf="parentComment.replies.length > 2 && !parentComment.showAllReplies" (click)="toggleReplies(parentComment)" class="seeall">See all replies</button>
+      
+              <!-- Display remaining replies when the button is clicked -->
+              <div *ngIf="parentComment.showAllReplies">
+                <div *ngFor="let reply of parentComment.replies | slice:2" class="reply">
+                  <p class="reply-author">
+                    <i class="feather-user"></i> {{ reply.user_name }} commented as
+                  </p>
+                  <h5 class="reply-text">{{ reply.comment_text }}</h5>
+                </div>
+                <button class="seeall" (click)="toggleReplies(parentComment)">Show less</button>
               </div>
             </div>
           </div>
         </div>
-  
+      
         <!-- If no comments available -->
         <p *ngIf="!allComments?.Comments || allComments.Comments.length === 0">No comments yet. Be the first to comment!</p>
       </div>
-    </div>
-  </div>
-  
+      

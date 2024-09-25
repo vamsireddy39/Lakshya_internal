@@ -5,18 +5,38 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
+interface UserDetails {
+  id: number;
+  title: string;
+  header_img_file_name: string;
+  descr: string;
+  attached_file_name: string;
+  user_id: number;
+}
+
+interface Comment {
+  id: number;
+  user_name: string;
+  comment_text: string;
+  parent_id: number | null;
+  replies: Comment[];
+  showAllReplies?: boolean; // Add showAllReplies property
+}
+
+interface AllComments {
+  Comments: Comment[];
+}
+
 @Component({
   selector: 'app-view-user-id-posts',
   templateUrl: './view-user-id-posts.component.html',
   styleUrls: ['./view-user-id-posts.component.scss']
 })
 export class ViewUserIdPostsComponent {
-  newComment: any;
   commentForm: FormGroup;
-  userDetails: any = {};
-  allComments: any = { Comments: [] };  // Initialize to prevent undefined issues
-
-  replyForms: { [commentId: string]: FormGroup } = {}; // Store FormGroups for replies
+  userDetails: UserDetails = {} as UserDetails;  // Initialize it with a default structure
+  allComments: AllComments = { Comments: [] };   // Initialize to prevent undefined issues
+  replyForms: { [commentId: string]: FormGroup } = {};
 
   constructor(
     private observable: ObservablesService,
@@ -25,7 +45,6 @@ export class ViewUserIdPostsComponent {
     private http: HttpClient,
     public sharedService: SharedService
   ) {
-    // Initialize form for top-level comments
     this.commentForm = this.fb.group({
       comment_text: ['', Validators.required],
       user_id: ['', Validators.required],
@@ -34,69 +53,55 @@ export class ViewUserIdPostsComponent {
   }
 
   ngOnInit() {
-    // Fetch post details when the component initializes
-    this.observable.postDetailsPathIndex$.subscribe(response => {
+    this.observable.postDetailsPathIndex$.subscribe((response: any) => {
       console.log(response);
-      this.userDetails = response.post;
+      this.userDetails = response.post as UserDetails;
       this.getAllComments();
     });
   }
 
-  // Fetch all comments for the current post
   getAllComments() {
     this.sharedService.getAllComments(this.userDetails.id).subscribe(response => {
-      console.log(response);
-      this.allComments = response;  // Expecting response to contain a "Comments" array
-      this.initializeReplyForms();  // Initialize forms for replies
+      this.allComments = response as AllComments; // Ensure proper type assertion
+      this.initializeReplyForms();
     }, error => {
-      console.error('Error fetching comments', error);
-      this.allComments = { Comments: [] };  // Handle errors gracefully
+      this.allComments = { Comments: [] };
     });
   }
 
-  // Initialize reply forms for each comment
   initializeReplyForms() {
-    this.allComments.Comments.forEach((comment: any) => {
+    this.allComments.Comments.forEach((comment: Comment) => {
       this.replyForms[comment.id] = this.fb.group({
         comment_text: ['', Validators.required],
       });
-
+      comment.showAllReplies = false; // Initialize showAllReplies
       if (comment.replies) {
-        comment.replies.forEach((reply: any) => {
+        comment.replies.forEach((reply: Comment) => {
           this.replyForms[reply.id] = this.fb.group({
             comment_text: ['', Validators.required],
           });
-
-          if (reply.replies) {
-            reply.replies.forEach((subReply: any) => {
-              this.replyForms[subReply.id] = this.fb.group({
-                comment_text: ['', Validators.required],
-              });
-            });
-          }
         });
       }
     });
   }
 
-  // Post a comment (top-level or reply)
   postComment(parentId: number | null, formGroup: FormGroup) {
     const formData = {
       comment_text: formGroup.controls['comment_text'].value,
-      parent_id: parentId,  // Use parentId for replies
+      parent_id: parentId,
       user_id: this.userDetails.user_id
     };
 
-    this.sharedService.createAComment(this.userDetails.id, formData).subscribe(response => {
-      console.log(response);
+    this.sharedService.createAComment(this.userDetails.id, formData).subscribe(() => {
       formGroup.reset();
-      this.getAllComments();  // Refresh the comment list after posting
-    }, error => {
-      console.error('Error posting comment', error);
+      this.getAllComments();
     });
   }
 
-  // Sanitize and truncate description
+  toggleReplies(comment: Comment) {
+    comment.showAllReplies = !comment.showAllReplies;
+  }
+
   sanitizeDescription(descr: string, length: number = 100): string {
     const sanitizedDescr = this.sanitizer.sanitize(SecurityContext.HTML, descr) || '';
     return sanitizedDescr.length > length ? sanitizedDescr.slice(0, length) + '...' : sanitizedDescr;

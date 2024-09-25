@@ -1,69 +1,59 @@
 <div class="part">
-    <div>
-        <nav class="side-nav">
-            <h4>Groups</h4>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <a>Public Group</a>
-                </li>
-                <li class="list-group-item" *ngFor="let group of groupdata; let i = index">
-                    <!-- Click event to select the group -->
-                    <a (click)="selectGroup(group)">{{ group.group_name }}</a>
-                </li>
-            </ul>
-        </nav>
+  <div>
+    <nav class="side-nav">
+      <h4>Groups</h4>
+      <ul class="list-group">
+        <!-- Public group link -->
+        <li class="list-group-item">
+          <a [class.active]="!selectedGroup" (click)="displayPublicPosts()">Public Group</a>
+        </li>
+        <!-- Other groups list -->
+        <li class="list-group-item" *ngFor="let group of groupdata; let i = index">
+          <a [class.active]="selectedGroup === group" (click)="selectGroup(group)">
+            {{ group.group_name }}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="row mt-5 pt-5">
+    <!-- Show nav tabs for subgroups if a group is selected (except for public group) -->
+    <div *ngIf="selectedGroup && selectedGroup.sub_groups && selectedGroup.sub_groups.length > 0">
+      <ul class="nav nav-items">
+        <!-- 'All Posts' Tab -->
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeSubGroup === null" (click)="selectSubGroup(null)">All Posts</a>
+        </li>
+        <!-- Subgroups as tabs -->
+        <li class="nav-item" *ngFor="let subGroup of selectedGroup.sub_groups">
+          <a class="nav-link" [class.active]="activeSubGroup === subGroup" (click)="selectSubGroup(subGroup)">
+            {{ subGroup.group_name }}
+          </a>
+        </li>
+      </ul>
     </div>
-    <div class="row mt-5 pt-5">
-        <!-- Display nav tabs for sub-groups when a group is selected -->
-        <div *ngIf="selectedGroup">
-            <!-- <h4>{{ selectedGroup.group_name }}'s Subgroups</h4> -->
-            <ul class="nav nav-items  ">
-                <li class="" *ngFor="let subGroup of selectedGroup.sub_groups">
-                    <a class="nav-link" [class.active]="activeSubGroup === subGroup"
-                        (click)="selectSubGroup(subGroup)">{{ subGroup.group_name }}</a>
-                </li>
-            </ul>
 
-            <!-- Display the content for the active subgroup -->
-            <div *ngIf="activeSubGroup">
-                <h5>Selected Subgroup: {{ activeSubGroup.group_name }}</h5>
-                <div class="" *ngFor="let post of posts.posts">
-                    <div class="text-box">
-                      <a (click)="getPostById(post.id)" routerLink="Post" >
-
-                      <!-- Display the header image -->
-                      <img
-                        *ngIf="post.header_img_file_name"
-                        [src]="'http://crocusglobal.com/ftp_forum_img/' + post.header_img_file_name"
-                        alt="Image description"
-                        width="150px"
-                        height="150px"
-                      />
-                  
-                      <!-- Post content -->
-                      <div class="content">
-                          <h4>{{ post.title }}</h4>
-                  
-                        <p [innerHTML]="sanitizeDescription(post.descr).slice(0, 100) + '...'"> </p>
-                      </div>
-                  
-                      <div>      
-                        <hr />
-                      </div>
-                  
-                      <!-- Created At Section -->
-                      <div class="last-content">
-                        
-                        <div class="imagecontent">
-                          <p>
-                            Created At: {{ post.created_at | date: 'dd/MM/yyyy HH:mm' }}
-                          </p>
-                        </div>
-                      </div></a>
-                    </div>
-                  </div>
-                  
+    <!-- Display posts for selected group or subgroup -->
+    <div class="row">
+      <div *ngFor="let post of posts.posts" class="col-md-4 col-sm-6 mb-4">
+        <div class="text-box">
+          <a (click)="getPostById(post.id)" routerLink="Post">
+            <img *ngIf="post.header_img_file_name" 
+                 [src]="'http://crocusglobal.com/ftp_forum_img/' + post.header_img_file_name" 
+                 alt="Image description" class="img-fluid" />
+            <div class="content">
+              <h4>{{ post.title }}</h4>
+              <p [innerHTML]="sanitizeDescription(post.descr, 100)"></p>
             </div>
+            <div>
+              <hr />
+            </div>
+            <div class="last-content">
+              <p>Created At: {{ post.created_at | date: 'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+          </a>
         </div>
+      </div>
     </div>
-</div>
+</div></div>    
