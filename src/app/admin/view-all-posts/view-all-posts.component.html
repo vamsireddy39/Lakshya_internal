@@ -27,7 +27,7 @@
 
                 <div class="hstack gap-2">
                   <a>Created At: {{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}</a>
-                  <a href="javascript:void(0);" class="avatar-text avatar-md ">
+                  <a href="javascript:void(0);" class="avatar-text avatar-md " (click)="update(user.id)">
                     <i class="feather-edit"></i>
                   </a>
                   <a href="javascript:void(0);" class="avatar-text avatar-md">

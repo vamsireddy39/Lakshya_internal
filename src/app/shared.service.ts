@@ -16,16 +16,6 @@ export class SharedService {
     this.headers = new HttpHeaders();
   }
 
-  // Store the session key
-  // setSessionKey(key: string) {
-  //   this.sessionKey = key;
-  // }
-
-  // // Retrieve the session key
-  // getSessionKey() {
-  //   return this.sessionKey;
-  // }
-
   // Login
   Login(formData: any) {
     return this.http.post(`http://www.crocusglobal.com/forum/api/login`, formData);
@@ -71,6 +61,9 @@ export class SharedService {
     return this.http.get(`http://www.crocusglobal.com/forum/api/posts/${userId}`)
   }
 
+  updatePost(formdata:any){
+    return this.http.put(`http://www.crocusglobal.com/forum/api/posts`,formdata)
+  }
   //group
   createGroup(formdata:any){
     return this.http.post(`http://www.crocusglobal.com/forum/api/groups`,formdata)
@@ -121,6 +114,25 @@ export class SharedService {
   getAllComments(postId:number){
     return this.http.get(`http://www.crocusglobal.com/forum/api/posts/${postId}/comments_all`)
   }
+
+  //getallgroupmembers
+  getAllgroupMembers(groupId:number){
+    return this.http.get(`http://www.crocusglobal.com/forum/api/group_members/${groupId}`)
+  }
+
+  addGroupMembers(formdata:any){
+    return this.http.post(`http://www.crocusglobal.com/forum/api/group_members`,formdata)
+  }
+  addSubGroupMembers(payload: any) {
+    return this.http.post('http://www.crocusglobal.com/forum/api/add_sub_group_members', payload);
+  }
+  deactivate(memberId: any) {
+    return this.http.put(
+      `http://www.crocusglobal.com/forum/api/group_members/${memberId}/deactivate`, 
+      null // Passing null as the body
+    );
+  }
+  
 }
 
 

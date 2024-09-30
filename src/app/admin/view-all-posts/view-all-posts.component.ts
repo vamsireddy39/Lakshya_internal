@@ -1,6 +1,8 @@
 import { Component, SecurityContext } from '@angular/core';
 import { SharedService } from '../../shared.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ObservablesService } from '../../observables.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-all-posts',
@@ -18,7 +20,7 @@ export class ViewAllPostsComponent {
   sortDirection: boolean = true; // true for ascending, false for descending
   filterQuery: string = '';
 
-  constructor(private sharedService: SharedService, private sanitizer: DomSanitizer) { }
+  constructor(private sharedService: SharedService, private sanitizer: DomSanitizer,   private route: ActivatedRoute , public router: Router,public observable:ObservablesService) { }
 
   ngOnInit() {
     this.getUsers();
@@ -34,12 +36,17 @@ export class ViewAllPostsComponent {
   // sanitizeDescription(desc: string): SafeHtml {
   //   return this.sanitizer.bypassSecurityTrustHtml(desc);
   // }
+  // sanitizeDescription(descr: string, length: number = 100): string {
+  //   const sanitizedDescr = this.sanitizer.sanitize(SecurityContext.HTML, descr) || '';
+  //   return sanitizedDescr.length > length ? sanitizedDescr.slice(0, length) + '...' : sanitizedDescr;
+  // }
+  
   sanitizeDescription(descr: string, length: number = 100): string {
-    const sanitizedDescr = this.sanitizer.sanitize(SecurityContext.HTML, descr) || '';
-    return sanitizedDescr.length > length ? sanitizedDescr.slice(0, length) + '...' : sanitizedDescr;
+    const sanitizedDescr = this.sanitizer.bypassSecurityTrustHtml(descr) as string;
+    const sanitizedText = typeof sanitizedDescr === 'string' ? sanitizedDescr : '';
+    return sanitizedText.length > length ? sanitizedText.slice(0, length) + '...' : sanitizedText;
   }
   
-
   // Truncate the description to 150 characters
   truncateDescription(desc: string): string {
     return desc.length > 150 ? desc.slice(0, 150) + '...' : desc;
@@ -84,5 +91,18 @@ export class ViewAllPostsComponent {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filterQuery = filterValue;
     this.paginateData();
+  }
+  update(userid:any){
+    this.sharedService.getPostsById(userid).subscribe((response)=>{
+      console.log(response);
+      const responseWithFlag = {
+        ...response, // spread operator to include the API response
+        flag: true   // add the boolean flag
+      };
+    
+      // Emit the combined object using next()
+      this.observable.AdminPostByIdDetailsPathIndex$.next(responseWithFlag); 
+      this.router.navigate(['/Admin/createPosts'], { relativeTo: this.route });
+    })
   }
 }

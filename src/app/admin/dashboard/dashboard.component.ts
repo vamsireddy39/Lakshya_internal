@@ -56,12 +56,15 @@ export class DashboardComponent {
     });
   }
 
+  // sanitizeDescription(descr: string, length: number = 20): string {
+  //   const sanitizedDescr = this.sanitizer.sanitize(SecurityContext.HTML, descr) || '';
+  //   return sanitizedDescr.length > length ? sanitizedDescr.slice(0, length) + '...' : sanitizedDescr;
+  // }
   sanitizeDescription(descr: string, length: number = 20): string {
-    const sanitizedDescr = this.sanitizer.sanitize(SecurityContext.HTML, descr) || '';
-    return sanitizedDescr.length > length ? sanitizedDescr.slice(0, length) + '...' : sanitizedDescr;
+    const sanitizedDescr = this.sanitizer.bypassSecurityTrustHtml(descr) as string;
+    const sanitizedText = typeof sanitizedDescr === 'string' ? sanitizedDescr : '';
+    return sanitizedText.length > length ? sanitizedText.slice(0, length) + '...' : sanitizedText;
   }
-
-
   updatePagination() {
     this.pages = Array(Math.ceil(this.totalUsers / this.pageSize)).fill(0).map((x, i) => i + 1);
     this.paginateData();

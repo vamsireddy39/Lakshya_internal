@@ -20,7 +20,7 @@ interface Comment {
   comment_text: string;
   parent_id: number | null;
   replies: Comment[];
-  showAllReplies?: boolean; // Add showAllReplies property
+  showAllReplies?: boolean; // To control visibility of additional replies
 }
 
 interface AllComments {
@@ -34,8 +34,8 @@ interface AllComments {
 })
 export class ViewUserIdPostsComponent {
   commentForm: FormGroup;
-  userDetails: UserDetails = {} as UserDetails;  // Initialize it with a default structure
-  allComments: AllComments = { Comments: [] };   // Initialize to prevent undefined issues
+  userDetails: UserDetails = {} as UserDetails; // Initialize with a default structure
+  allComments: AllComments = { Comments: [] }; // Initialize to prevent undefined issues
   replyForms: { [commentId: string]: FormGroup } = {};
 
   constructor(
@@ -48,13 +48,12 @@ export class ViewUserIdPostsComponent {
     this.commentForm = this.fb.group({
       comment_text: ['', Validators.required],
       user_id: ['', Validators.required],
-      parent_id: ['']  // Allow null value for parent_id (no parent for top-level comment)
+      parent_id: [null] // Allow null value for parent_id (no parent for top-level comment)
     });
   }
 
   ngOnInit() {
     this.observable.postDetailsPathIndex$.subscribe((response: any) => {
-      console.log(response);
       this.userDetails = response.post as UserDetails;
       this.getAllComments();
     });
@@ -94,16 +93,17 @@ export class ViewUserIdPostsComponent {
 
     this.sharedService.createAComment(this.userDetails.id, formData).subscribe(() => {
       formGroup.reset();
-      this.getAllComments();
+      this.getAllComments(); // Refresh comments after posting
     });
   }
 
   toggleReplies(comment: Comment) {
-    comment.showAllReplies = !comment.showAllReplies;
+    comment.showAllReplies = !comment.showAllReplies; // Toggle visibility
   }
 
   sanitizeDescription(descr: string, length: number = 100): string {
-    const sanitizedDescr = this.sanitizer.sanitize(SecurityContext.HTML, descr) || '';
-    return sanitizedDescr.length > length ? sanitizedDescr.slice(0, length) + '...' : sanitizedDescr;
+    const sanitizedDescr = this.sanitizer.bypassSecurityTrustHtml(descr) as string;
+    const sanitizedText = typeof sanitizedDescr === 'string' ? sanitizedDescr : '';
+    return sanitizedText.length > length ? sanitizedText.slice(0, length) + '...' : sanitizedText;
   }
 }

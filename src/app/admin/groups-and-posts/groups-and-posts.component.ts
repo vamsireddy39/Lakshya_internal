@@ -3,6 +3,8 @@ import { ObservablesService } from '../../observables.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SharedService } from '../../shared.service';
 import { Router, ActivatedRoute } from '@angular/router'; // Added ActivatedRoute
+import { GroupsComponent } from '../../groups/groups.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-groups-and-posts',
@@ -20,7 +22,7 @@ export class GroupsAndPostsComponent {
     public observable: ObservablesService, 
     private sharedService: SharedService, 
     private sanitizer: DomSanitizer,
-    public router: Router,
+    public router: Router,public dialog: MatDialog,
     private route: ActivatedRoute // Inject ActivatedRoute
   ) {}
 
@@ -52,10 +54,11 @@ export class GroupsAndPostsComponent {
   }
 
   sanitizeDescription(descr: string, length: number = 100): string {
-    const sanitizedDescr = this.sanitizer.sanitize(SecurityContext.HTML, descr) || '';
-    return sanitizedDescr.length > length ? sanitizedDescr.slice(0, length) + '...' : sanitizedDescr;
+    const sanitizedDescr = this.sanitizer.bypassSecurityTrustHtml(descr) as string;
+    const sanitizedText = typeof sanitizedDescr === 'string' ? sanitizedDescr : '';
+    return sanitizedText.length > length ? sanitizedText.slice(0, length) + '...' : sanitizedText;
   }
-
+  
   getPostsById(postId: number) {
     this.sharedService.getPostsById(postId).subscribe((response) => {
       console.log(response);
@@ -64,4 +67,35 @@ export class GroupsAndPostsComponent {
       this.router.navigate(['/Admin/Post'], { relativeTo: this.route });
     });
   }
+  openDialog() {
+    const dialogRef = this.dialog.open(GroupsComponent,{
+      width: '450px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  // getAllGroupmembers(groupId:number){
+  //   const isSubGroup = this.subGroupDetails.sub_groups.some((subgroup: any) => subgroup.group_id === groupId);
+  //   this.observable.isSubGroupPathIndex$.next(isSubGroup); // Emit true if subgroup, false otherwise
+
+  //   this.sharedService.getAllgroupMembers(groupId).subscribe((response)=>{
+  //     console.log(response)
+  //     this.observable.groupMembersPathIndex$.next(response)
+  //     this.openDialog()
+  //   })
+  // }
+  getAllGroupMembers(groupId: number, isSubGroup: boolean, parentGroupId: number = 0) {
+    this.sharedService.getAllgroupMembers(groupId).subscribe((response) => {
+      console.log(response);
+
+      // Emit both parentGroupId and isSubGroup status
+      this.observable.isSubGroupPathIndex$.next({ isSubGroup, parentGroupId });
+      this.observable.groupMembersPathIndex$.next(response)
+      // Open the dialog after emitting the status
+      this.openDialog();
+    });
+  }
+
 }

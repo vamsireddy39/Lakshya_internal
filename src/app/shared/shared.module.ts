@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { GroupsComponent } from '../groups/groups.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -17,7 +19,7 @@ import { GroupsComponent } from '../groups/groups.component';
   ],
   imports: [
     CommonModule,
-    MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule
+    MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule,MatButtonModule,MatDialogModule
 
   ],
   exports: [

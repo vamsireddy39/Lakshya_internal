@@ -36,6 +36,7 @@ $User_Admin-theme: mat.define-light-theme((
 @include mat.all-component-themes($User_Admin-theme);
 
 
+
 // html, body { height: 100%; }
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 p{
@@ -44,3 +45,5 @@ p{
 hr{
   margin: 1rem;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

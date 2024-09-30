@@ -23,6 +23,9 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 // import { GroupsComponent } from './groups/groups.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +42,7 @@ import { MatSelectModule } from '@angular/material/select';
     AppRoutingModule,
     SharedModule,FormsModule,
     ReactiveFormsModule,NgxEditorModule,HttpClientModule,
-    MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatSelectModule,  ],
+    MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatSelectModule,  MatDialogModule,MatButtonModule ],
   providers: [SharedService,
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     provideAnimationsAsync()
