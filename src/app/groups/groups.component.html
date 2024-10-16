@@ -28,7 +28,7 @@
                 <i class="feather-plus"></i>
               </div>
               <div>
-                <h3 class="fs-13 fw-semibold text-truncate-1-line">Add Group Members</h3>
+                <h3 class="seeall">Add Group Members</h3>
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@
           <div class="align-items-start justify-content-between m-2">
             <div *ngIf="!isAddingMembers">
               <h4>Current Group Members</h4>
-              <div *ngIf="groupMembers?.group_members?.length > 0; else noGroupMembers" style="height: 350px; overflow: scroll;">
+              <!-- <div *ngIf="groupMembers?.group_members?.length > 0; else noGroupMembers" style="height: 350px; overflow: scroll;">
                 <div class="d-flex gap-4 mb-3 align-items-center" *ngFor="let member of groupMembers?.group_members" [ngClass]="{'active-member': member.active_status === 1}">
                   <div class="avatar-text bg-gray-100">
                     <i class="feather-user"></i>
@@ -53,7 +53,21 @@
                     <i class="feather-user-minus" title="Deactivate"></i>
                   </div>
                 </div>
+              </div> -->
+              <div *ngIf="activeGroupMembers.length > 0; else noGroupMembers" style="height: 350px; overflow: scroll;">
+                <div class="d-flex gap-4 mb-3 align-items-center" *ngFor="let member of activeGroupMembers">
+                  <div class="avatar-text bg-gray-100">
+                    <i class="feather-user"></i>
+                  </div>
+                  <div>
+                    <h3 class="fs-13 fw-semibold text-truncate-1-line">{{ member.user_name }}</h3>
+                  </div>
+                  <div class="deactivate-icon" (click)="deactivate(member.user_id)">
+                    <i class="feather-user-minus" title="Deactivate"></i>
+                  </div>
+                </div>
               </div>
+              
               <!-- No group members message -->
               <ng-template #noGroupMembers>
                 <p>No group members available.</p>
@@ -61,7 +75,7 @@
             </div>
 
             <div *ngIf="isAddingMembers">
-              <h6>Users Not in {{ isSubgroup ? 'Subgroup' : 'Group' }}</h6>
+              <!-- <h6>Users Not in {{ isSubgroup ? 'Subgroup' : 'Group' }}</h6> -->
               <div *ngIf="nonGroupMembers.length > 0; else noNonGroupMembers">
                 <div
                   class="d-flex gap-4 mb-3 align-items-center"
@@ -79,14 +93,13 @@
               </div>
               <!-- No non-group members message -->
               <ng-template #noNonGroupMembers>
-                <p>No users available for addition.</p>
+                <h6>No users available for addition.</h6>
               </ng-template>
             </div>
           </div>
 
-          <button mat-raised-button color="primary" (click)="addGroupMembers()" *ngIf="isAddingMembers">
-            Add Selected Members
-          </button>
+          <button class="seeall" (click)="addGroupMembers()">Add Members</button>
+
         </div>
       </div>
     </div>

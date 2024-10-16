@@ -138,4 +138,8 @@ export class GroupsComponent {
       }
     );
   }
+
+  get activeGroupMembers() {
+    return this.groupMembers?.group_members?.filter((member: { active_status: number; }) => member.active_status === 1) || [];
+  }
 }
