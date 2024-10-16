@@ -13,10 +13,13 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class GroupsAndPostsComponent {
   parentGroupPosts: any[] = [];
+  parentIdGroupPosts: any[] = [];
+
   subGroupDetails: any = { sub_groups: [] };
   userData: any[] = [];
   totalUsers: number = 0;
   userPostDetails:any;
+  message: string = ''; // Declare the message property
 
   constructor(
     public observable: ObservablesService, 
@@ -25,13 +28,16 @@ export class GroupsAndPostsComponent {
     public router: Router,public dialog: MatDialog,
     private route: ActivatedRoute // Inject ActivatedRoute
   ) {}
-
   ngOnInit() {
     // Fetch parent group posts on load
     this.observable.parentGroupPostsPathIndex$.subscribe(response => {
       this.parentGroupPosts = response || [];
-      if (this.parentGroupPosts.length > 0) {
-        this.getPosts(this.parentGroupPosts[0].group_id); // Load the first group by default
+      this.parentIdGroupPosts = response.post;
+  
+      if (response.message) {
+        this.getPosts(response.group_id);
+      } else if (this.parentIdGroupPosts.length > 0) {
+        this.getPosts(this.parentIdGroupPosts[0].group_id);
       }
     });
 
@@ -42,17 +48,33 @@ export class GroupsAndPostsComponent {
   }
 
   getPosts(groupId: number) {
-    this.sharedService.getForumPosts(groupId).subscribe((response: any) => {
-      if (response && response.post) {
-        this.userData = response.post;
-        this.totalUsers = this.userData.length;
-      } else {
-        this.userData = [];
-        this.totalUsers = 0;
+    this.sharedService.getForumPosts(groupId).subscribe(
+      (response: any) => {
+        if (response) {
+          if (response.message) {
+            // No posts available, set message
+            this.message = response.message;
+            this.userData = [];
+            this.totalUsers = 0;
+          } else {
+            // Posts available, reset message and show posts
+            this.message = '';
+            this.userData = response.post || [];
+            this.totalUsers = this.userData.length;
+          }
+        } else {
+          // Handle empty response
+          this.userData = [];
+          this.totalUsers = 0;
+          this.message = 'No data received from the server.';
+        }
+      },
+      (error) => {
+        alert('Failed to load posts. Please try again.');
       }
-    });
+    );
   }
-
+  
   sanitizeDescription(descr: string, length: number = 100): string {
     const sanitizedDescr = this.sanitizer.bypassSecurityTrustHtml(descr) as string;
     const sanitizedText = typeof sanitizedDescr === 'string' ? sanitizedDescr : '';
@@ -76,16 +98,7 @@ export class GroupsAndPostsComponent {
       console.log(`Dialog result: ${result}`);
     });
   }
-  // getAllGroupmembers(groupId:number){
-  //   const isSubGroup = this.subGroupDetails.sub_groups.some((subgroup: any) => subgroup.group_id === groupId);
-  //   this.observable.isSubGroupPathIndex$.next(isSubGroup); // Emit true if subgroup, false otherwise
-
-  //   this.sharedService.getAllgroupMembers(groupId).subscribe((response)=>{
-  //     console.log(response)
-  //     this.observable.groupMembersPathIndex$.next(response)
-  //     this.openDialog()
-  //   })
-  // }
+ 
   getAllGroupMembers(groupId: number, isSubGroup: boolean, parentGroupId: number = 0) {
     this.sharedService.getAllgroupMembers(groupId).subscribe((response) => {
       console.log(response);

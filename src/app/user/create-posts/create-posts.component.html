@@ -1,25 +1,34 @@
-<main class="nxl-container">
-  <div class="nxl-content">
-    <div class="page-header">
-      <div class="page-header-left d-flex align-items-center">
-        <div class="page-header-header_image">
-          <h5 class="m-b-10">Dashboard</h5>
-        </div>
-        <ul class="breadcrumb">
-          <li class="breadcrumb-item"><a>post</a></li>
-          <li class="breadcrumb-item">Create A post</li>
-        </ul>
+<div class="part">
+  <div>
+    <nav class="side-nav">
+      <div class="m-header">
+        <img src="../../assets/images/Lakshya Software Technologies Private Limited 2.png" alt=""
+          class="logo logo-lg" />
       </div>
-      <div class="page-header-right ms-auto">
-        <div class="d-md-none d-flex align-items-center">
-          <a href="javascript:void(0)" class="page-header-right-open-toggle">
-            <i class="feather-align-right fs-20"></i>
-          </a>
-        </div>
-      </div>
-    </div>
 
-    <div class="main-content">
+      <div class="card card-1 pt-5">
+        <div class="card-body">
+          <h6 class=" text-dark fw-bolder">User Options</h6>
+
+          <span>
+            <i class="feather-edit fs-4 text-dark"></i>
+            <a routerLink="create">Create Post</a>
+          </span>
+
+        </div>
+        <div class="card-body pt-0">
+          <span>
+            <i class="feather-file fs-4 text-dark"></i>
+            <a routerLink="MyPosts">My Post</a>
+          </span>
+
+        </div>
+      </div>
+    </nav>
+  </div>
+
+
+    <div class="main-content pt-5 mt-5">
       <div class="row">
         <div class="card col-xxl-12 mb-4 mx-4 mx-sm-0 position-relative stretch-full">
           <div class="card-body row p-sm-5">
@@ -46,15 +55,12 @@
                 <label for="descr" class="form-label">Description</label>
                 <div class="NgxEditor__Wrapper">
                   <ngx-editor-menu [editor]="editorIntro"></ngx-editor-menu>
-                  <ngx-editor
-                    class="form-control"
-                    id="descr"
-                    formControlName="descr"
-                    [editor]="editorIntro"
+                  <ngx-editor class="form-control" id="descr" formControlName="descr" [editor]="editorIntro"
                     placeholder="Type here...">
                   </ngx-editor>
                 </div>
-                <div *ngIf="CreatePost.controls['descr'].invalid && (CreatePost.controls['descr'].dirty || CreatePost.controls['descr'].touched)">
+                <div
+                  *ngIf="CreatePost.controls['descr'].invalid && (CreatePost.controls['descr'].dirty || CreatePost.controls['descr'].touched)">
                   <div *ngIf="CreatePost.controls['descr'].errors?.['required']" class="text-danger">
                     Description is required.
                   </div>
@@ -73,29 +79,33 @@
               <div class="mb-3 row">
                 <div class="col-lg-6">
                   <label for="group_id" class="form-label">Choose a Group name:</label>
-                  <select class="form-control" id="group_id" formControlName="group_id" (change)="onGroupSelect($event)">
+                  <select class="form-control" id="group_id" formControlName="group_id"
+                    (change)="onGroupSelect($event)">
                     <option value="" disabled>--- Choose the group name ---</option>
-                    <option  [value]="5">Public Group</option>
+                    <option [value]="5">Public Group</option>
 
-                    <option *ngFor="let group of parentGroups" [value]="group.group_id">{{ group.group_name }}</option>
+                    <option *ngFor="let group of parentGroups" [value]="group.group_id">{{ group.group_name }}
+                    </option>
                   </select>
-                  <div *ngIf="CreatePost.controls['group_id'].invalid && (CreatePost.controls['group_id'].dirty || CreatePost.controls['group_id'].touched)">
+                  <div
+                    *ngIf="CreatePost.controls['group_id'].invalid && (CreatePost.controls['group_id'].dirty || CreatePost.controls['group_id'].touched)">
                     <div *ngIf="CreatePost.controls['group_id'].errors?.['required']" class="text-danger">
                       Group name is required.
                     </div>
                   </div>
                 </div>
-           
+
                 <div class="col-lg-6">
                   <label for="subgroup_id" class="form-label">Choose a Subgroup name:</label>
                   <select class="form-control" id="subgroup_id" formControlName="subgroup_id">
                     <option value="" disabled>--- Choose the subgroup name ---</option>
-                    <option *ngFor="let subgroup of SubparentGroups.sub_groups" [value]="subgroup.group_id">{{ subgroup.group_name }}</option>
+                    <option *ngFor="let subgroup of SubparentGroups.sub_groups" [value]="subgroup.group_id">{{
+                      subgroup.group_name }}</option>
                   </select>
                 </div>
-                
+
               </div>
-              
+
               <div class="row mt-5">
                 <div class="col-12">
                   <button class="btn btn-lg btn-primary w-100" (click)="createBlog()">Create Post</button>
@@ -106,16 +116,4 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- <footer class="footer">
-    <p class="fs-11 text-muted fw-medium text-uppercase mb-0 copyright">
-      <span>Copyright © 2024</span>
-    </p>
-    <div class="d-flex align-items-center gap-4">
-      <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Help</a>
-      <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Terms</a>
-      <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Privacy</a>
-    </div>
-  </footer> -->
-</main>

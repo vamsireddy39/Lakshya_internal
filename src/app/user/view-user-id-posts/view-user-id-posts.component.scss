@@ -1,483 +1,253 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  h2 {
-    margin-top: 0;
-  }
-  
-
-  
-  .last-content {
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    // gap: 12px;
-  }
-  
-  /* Profile Posts Section */
-  .profile-posts {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .profile-posts button {
-    background-color: blue;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .profile-posts button:hover {
-    background-color: darkblue;
-  }
-  
-  /* Profile Box */
-  .profile-box {
-    margin-left: 10px;
-    width: 80%;
-    border-left: 4px solid #0a48b3;
-    border-radius: 3px;
-    box-shadow: 0 0 20px rgba(136, 152, 170, 0.15);
-    padding: 1px;
-    background-color: #fff;
-  }
-  
-  @media (max-width: 770px) {
-    .profile-box {
-      width: 100%;
-    }
-  }
-  
-  /* Comment Section */
-  .comment-section {
-    background: whitesmoke;
-    padding: 20px;
-    border-radius: 8px;
-    margin-left: 10px;
-  }
-  
-  .comment-form textarea {
-    width: 100%;
-    height: 80px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    resize: none;
-  }
-  
-  .comment-form button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .comment-form button:hover {
-    background-color: #4cae4c;
-  }
-  
-  .comment {
-    border-bottom: 1px solid #e0e0e0;
-    padding: 10px 0;
-  }
-  
-  .comment-author {
-    font-weight: bold;
-  }
-  
-  .reply {
-    margin-left: 20px;
-    padding: 10px 0;
-  }
-  
-  .reply-form {
-    margin-top: 10px;
-  }
-  
-  /* Sidebar */
-  .side-nav {
-    background-color: #ffffff;
-    padding: 20px;
-    height: 100%;
-    width: 280px;
-  }
-  
-  .side-nav ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  
-  .side-nav ul li {
-    margin-bottom: 10px;
-  }
-  
-  .side-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    transition: color 0.3s;
-  }
-  
-  .side-nav ul li a:hover {
-    color: #007bff;
-  }
-  
-  /* Content Area */
-  .content-area {
-    padding: 20px;
-  }
-  
-  /* Text Box */
-  .text-box {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .text-box:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Layout */
-  .part {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .row {
-    margin-left: 2%;
-  }
-  
-  @media (max-width: 770px) {
-    .part {
-      flex-direction: column;
-    }
-  
-    .side-nav {
-      width: 100%;
-      padding: 10px;
-    }
-  
-    .row {
-      margin-left: 0;
-    }
-  }
-  
-  .reply-button{
-    border: none;
-    background: white;
-    margin-left: 23px;
-    padding: 7px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  }
-  .reply-textarea{
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    border-image: initial;
-    padding: 4px;
-    border-bottom: 1px solid black;
-    background: none;
-    width: 80%;
-  }
-  .seeall{
-    background: #1e6aba;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
-  }
-  .file-attachment{
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-    width: max-content;
-    padding: 6px;
-    border-radius: 5px;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h2 {
+  margin-top: 0;
+}
+
 p {
-    margin: 1rem 0;
+  margin: 1rem 0;
 }
-.card .card-header .card-title {
-    margin-bottom: 0;
-    color: #283c50;
-    font-size: 25px;
-    font-weight: 700;
-}
-.card .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background-color: transparent;
-}
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  h2 {
-    margin-top: 0;
-  }
-  
 
-  
-  .last-content {
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    // gap: 12px;
-  }
-  
-  /* Profile Posts Section */
-  .profile-posts {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .profile-posts button {
-    background-color: blue;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .profile-posts button:hover {
-    background-color: darkblue;
-  }
-  
-  /* Profile Box */
-  .profile-box {
-    margin-left: 10px;
-    width: 80%;
-    border-left: 4px solid #0a48b3;
-    border-radius: 3px;
-    box-shadow: 0 0 20px rgba(136, 152, 170, 0.15);
-    padding: 1px;
-    background-color: #fff;
-  }
-  
-  @media (max-width: 770px) {
-    .profile-box {
-      width: 100%;
-    }
-  }
-  
-  /* Comment Section */
-  .comment-section {
-    background: whitesmoke;
-    padding: 20px;
-    border-radius: 8px;
-    margin-left: 10px;
-  }
-  
-  .comment-form textarea {
-    width: 100%;
-    height: 80px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    resize: none;
-  }
-  
-  .comment-form button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .comment-form button:hover {
-    background-color: #4cae4c;
-  }
-  
-  .comment {
-    border-bottom: 1px solid #e0e0e0;
-    padding: 10px 0;
-  }
-  
-  .comment-author {
-    font-weight: bold;
-  }
-  
-  .reply {
-    margin-left: 20px;
-    padding: 10px 0;
-  }
-  
-  .reply-form {
-    margin-top: 10px;
-  }
-  
-  /* Sidebar */
-  .side-nav {
-    background-color: #ffffff;
-    padding: 20px;
-    height: 100%;
-    width: 280px;
-  }
-  
-  .side-nav ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  
-  .side-nav ul li {
-    margin-bottom: 10px;
-  }
-  
-  .side-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    transition: color 0.3s;
-  }
-  
-  .side-nav ul li a:hover {
-    color: #007bff;
-  }
-  
-  /* Content Area */
-  .content-area {
-    padding: 20px;
-  }
-  
-  /* Text Box */
-  .text-box {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .text-box:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Layout */
+/* Layout */
+.part {
+  display: flex;
+  gap: 20px;
+}
+
+.row {
+  margin-left: 2%;
+}
+
+@media (max-width: 770px) {
   .part {
-    display: flex;
-    gap: 20px;
+    flex-direction: column;
   }
-  
-  .row {
-    margin-left: 2%;
-  }
-  
-  @media (max-width: 770px) {
-    .part {
-      flex-direction: column;
-    }
-  
-    .side-nav {
-      width: 100%;
-      padding: 10px;
-    }
-  
-    .row {
-      margin-left: 0;
-    }
-  }
-  
-  .reply-button{
-    border: none;
-    background: white;
-    margin-left: 23px;
-    padding: 7px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  }
-  .reply-textarea{
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    border-image: initial;
-    padding: 4px;
-    border-bottom: 1px solid black;
-    background: none;
-    width: 80%;
-  }
-  .seeall{
-    background: #1e6aba;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
+  .side-nav {
+    width: 100%;
+    padding: 10px;
   }
-  .comment {
-  margin-bottom: 15px;
+
+  .row {
+    margin-left: 0;
+  }
+}
+
+/* Sidebar */
+.side-nav {
+  background-color: #ffffff;
+  padding: 20px;
+  height: 100%;
+  width: 280px;
+}
+
+.side-nav ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.side-nav ul li {
+  margin-bottom: 10px;
+}
+
+.side-nav ul li a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.side-nav ul li a:hover {
+  color: #007bff;
+}
+
+/* Profile Box */
+.profile-box {
+  margin-left: 10px;
+  width: 80%;
+  border-left: 4px solid #0a48b3;
+  border-radius: 3px;
+  box-shadow: 0 0 20px rgba(136, 152, 170, 0.15);
+  padding: 1px;
+  background-color: #fff;
+}
+
+@media (max-width: 770px) {
+  .profile-box {
+    width: 100%;
+  }
+}
+
+/* Comment Section */
+.comment-section {
+  background: whitesmoke;
+  padding: 20px;
+  border-radius: 8px;
+  margin-left: 10px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  height: 80px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
   padding: 10px;
-  border-bottom: 1px solid #ccc;
+  resize: none;
+}
+
+.comment-form button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.comment-form button:hover {
+  background-color: #4cae4c;
+}
+
+.comment {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 0;
 }
 
 .comment-author {
   font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.comment-text {
-  font-size: 16px;
-  margin-bottom: 10px;
 }
 
 .reply {
   margin-left: 20px;
-  padding-left: 15px;
-  // border-left: 2px solid #ccc;
-  margin-bottom: 10px;
+  padding: 10px 0;
 }
 
-.reply-author {
+.reply-form {
+  margin-top: 10px;
+}
+
+.reply-button {
+  border: none;
+  background: white;
+  margin-left: 23px;
+  padding: 7px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.reply-textarea {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  padding: 4px;
+  border-bottom: 1px solid black;
+  background: none;
+  width: 80%;
+}
+
+/* Button Styles */
+button {
+  background-color: transparent;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+button:hover {
+  text-decoration: underline;
+}
+
+/* Profile Posts Section */
+.profile-posts {
+  display: flex;
+  gap: 15px;
+}
+
+.profile-posts button {
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.profile-posts button:hover {
+  background-color: darkblue;
+}
+
+/* Text Box */
+.text-box {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
+
+.text-box:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* See All Button */
+.seeall {
+  background: #1e6aba;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+/* File Attachment */
+.file-attachment {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  width: max-content;
+  padding: 6px;
+  border-radius: 5px;
+}
+
+/* Card Styles */
+.card .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+}
+
+.card .card-header .card-title {
+  margin-bottom: 0;
+  color: #283c50;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+/* Comment and Reply Styles */
+.comment-author {
   font-weight: bold;
-  margin-bottom: 5px;
 }
 
-.reply-text {
-  font-size: 14px;
+.comment-text, .reply-text {
+  margin: 5px 0;
 }
 
 textarea {
   width: 80%;
-  // border-radius: 5px;
   padding: 10px;
   margin-bottom: 5px;
   resize: none;
-}
-
-.reply-textarea {
-  width: 85%;
 }
 
 .reply-button {
@@ -491,35 +261,12 @@ textarea {
   cursor: pointer;
 }
 
-button {
-  margin-top: 5px;
-  background-color: transparent;
-  border: none;
-  color: #007bff;
-  cursor: pointer;
-}
-
-button:hover {
-  text-decoration: underline;
-}
-
-.comment {
-  border-bottom: 1px solid #ccc;
-  padding: 10px;
-}
-
 .reply {
-  padding-left: 20px; /* Indent replies */
-  // border-left: 2px solid #007bff;
-  margin-left: 10px;
+  padding-left: 10px;
+  margin-left: 5px;
   margin-top: 5px;
 }
 
-.comment-text, .reply-text {
-  margin: 5px 0;
-}
-
-.comment-form textarea, .reply-textarea {
-  width: 80%;
-  margin-right: 10px;
+.reply-textarea {
+  width: 85%;
 }

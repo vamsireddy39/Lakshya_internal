@@ -132,7 +132,17 @@ export class SharedService {
       null // Passing null as the body
     );
   }
+  //delete posts
+  deletePost(postId:any){
+    return this.http.put(` http://www.crocusglobal.com/forum/api/posts/deact/${postId}`,null)
+  }
   
+  getPostByUserId(userId:any){
+    return this.http.get(`http://www.crocusglobal.com/forum/api/posts/user_id/${userId}`)
+  }
+  getAllGroups(){
+    return this.http.get(`http://www.crocusglobal.com/forum/api/groups`)
+  }
 }
 
 

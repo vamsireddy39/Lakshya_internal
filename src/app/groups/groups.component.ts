@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import Swal from 'sweetalert2'; // Import SweetAlert
 import { ObservablesService } from '../observables.service';
 import { SharedService } from '../shared.service';
 
@@ -27,11 +28,17 @@ export class GroupsComponent {
 
       if (this.isSubgroup) {
         // For subgroups, fetch parent group members
-        this.sharedService.getAllgroupMembers(this.parentGroupId).subscribe((response) => {
-          console.log('Parent Group Members:', response);
-          this.parentGroupMembers = response;
-          this.filterNonGroupMembers(); // Call once parent group members are fetched
-        });
+        this.sharedService.getAllgroupMembers(this.parentGroupId).subscribe(
+          (response) => {
+            console.log('Parent Group Members:', response);
+            this.parentGroupMembers = response;
+            this.filterNonGroupMembers(); // Call once parent group members are fetched
+          },
+          (error) => {
+            Swal.fire('Error!', 'Failed to fetch parent group members.', 'error');
+            console.error('Error fetching parent group members:', error);
+          }
+        );
       }
 
       // Fetch the group members (either for the parent group or subgroup)
@@ -43,11 +50,17 @@ export class GroupsComponent {
     });
 
     // Fetch all users
-    this.sharedService.getUserData().subscribe((response) => {
-      console.log('User Data:', response);
-      this.userdata = response;
-      this.filterNonGroupMembers(); // Filter once all users are fetched
-    });
+    this.sharedService.getUserData().subscribe(
+      (response) => {
+        console.log('User Data:', response);
+        this.userdata = response;
+        this.filterNonGroupMembers(); // Filter once all users are fetched
+      },
+      (error) => {
+        Swal.fire('Error!', 'Failed to fetch user data.', 'error');
+        console.error('Error fetching user data:', error);
+      }
+    );
   }
 
   // Filter users who are not in the group
@@ -66,6 +79,8 @@ export class GroupsComponent {
         this.nonGroupMembers = this.userdata.users.filter((user: any) => !groupMemberIds.includes(user.id));
       }
       console.log('Non-Group Members:', this.nonGroupMembers);
+    } else {
+      console.warn('Group members or user data is not available');
     }
   }
 
@@ -83,21 +98,44 @@ export class GroupsComponent {
 
     if (this.isSubgroup) {
       // API call for adding subgroup members
-      this.sharedService.addSubGroupMembers(payload).subscribe((response) => {
-        console.log('Subgroup members added successfully:', response);
-        this.toggleAddMembers();
-      });
+      this.sharedService.addSubGroupMembers(payload).subscribe(
+        (response) => {
+          console.log('Subgroup members added successfully:', response);
+          Swal.fire('Success!', 'Subgroup members added successfully.', 'success');
+          this.toggleAddMembers();
+        },
+        (error) => {
+          Swal.fire('Error!', 'Failed to add subgroup members.', 'error');
+          console.error('Error adding subgroup members:', error);
+        }
+      );
     } else {
       // API call for adding regular group members
-      this.sharedService.addGroupMembers(payload).subscribe((response) => {
-        console.log('Group members added successfully:', response);
-        this.toggleAddMembers();
-      });
+      this.sharedService.addGroupMembers(payload).subscribe(
+        (response) => {
+          console.log('Group members added successfully:', response);
+          Swal.fire('Success!', 'Group members added successfully.', 'success');
+          this.toggleAddMembers();
+        },
+        (error) => {
+          Swal.fire('Error!', 'Failed to add group members.', 'error');
+          console.error('Error adding group members:', error);
+        }
+      );
     }
   }
-  deactivate(memberId:any){
-this.sharedService.deactivate(memberId).subscribe((response)=>{
-  console.log(response)
-})
+
+  // Method to deactivate a member
+  deactivate(memberId: any) {
+    this.sharedService.deactivate(memberId).subscribe(
+      (response) => {
+        console.log(response);
+        Swal.fire('Success!', 'Member deactivated successfully.', 'success');
+      },
+      (error) => {
+        Swal.fire('Error!', 'Failed to deactivate member.', 'error');
+        console.error('Error deactivating member:', error);
+      }
+    );
   }
 }

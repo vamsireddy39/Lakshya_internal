@@ -4,8 +4,7 @@
             <div class="navbar-wrapper">
                 <div class="m-header">
                     <a href="index.html" class="b-brand">
-                        <!-- ========   change your logo hear   ============ -->
-                        <img src="../../assets/images/Lakshya Software Technologies Private Limited 2.png" alt="" class="logo logo-lg" />
+                                          <img src="../../assets/images/Lakshya Software Technologies Private Limited 2.png" alt="" class="logo logo-lg" />
                         <img src="../../assets/images/logo_1.png" alt="" class="logo logo-sm" />
                     </a>
                 </div>
@@ -55,7 +54,7 @@
                                         class="feather-chevron-right"></i></span>
                             </a>
                             <ul class="nxl-submenu"*ngFor="let groups of parentGroups">
-                                <li class="nxl-item"><a class="nxl-link" routerLink="groups" (click)="getSubGroups(groups.group_id)" >{{groups.group_name}}</a></li>
+                                <li class="nxl-item"><a class="nxl-link"  (click)="getSubGroups(groups.group_id)" >{{groups.group_name}}</a></li>
 
                             </ul>
                         </li>

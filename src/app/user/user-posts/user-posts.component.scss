@@ -1,0 +1,51 @@
+
+.side-nav {
+    background-color: #ffffff;
+    padding: 20px;
+    height: 100vh; /* Full height */
+    width: 280px; /* Fixed width for sidebar */
+    flex-shrink: 0; /* Prevents the sidebar from shrinking */
+  }
+  
+  /* Main Content */
+  .main-content {
+    flex-grow: 1; /* Takes up the remaining space */
+    padding: 20px;
+    // background-color: #f8f9fa;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: center; /* Centers the form horizontally */
+  }
+  
+  .card {
+    width: 100%; /* Full width of the main content */
+    max-width: 100%; /* Optional max width for the form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Layout */
+  .part {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    gap: 20px;
+  }
+  
+  @media (max-width: 770px) {
+    .part {
+      flex-direction: column;
+    }
+  
+    .side-nav {
+      width: 100%; /* Sidebar takes full width in smaller screens */
+      height: auto; /* Height adjusts based on content */
+      padding: 10px;
+    }
+  
+    .main-content {
+      padding: 10px;
+    }
+  }
+  

@@ -5,6 +5,7 @@ import { catchError, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ObservablesService } from '../../observables.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -43,7 +44,23 @@ export class LoginComponent {
         this.router.navigateByUrl('User');
       } else {
         console.error('Unknown role_id:', response.role_id);
+        Swal.fire({
+          title: "Error",
+          text: "Please check the details!",
+          icon: "error",
+          confirmButtonText: "OK"
+
+        });
       }
+    },
+    (error: any) => {
+      console.error(error);
+      Swal.fire({
+        title: "Error",
+        text: "Please check your details.",
+        icon: "error",
+        confirmButtonText: "OK"
+      });
     });
   }
 

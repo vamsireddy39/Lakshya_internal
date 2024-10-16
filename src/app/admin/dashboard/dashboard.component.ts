@@ -56,10 +56,7 @@ export class DashboardComponent {
     });
   }
 
-  // sanitizeDescription(descr: string, length: number = 20): string {
-  //   const sanitizedDescr = this.sanitizer.sanitize(SecurityContext.HTML, descr) || '';
-  //   return sanitizedDescr.length > length ? sanitizedDescr.slice(0, length) + '...' : sanitizedDescr;
-  // }
+
   sanitizeDescription(descr: string, length: number = 20): string {
     const sanitizedDescr = this.sanitizer.bypassSecurityTrustHtml(descr) as string;
     const sanitizedText = typeof sanitizedDescr === 'string' ? sanitizedDescr : '';

@@ -1,0 +1,73 @@
+<div class="part">
+    <div>
+      <nav class="side-nav">
+        <div class="m-header">
+          <img src="../../assets/images/Lakshya Software Technologies Private Limited 2.png" alt=""
+            class="logo logo-lg" />
+        </div>
+  
+        <div class="card card-1 pt-5">
+          <div class="card-body">
+            <h6 class=" text-dark fw-bolder">User Options</h6>
+  
+            <span>
+              <i class="feather-edit fs-4 text-dark"></i>
+              <a routerLink="create">Create Post</a>
+            </span>
+  
+          </div>
+          <div class="card-body pt-0">
+            <span>
+              <i class="feather-file fs-4 text-dark"></i>
+              <a routerLink="MyPosts">My Post</a>
+            </span>
+  
+          </div>
+        </div>
+      </nav>
+    </div>
+  
+  
+      <div class="main-content pt-5 mt-5">
+        <div class="row">
+
+            <div class="card ">
+              <div class="card-header">
+                <h5 class="card-title">Our Posts</h5>
+                <input type="text" (input)="applyFilter($event)" placeholder="Search Posts..." class="form-control" style="width: 80%;">
+              </div>
+            </div>
+            <div class="col-lg-4" *ngFor="let user of paginatedData">
+              <div class="card" [ngStyle]="{'background-color': getBackgroundColor(user.active)}">
+                <div class="card-body custom-card-action"  (click)="getPostById(user.id)" routerLink="Post">
+                  <img src="http://crocusglobal.com/ftp_forum_img/{{user.header_img_file_name}}" alt="Image description" class="img-fluid">
+                  <hr>
+                  <div class="content">
+                    <h4>{{ user.title }}</h4>
+                    <p [innerHTML]="sanitizeDescription(user.descr, 100)"></p>
+                    <h6>Group Name: {{ user.groupName }}</h6>
+                  </div>
+                  <div class="last-content">
+                    <div class="hstack gap-2">
+                      <a>Created At: {{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}</a>
+                      <a href="javascript:void(0);" class="avatar-text avatar-md" (click)="update(user.id)">
+                        <i class="feather-edit"></i>
+                      </a>
+                      <a href="javascript:void(0);" class="avatar-text avatar-md" (click)="deletePost(user.id)">
+                        <i class="feather-trash"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <ul class="pagination">
+              <li *ngFor="let page of pages" class="page-item">
+                <a class="page-link" href="javascript:void(0)" (click)="setPage(page)">{{ page }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>

@@ -1,16 +1,19 @@
 import { Component, SecurityContext } from '@angular/core';
-import { SharedService } from '../../shared.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ObservablesService } from '../../observables.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { ObservablesService } from '../../observables.service';
+import { SharedService } from '../../shared.service';
 
 @Component({
-  selector: 'app-view-all-posts',
-  templateUrl: './view-all-posts.component.html',
-  styleUrls: ['./view-all-posts.component.scss']
+  selector: 'app-user-posts',
+  templateUrl: './user-posts.component.html',
+  styleUrl: './user-posts.component.scss'
 })
-export class ViewAllPostsComponent {
+export class UserPostsComponent {
+
+  logindata: any;
+AllGroups:any;
   userData: any[] = [];
   paginatedData: any[] = [];
   totalUsers: number = 0;
@@ -29,17 +32,58 @@ export class ViewAllPostsComponent {
   ) {}
 
   ngOnInit() {
-    this.getUsers();
-  }
+    this.observable.loginDetailsPathIndex$.subscribe((response) => {
+      this.logindata = response;
+      if (this.logindata) {
+        this.getUsers(this.logindata.user_id);
 
-  getUsers() {
-    this.sharedService.getPosts().subscribe(
+      }
+    });
+    // this.sharedService.getAllGroups().subscribe((response)=>{
+    //   console.log(response)
+    //   this.AllGroups = response
+    // })
+  }
+  
+
+  // getUsers(userId:any) {
+  //   this.sharedService.getPostByUserId(userId).subscribe(
+  //     (response: any) => {
+  //       this.userData = response.post;
+  //       this.totalUsers = this.userData.length;
+  //       this.updatePagination();
+  //       this.sortUsers(); // Sort users based on active status
+
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching posts', error);
+  //       Swal.fire({
+  //         title: 'Error!',
+  //         text: 'Could not fetch posts. Please try again later.',
+  //         icon: 'error',
+  //       });
+  //     }
+  //   );
+  // }
+  getUsers(userId: any) {
+    // First fetch the user data
+    this.sharedService.getPostByUserId(userId).subscribe(
       (response: any) => {
-        this.userData = response.posts;
+        this.userData = response.post;
         this.totalUsers = this.userData.length;
         this.updatePagination();
         this.sortUsers(); // Sort users based on active status
-
+  
+        // Then fetch the group data
+        this.sharedService.getAllGroups().subscribe(
+          (groupResponse: any) => {
+            this.AllGroups = groupResponse;
+            this.mapUsersToGroups(); // Map users to their corresponding group
+          },
+          (error) => {
+            console.error('Error fetching groups', error);
+          }
+        );
       },
       (error) => {
         console.error('Error fetching posts', error);
@@ -51,7 +95,42 @@ export class ViewAllPostsComponent {
       }
     );
   }
-
+  
+  // Function to map users to their group based on group_id
+  mapUsersToGroups() {
+    this.userData.forEach(user => {
+      const userGroup = this.findGroupById(user.group_id, this.AllGroups);
+      if (userGroup) {
+        // Check if it's a child group or a parent group
+        if (userGroup.parent_group_id) {
+          // It's a child group, find the parent group
+          const parentGroup = this.AllGroups.find((group: { group_id: any; }) => group.group_id === userGroup.parent_group_id);
+          user.groupName = parentGroup ? `${parentGroup.group_name} -> ${userGroup.group_name}` : userGroup.group_name;
+        } else {
+          // It's a parent group
+          user.groupName = userGroup.group_name;
+        }
+      }
+    });
+  }
+  
+  // Helper function to find a group by its ID
+  findGroupById(groupId: number, groups: any[]): any {
+    for (let group of groups) {
+      if (group.group_id === groupId) {
+        return group;
+      }
+      // Check if the group has children
+      if (group.children && group.children.length > 0) {
+        const childGroup = group.children.find((child: { group_id: number; }) => child.group_id === groupId);
+        if (childGroup) {
+          return childGroup;
+        }
+      }
+    }
+    return null;
+  }
+  
   sortUsers() {
     this.userData.sort((a, b) => b.active - a.active); // Sorts active (1) first, then inactive (0)
   }
@@ -114,7 +193,7 @@ export class ViewAllPostsComponent {
         flag: true
       };
       this.observable.AdminPostByIdDetailsPathIndex$.next(responseWithFlag);
-      this.router.navigate(['/Admin/createPosts'], { relativeTo: this.route });
+      this.router.navigate(['/User/create'], { relativeTo: this.route });
     });
   }
 
@@ -125,7 +204,12 @@ export class ViewAllPostsComponent {
         text: 'Your post has been deleted.',
         icon: 'success'
       });
-      this.getUsers(); // Refresh the post list
+      this.getUsers(this.logindata.user_id); // Refresh the post list
+    });
+  }
+  getPostById(postId: any) {
+    this.sharedService.getPostsById(postId).subscribe((response) => {
+      this.observable.postDetailsPathIndex$.next(response);
     });
   }
 }

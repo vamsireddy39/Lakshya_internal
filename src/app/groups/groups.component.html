@@ -2,7 +2,7 @@
   <div class="page-header">
     <div class="page-header-left d-flex align-items-center">
       <div class="page-header-title">
-        <h5 class="m-b-10">{{groupMembers?.group_name}}</h5>
+        <h5 class="m-b-10">{{ groupMembers?.group_name }}</h5>
       </div>
     </div>
     <div class="page-header-right ms-auto">
@@ -27,7 +27,7 @@
               <div class="avatar-text bg-gray-100">
                 <i class="feather-plus"></i>
               </div>
-              <div >
+              <div>
                 <h3 class="fs-13 fw-semibold text-truncate-1-line">Add Group Members</h3>
               </div>
             </div>
@@ -41,19 +41,17 @@
           <div class="align-items-start justify-content-between m-2">
             <div *ngIf="!isAddingMembers">
               <h4>Current Group Members</h4>
-              <div *ngIf="groupMembers?.group_members?.length > 0; else noGroupMembers">
-                <div class="d-flex gap-4 mb-3 align-items-center" *ngFor="let member of groupMembers?.group_members">
+              <div *ngIf="groupMembers?.group_members?.length > 0; else noGroupMembers" style="height: 350px; overflow: scroll;">
+                <div class="d-flex gap-4 mb-3 align-items-center" *ngFor="let member of groupMembers?.group_members" [ngClass]="{'active-member': member.active_status === 1}">
                   <div class="avatar-text bg-gray-100">
                     <i class="feather-user"></i>
                   </div>
                   <div>
-                    <h3 class="fs-13 fw-semibold text-truncate-1-line">{{member.user_name}}</h3>
+                    <h3 class="fs-13 fw-semibold text-truncate-1-line">{{ member.user_name }}</h3>
                   </div>
-                 
-                  <div class="deactivate-icon" (click)="deactivate(member.id)" >
+                  <div class="deactivate-icon" (click)="deactivate(member.user_id)">
                     <i class="feather-user-minus" title="Deactivate"></i>
                   </div>
-                  
                 </div>
               </div>
               <!-- No group members message -->
@@ -75,18 +73,20 @@
                     <i class="feather-user"></i>
                   </div>
                   <div>
-                    <h3 class="fs-13 fw-semibold text-truncate-1-line">{{user.firstname}} {{user.lastname}}</h3>
+                    <h3 class="fs-13 fw-semibold text-truncate-1-line">{{ user.user_name }}</h3>
                   </div>
-                 
                 </div>
               </div>
-              <!-- No users to add -->
+              <!-- No non-group members message -->
               <ng-template #noNonGroupMembers>
-                <p>All users are already in the {{ isSubgroup ? 'subgroup' : 'group' }}.</p>
+                <p>No users available for addition.</p>
               </ng-template>
-              <button class="seeall" (click)="addGroupMembers()">Add Members</button>
             </div>
           </div>
+
+          <button mat-raised-button color="primary" (click)="addGroupMembers()" *ngIf="isAddingMembers">
+            Add Selected Members
+          </button>
         </div>
       </div>
     </div>

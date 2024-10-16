@@ -44,7 +44,7 @@ export class ViewUserPostsComponent {
     this.selectedGroup = null; // No group selected
     this.activeSubGroup = null; // No subgroup selected
     // Assuming 5 is the group_id for the public group
-    this.sharedService.getForumPostsByUserId(5, this.logindata.user_id).subscribe((response) => {
+    this.sharedService.getForumPosts(5).subscribe((response) => {
       this.posts = response;
     });
   }
@@ -75,11 +75,6 @@ export class ViewUserPostsComponent {
     });
   }
 
-  // Sanitize description to safely display HTML content
-  // sanitizeDescription(descr: string, length: number = 100): string {
-  //   const sanitizedDescr = this.sanitizer.sanitize(SecurityContext.HTML, descr) || '';
-  //   return sanitizedDescr.length > length ? sanitizedDescr.slice(0, length) + '...' : sanitizedDescr;
-  // }
   sanitizeDescription(descr: string, length: number = 100): string {
     const sanitizedDescr = this.sanitizer.bypassSecurityTrustHtml(descr) as string;
     const sanitizedText = typeof sanitizedDescr === 'string' ? sanitizedDescr : '';

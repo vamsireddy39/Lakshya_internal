@@ -6,28 +6,23 @@
           <ul class="nav nav-tabs nav-tabs-custom-style" id="myTab" role="tablist">
             <!-- Parent Group -->
             <li class="nav-item" role="presentation">
-              <button class="nav-link active" 
-                      [attr.data-bs-target]="'#allPostsTab'"
-                      data-bs-toggle="tab" >
+              <button class="nav-link active" [attr.data-bs-target]="'#allPostsTab'" data-bs-toggle="tab">
                 All Posts  
                 <span style="margin-left: 15px; color: black; font-size: large;" 
-                      (click)="getAllGroupMembers(parentGroupPosts[0].group_id, false)">
-                  <i style="font-size: large;" class="feather-user-plus"></i> 
+                      (click)="getAllGroupMembers(parentIdGroupPosts[0]?.group_id, false)">
+                  <i style="font-size: large;" class="feather-user-plus"></i>
                 </span>
-              </button>  
+              </button>
             </li>
 
             <!-- Subgroups -->
             <ng-container *ngIf="subGroupDetails?.sub_groups?.length > 0">
               <li class="nav-item" *ngFor="let subgroup of subGroupDetails.sub_groups" role="presentation">
-                <button class="nav-link" 
-                        [attr.data-bs-target]="'#' + subgroup.group_name.replace(' ', '') + 'Tab'"
-                        data-bs-toggle="tab" 
-                        (click)="getPosts(subgroup.group_id)">
-                  {{ subgroup.group_name }}
+                <button class="nav-link" [attr.data-bs-target]="'#' + subgroup.group_name.replace(' ', '') + 'Tab'" data-bs-toggle="tab">
+                  <span (click)="getPosts(subgroup.group_id)">{{ subgroup.group_name }}</span>
                   <span style="margin-left: 15px; color: black; font-size: large;" 
-                        (click)="getAllGroupMembers(subgroup.group_id, true, parentGroupPosts[0].group_id)">
-                    <i style="font-size: large;" class="feather-user-plus"></i> 
+                        (click)="getAllGroupMembers(subgroup.group_id, true, parentIdGroupPosts[0]?.group_id)">
+                    <i style="font-size: large;" class="feather-user-plus"></i>
                   </span>
                 </button>
               </li>
@@ -40,34 +35,46 @@
     <!-- Main Content -->
     <div class="main-content">
       <div class="tab-content">
+        <!-- All Posts Tab -->
         <div class="tab-pane fade show active" id="allPostsTab">
-          <div class="row">
-            <div class="col-lg-4" *ngFor="let post of parentGroupPosts">
-              <div class="card" (click)="getPostsById(post.id)">
-                <div class="card-body custom-card-action">
-                  <img src="http://crocusglobal.com/ftp_forum_img/{{post.header_img_file_name}}" alt="Image description">
-                  <hr>
-                  <div class="content">
-                    <h4>{{ post.title }}</h4>
-                    <p [innerHTML]="sanitizeDescription(post.descr)"></p>
+          <ng-container *ngIf="!userData.length && message">
+            <div class="text-center">
+              <p>{{ message }}</p>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="userData.length > 0">
+            <div class="row">
+              <div class="col-lg-4" *ngFor="let post of userData">
+                <div class="card" (click)="getPostsById(post.id)">
+                  <div class="card-body custom-card-action">
+                    <img [src]="'http://crocusglobal.com/ftp_forum_img/' + post.header_img_file_name" alt="Image description">
+                    <hr>
+                    <div class="content">
+                      <h4>{{ post.title || 'Untitled Post' }}</h4>
+                      <p [innerHTML]="sanitizeDescription(post.descr)"></p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </ng-container>
         </div>
 
         <!-- Subgroup Posts -->
         <div class="tab-pane fade" *ngFor="let subgroup of subGroupDetails.sub_groups" 
              [id]="subgroup.group_name.replace(' ', '') + 'Tab'">
-          <div class="row">
+          <div *ngIf="!userData.length" class="text-center">
+            <p>{{ message }}</p>
+          </div>
+          <div class="row" *ngIf="userData.length > 0">
             <div class="col-lg-4" *ngFor="let user of userData">
               <div class="card">
                 <div class="card-body custom-card-action">
-                  <img src="http://crocusglobal.com/ftp_forum_img/{{user.header_img_file_name}}" alt="Image description">
+                  <img [src]="'http://crocusglobal.com/ftp_forum_img/' + user.header_img_file_name" alt="Image description">
                   <hr>
                   <div class="content" (click)="getPostsById(user.id)">
-                    <h4>{{ user.title }}</h4>
+                    <h4>{{ user.title || 'Untitled Post' }}</h4>
                     <p [innerHTML]="sanitizeDescription(user.descr)"></p>
                     <a>Click To Read More >>></a>
                   </div>
@@ -76,7 +83,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>

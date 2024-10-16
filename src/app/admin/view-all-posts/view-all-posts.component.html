@@ -6,40 +6,32 @@
           <div class="card ">
             <div class="card-header">
               <h5 class="card-title">Our Posts</h5>
-              <input type="text" (input)="applyFilter($event)" placeholder="Search Posts..." class="form-control"
-                style="width: 80%;">
+              <input type="text" (input)="applyFilter($event)" placeholder="Search Posts..." class="form-control" style="width: 80%;">
             </div>
           </div>
-          <div class="col-lg-4  " *ngFor="let user of paginatedData">
-            <div class="card">
-            <div class=" card-body custom-card-action">
-              <img src="http://crocusglobal.com/ftp_forum_img/{{user.header_img_file_name}}" alt="Image description" >
-              <hr>
-              <div class="content">
-                <h4> {{ user.title }}
-                </h4>
-                <p [innerHTML]="sanitizeDescription(user.descr).slice(0, 100) + '...'"> </p>
-              </div>
-              <div>
-
-              </div>
-              <div class="last-content ">
-
-                <div class="hstack gap-2">
-                  <a>Created At: {{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}</a>
-                  <a href="javascript:void(0);" class="avatar-text avatar-md " (click)="update(user.id)">
-                    <i class="feather-edit"></i>
-                  </a>
-                  <a href="javascript:void(0);" class="avatar-text avatar-md">
-                    <i class="feather-trash"></i>
-                  </a>
+          <div class="col-lg-4" *ngFor="let user of paginatedData">
+            <div class="card" [ngStyle]="{'background-color': getBackgroundColor(user.active)}">
+              <div class="card-body custom-card-action">
+                <img src="http://crocusglobal.com/ftp_forum_img/{{user.header_img_file_name}}" alt="Image description">
+                <hr>
+                <div class="content">
+                  <h4>{{ user.title }}</h4>
+                  <p [innerHTML]="sanitizeDescription(user.descr, 100)"></p>
+                </div>
+                <div class="last-content">
+                  <div class="hstack gap-2">
+                    <a>Created At: {{ user.created_at | date: 'dd/MM/yyyy HH:mm' }}</a>
+                    <a href="javascript:void(0);" class="avatar-text avatar-md" (click)="update(user.id)">
+                      <i class="feather-edit"></i>
+                    </a>
+                    <a href="javascript:void(0);" class="avatar-text avatar-md" (click)="deletePost(user.id)">
+                      <i class="feather-trash"></i>
+                    </a>
+                  </div>
                 </div>
               </div>
-
             </div>
-          </div></div>
-
-
+          </div>
         </div>
         <div class="card-footer">
           <ul class="pagination">
@@ -51,5 +43,4 @@
       </div>
     </div>
   </div>
-
 </main>

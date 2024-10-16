@@ -6,106 +6,79 @@
           <div class="card ">
             <div class="card-header">
               <h5 class="card-title">{{postIdDetails.post.title}}</h5>
-
             </div>
 
-            <!-- <div class="card"> -->
-            <div class=" card-body custom-card-action">
-              <!-- {{postIdDetails.post | json}} -->
-               <!-- {{postIdDetails.post.attached_file_name}}  -->
-              <img src="http://crocusglobal.com/ftp_forum_img/{{postIdDetails.post.header_img_file_name}}"
-                alt="Image description">
+            <div class="card-body custom-card-action">
+              <img src="http://crocusglobal.com/ftp_forum_img/{{postIdDetails.post.header_img_file_name}}" alt="Image description">
               <p [innerHTML]="sanitizeDescription(postIdDetails.post.descr)"> </p>
-
               <div class="file-attachment"> 
                 <i class="feather-paperclip"></i>
-                <a href="https://crocusglobal.com/ftp_forum_docs/{{postIdDetails.post.attached_file_name}}"> {{postIdDetails.post.attached_file_name}}</a>
+                <a   download="https://crocusglobal.com/ftp_forum_docs/{{postIdDetails.post.attached_file_name}}"> {{postIdDetails.post.attached_file_name}}</a>
+
+                <a   download="{{postIdDetails.post.attached_file_name}}" href="https://crocusglobal.com/ftp_forum_docs/{{postIdDetails.post.attached_file_name}}"> {{postIdDetails.post.attached_file_name}}</a>
               </div>
-              <div>
-
-              </div>
-
-
+             
+              
             </div>
-            <!-- </div> -->
-
-
           </div>
-            <!-- Comments Section -->
-      <div class="comment-section col-lg-10 mt-4">
-        <h3>Comments</h3>
-        <div class="comment-form">
-          <form [formGroup]="commentForm">
-            <textarea placeholder="Write a comment..." formControlName="comment_text"></textarea>
-            <button type="button" (click)="postComment(null, commentForm)">Post Comment</button>
-          </form>
-        </div>
-      
-        <!-- Display Comments -->
-        <div *ngIf="allComments?.Comments && allComments.Comments.length > 0">
-          <!-- Loop through parent comments -->
-          <div *ngFor="let parentComment of allComments.Comments" class="comment">
-            <p class="comment-author">
-              <i class="feather-user"></i> {{ parentComment.user_name }} commented as
-            </p>
-            <h5 class="comment-text">{{ parentComment.comment_text }}</h5>
-      
-            <!-- Reply Form for parent comment -->
-            <form [formGroup]="replyForms[parentComment.id]" style="display: flex;">
-              <textarea rows="1" placeholder="Write a reply..." formControlName="comment_text" class="reply-textarea"></textarea>
-              <button type="button" class="reply-button" (click)="postComment(parentComment.id, replyForms[parentComment.id])">Post Reply</button>
-            </form>
-      
-            <!-- Display replies for parent comment -->
-            <div *ngIf="parentComment.replies && parentComment.replies.length > 0" class="replies">
-              <!-- Show only the first two replies -->
-              <div *ngFor="let reply of parentComment.replies | slice:0:2" class="reply">
-                <p class="reply-author">
-                  <i class="feather-user"></i> {{ reply.user_name }} commented as
+
+          <!-- Comments Section -->
+          <div class="comment-section col-lg-10 mt-4">
+            <h3>Comments</h3>
+            <div class="comment-form">
+              <form [formGroup]="commentForm">
+                <textarea placeholder="Write a comment..." formControlName="comment_text"></textarea>
+                <button type="button" (click)="postComment(null, commentForm)">Post Comment</button>
+              </form>
+            </div>
+
+            <div *ngIf="allComments?.Comments && allComments.Comments.length > 0">
+              <div *ngFor="let parentComment of allComments.Comments" class="comment">
+                <p class="comment-author">
+                  <i class="feather-user"></i> {{ parentComment.user_name }} commented:
                 </p>
-                <h5 class="reply-text">{{ reply.comment_text }}</h5>
-      
-                <!-- Reply Form for reply (sub-reply) -->
-                <form [formGroup]="replyForms[reply.id]" style="display: flex;">
+                <h5 class="comment-text">{{ parentComment.comment_text }}</h5>
+
+                <!-- Reply button -->
+                <button type="button" class="reply-text" (click)="showReplyForm(parentComment)">Reply</button>
+
+                <!-- Reply Form for parent comment -->
+                <form *ngIf="parentComment.showReplyForm" [formGroup]="replyForms[parentComment.id]" style="display: flex;">
                   <textarea rows="1" placeholder="Write a reply..." formControlName="comment_text" class="reply-textarea"></textarea>
-                  <button type="button" class="reply-button" (click)="postComment(reply.id, replyForms[reply.id])">Post Reply</button>
+                  <button type="button" class="reply-button" (click)="postComment(parentComment.id, replyForms[parentComment.id])">Post Reply</button>
                 </form>
-      
-                <!-- Recursive replies for the reply -->
-                <div *ngIf="reply.replies && reply.replies.length > 0">
-                  <div *ngFor="let subReply of reply.replies" class="reply">
+
+                <!-- Display first reply -->
+                <div *ngIf="parentComment.replies && parentComment.replies.length > 0">
+                  <div class="reply" *ngFor="let reply of parentComment.replies; let i = index" [hidden]="i > 0 && !parentComment.showAllReplies">
                     <p class="reply-author">
-                      <i class="feather-user"></i> {{ subReply.user_name }} commented as
+                      <i class="feather-user"></i> {{ reply.user_name }} replied:
                     </p>
-                    <h5 class="reply-text">{{ subReply.comment_text }}</h5>
+                    <h5 class="reply-text">{{ reply.comment_text }}</h5>
+
+                    <!-- Reply button for reply -->
+                    <button type="button" class="reply-text" (click)="showReplyForm(reply)">Reply</button>
+
+                    <!-- Reply Form for reply -->
+                    <form *ngIf="reply.showReplyForm" [formGroup]="replyForms[reply.id]" style="display: flex;">
+                      <textarea rows="1" placeholder="Write a reply..." formControlName="comment_text" class="reply-textarea"></textarea>
+                      <button type="button" class="reply-button" (click)="postComment(reply.id, replyForms[reply.id])">Post Reply</button>
+                    </form>
                   </div>
+                  
+                  <!-- View more replies toggle -->
+                  <button *ngIf="parentComment.replies.length > 1" (click)="toggleReplies(parentComment)">
+                    {{ parentComment.showAllReplies ? 'Hide' : 'View more' }} replies
+                  </button>
                 </div>
-              </div>
-      
-              <!-- Show "See all replies" button if there are more than 2 replies -->
-              <button *ngIf="parentComment.replies.length > 2 && !parentComment.showAllReplies" (click)="toggleReplies(parentComment)" class="seeall">See all replies</button>
-      
-              <!-- Display remaining replies when the button is clicked -->
-              <div *ngIf="parentComment.showAllReplies">
-                <div *ngFor="let reply of parentComment.replies | slice:2" class="reply">
-                  <p class="reply-author">
-                    <i class="feather-user"></i> {{ reply.user_name }} commented as
-                  </p>
-                  <h6 class="reply-text" style="font-weight: 300;">{{ reply.comment_text }}</h6>
-                </div>
-                <button class="seeall" (click)="toggleReplies(parentComment)">Show less</button>
               </div>
             </div>
+
+            <!-- If no comments available -->
+            <p *ngIf="!allComments?.Comments || allComments.Comments.length === 0">No comments yet. Be the first to comment!</p>
           </div>
-        </div>
-      
-        <!-- If no comments available -->
-        <p *ngIf="!allComments?.Comments || allComments.Comments.length === 0">No comments yet. Be the first to comment!</p>
-      </div>
-      
         </div>
       </div>
     </div>
   </div>
-
 </main>
