@@ -15,8 +15,8 @@ export class ObservablesService {
    parentGroupPostsPathIndex$ = new BehaviorSubject<any>({});
    postByIdDetailsPathIndex$ = new BehaviorSubject<any>({});
    groupMembersPathIndex$ = new BehaviorSubject<any>({});
-  //  isSubGroupPathIndex$ =  new BehaviorSubject<boolean>(false);
-  isSubGroupPathIndex$ = new BehaviorSubject<{ isSubGroup: boolean, parentGroupId: number }>({ isSubGroup: false, parentGroupId: 0 });
+   isGroupPathIndex$ =  new BehaviorSubject<any>({});
+   isSubGroupPathIndex$ = new BehaviorSubject<{ isSubGroup: boolean, parentGroupId: number }>({ isSubGroup: false, parentGroupId: 0 });
   AdminPostByIdDetailsPathIndex$ =  new BehaviorSubject<any>({});
 
 

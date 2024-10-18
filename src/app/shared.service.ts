@@ -46,7 +46,10 @@ export class SharedService {
   }
 
   deleteUser(userId:number){
-    return this.http.delete(`http://www.crocusglobal.com/forum/api/users/deact/${userId}`)
+    return this.http.put(`http://www.crocusglobal.com/forum/api/users/deact/${userId}`,null)
+  }
+  activateUser(userId:number){
+    return this.http.put(`http://www.crocusglobal.com/forum/api/users/act/${userId}`,null)
   }
   //get all posts
   getPosts() {
@@ -132,9 +135,12 @@ export class SharedService {
       null // Passing null as the body
     );
   }
-  //delete posts
+  //delete posts1
   deletePost(postId:any){
     return this.http.put(` http://www.crocusglobal.com/forum/api/posts/deact/${postId}`,null)
+  } 
+   activatePost(postId:any){
+    return this.http.put(` http://www.crocusglobal.com/forum/api/posts/${postId}`,null)
   }
   
   getPostByUserId(userId:any){
@@ -142,6 +148,18 @@ export class SharedService {
   }
   getAllGroups(){
     return this.http.get(`http://www.crocusglobal.com/forum/api/groups`)
+  }
+  deleteGroup(groupId:any){
+    return this.http.put(`http://www.crocusglobal.com/forum/api/groups/${groupId}/deactivate`,null)
+  }
+  activateGroup(groupId:any){
+    return this.http.put(`http://www.crocusglobal.com/forum/api/groups/${groupId}/activate`,null)
+  }
+  getGroupById(groupId:any){
+    return this.http.get(`http://www.crocusglobal.com/forum/api/groups/${groupId}`)
+  }
+  updateGroup(groupId: any, formData:any){
+    return this.http.put(`http://www.crocusglobal.com/forum/api/groups/${groupId}`,formData)
   }
 }
 

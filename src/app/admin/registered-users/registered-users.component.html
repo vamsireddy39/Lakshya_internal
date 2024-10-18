@@ -20,7 +20,7 @@
                         <th (click)="sortData('created_at')">Created At</th>
                         <th (click)="sortData('active')">Status</th>
                         <th (click)="sortData('role_id')">Role ID</th>
-                        <th class="text-end">Edit/Delete</th>
+                        <th class="text-end">Edit/Delete/Activate</th>
 
                       </tr>
                     </thead>
@@ -43,6 +43,9 @@
                           </a>
                           <a (click)="deleteUser(user.id)" class="avatar-text avatar-md">
                             <i class="feather-trash"></i>
+                          </a>
+                          <a (click)="activateUser(user.id)" class="avatar-text avatar-md">
+                            <i class="feather-user-plus"></i>
                           </a>
                         </td>
                         

@@ -23,6 +23,9 @@ export class DashboardComponent {
   activeUsers: number = 0;  // Number of active users
   inactiveUsers: number = 0; // Number of inactive users
   inactivePercentage: number = 0;
+  totalParentGroups: number = 0; // Store total parent groups count
+  totalSubGroups: number = 0; 
+  activePercentage:number = 0;
   constructor(public sharedService: SharedService, private sanitizer: DomSanitizer) { }
   ngOnInit() {
     this.sharedService.getUserData().subscribe((response: any) => {
@@ -36,9 +39,15 @@ export class DashboardComponent {
       this.latestFiveUsers = this.userDetails.slice(0, 4);
       this.activeUsers = this.userDetails.filter((user: any) => user.active === 1).length;
       this.inactiveUsers = this.userDetails.filter((user: any) => user.active === 0).length;
+      this.activePercentage = (this.activeUsers / this.userLength) * 100;
 
       this.inactivePercentage = (this.inactiveUsers / this.userLength) * 100;
     });
+    this.sharedService.getAllGroups().subscribe((response:any)=>{
+      // console.log(response);
+      this.calculateGroupTotals(response);
+
+    })
 
 
     this.getUsers();
@@ -111,4 +120,11 @@ export class DashboardComponent {
     this.filterQuery = filterValue;
     this.paginateData();
   }
+  calculateGroupTotals(groups: any[]) {
+    this.totalParentGroups = groups.length; // Total parent groups
+    this.totalSubGroups = groups.reduce((acc, group) => acc + group.children.length, 0); // Total subgroups
+    console.log('Total Parent Groups:', this.totalParentGroups);
+    console.log('Total Subgroups:', this.totalSubGroups);
+  }
+
 }

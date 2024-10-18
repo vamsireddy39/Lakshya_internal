@@ -108,7 +108,7 @@
                     <i class="feather-briefcase"></i>
                   </div>
                   <div>
-                    <div class="fs-4 fw-bold text-dark"><span class="counter">16</span>/<span class="counter">20</span>
+                    <div class="fs-4 fw-bold text-dark"><span class="counter">{{this.totalParentGroups}}</span>/<span class="counter">{{this.totalSubGroups}}</span>
                     </div>
                     <h3 class="fs-13 fw-semibold text-truncate-1-line">Total Groups</h3>
                   </div>
@@ -122,12 +122,11 @@
                   <a href="javascript:void(0);" class="fs-12 fw-medium text-muted text-truncate-1-line">People In
                     Groups </a>
                   <div class="w-100 text-end">
-                    <span class="fs-12 text-dark">16 Completed</span>
-                    <span class="fs-11 text-muted">(78%)</span>
+                    <span class="fs-12 text-dark">{{ userLength }} </span>
                   </div>
                 </div>
                 <div class="progress mt-2 ht-3">
-                  <div class="progress-bar bg-success" role="progressbar" style="width: 78%"></div>
+                  <div class="progress-bar bg-success" role="progressbar" [style.width]="activePercentage + '%'"></div>
                 </div>
               </div>
             </div>
@@ -168,7 +167,7 @@
                       </td>
                       <td>
                         <a *ngIf="user.attached_file_name; else noAttachedFile"
-                          href="https://crocusglobal.com/ftp_forum_docs/{{ user.attached_file_name }}">
+                          href="http://crocusglobal.com/ftp_forum_docs/{{ user.attached_file_name }}">
                           {{ user.attached_file_name.length > 10 ? (user.attached_file_name | slice:0:10) + '...' :
                           user.attached_file_name }}
                         </a>

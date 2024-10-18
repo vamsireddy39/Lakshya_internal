@@ -17,6 +17,8 @@
                 <div class="content">
                   <h4>{{ user.title }}</h4>
                   <p [innerHTML]="sanitizeDescription(user.descr, 100)"></p>
+                  <p>Group Name:<b> {{ user.groupName  || 'Public' }}</b></p>
+
                 </div>
                 <div class="last-content">
                   <div class="hstack gap-2">
@@ -26,6 +28,9 @@
                     </a>
                     <a href="javascript:void(0);" class="avatar-text avatar-md" (click)="deletePost(user.id)">
                       <i class="feather-trash"></i>
+                    </a>
+                    <a (click)="ActivatePost(user.id)" class="avatar-text avatar-md">
+                      <i class="feather-user-plus"></i>
                     </a>
                   </div>
                 </div>

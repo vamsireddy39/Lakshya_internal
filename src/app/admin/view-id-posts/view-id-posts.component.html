@@ -13,9 +13,14 @@
               <p [innerHTML]="sanitizeDescription(postIdDetails.post.descr)"> </p>
               <div class="file-attachment"> 
                 <i class="feather-paperclip"></i>
-                <a   download="https://crocusglobal.com/ftp_forum_docs/{{postIdDetails.post.attached_file_name}}"> {{postIdDetails.post.attached_file_name}}</a>
-
-                <a   download="{{postIdDetails.post.attached_file_name}}" href="https://crocusglobal.com/ftp_forum_docs/{{postIdDetails.post.attached_file_name}}"> {{postIdDetails.post.attached_file_name}}</a>
+                <!-- <a   download="https://crocusglobal.com/ftp_forum_docs/{{postIdDetails.post.attached_file_name}}"> {{postIdDetails.post.attached_file_name}}</a> -->
+                <a [href]="'http://crocusglobal.com/ftp_forum_docs/' + postIdDetails.post.attached_file_name"
+                [attr.download]="postIdDetails.post.attached_file_name"
+                target="_blank">
+            {{postIdDetails.post.attached_file_name}}
+             </a>
+             
+                <!-- <a   download="{{postIdDetails.post.attached_file_name}}" href="https://crocusglobal.com/ftp_forum_docs/{{postIdDetails.post.attached_file_name}}"> {{postIdDetails.post.attached_file_name}}</a> -->
               </div>
              
               

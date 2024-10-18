@@ -5,6 +5,7 @@
     border-radius: 5px;
     color: white;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    width: max-content;
 
   }
   .d-flex {
@@ -39,14 +40,14 @@
     color: #e53935; /* Darker red on hover */
   }
   
-  .main-content .seeall {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
+  // .main-content .seeall {
+  //   background-color: #4caf50;
+  //   color: white;
+  //   border: none;
+  //   padding: 10px 20px;
+  //   cursor: pointer;
+  //   border-radius: 5px;
+  // }
   
   .main-content .seeall:hover {
     background-color: #388e3c;

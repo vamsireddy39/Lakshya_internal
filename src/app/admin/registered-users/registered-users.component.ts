@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../shared.service';
 import { ObservablesService } from '../../observables.service';
 import { Route, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registered-users',
@@ -71,23 +72,72 @@ export class RegisteredUsersComponent implements OnInit {
     this.filterQuery = filterValue;
     this.paginateData();
   }
-
   editUser(userId: number) {
-      this.sharedService.getUserDataById(userId).subscribe(
+    this.sharedService.getUserDataById(userId).subscribe(
       (response: any) => {
         console.log('User updated successfully:', response);
         this.observable.userDetailsByIdPathIndex$.next(response);
         this.observable.editUserPathIndex$.next(true);
         this.router.navigateByUrl('/register');
-
-
+  
+      
       },
       (error: any) => {
         console.error('Error updating user:', error);
+        // Show error alert
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'Failed to load. Please try again.',
+        });
       }
     );
   }
+  
     deleteUser(userId: number){
-      this.sharedService.deleteUser(userId).subscribe(Response=>{console.log(Response)})
+      this.sharedService.deleteUser(userId).subscribe(
+        (response) => {
+          console.log('User deleted successfully:', response);
+          // Show success alert
+          Swal.fire({
+            icon: 'success',
+            title: 'Deleted!',
+            text: 'User has been deleted.',
+          });
+          this.getUsers(); // Refresh the user list after deletion
+        },
+        (error: any) => {
+          console.error('Error deleting user:', error);
+          // Show error alert
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Failed to delete user. Please try again.',
+          });
+        }
+      );
     }
-}
+    activateUser(userId: number){
+      this.sharedService.activateUser(userId).subscribe(
+        (response) => {
+          console.log('User activated successfully:', response);
+          // Show success alert
+          Swal.fire({
+            icon: 'success',
+            title: 'Activated!',
+            text: 'User has been deleted.',
+          });
+          this.getUsers(); // Refresh the user list after deletion
+        },
+        (error: any) => {
+          console.error('Error deleting user:', error);
+          // Show error alert
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Failed to activate user. Please try again.',
+          });
+        }
+      );
+    }
+  }

@@ -19,6 +19,7 @@ export class ViewAllPostsComponent {
   pages: number[] = [];
   sortDirection: boolean = true; // true for ascending, false for descending
   filterQuery: string = '';
+  AllGroups:any;
 
   constructor(
     private sharedService: SharedService,
@@ -40,6 +41,16 @@ export class ViewAllPostsComponent {
         this.updatePagination();
         this.sortUsers(); // Sort users based on active status
 
+         // Then fetch the group data
+         this.sharedService.getAllGroups().subscribe(
+          (groupResponse: any) => {
+            this.AllGroups = groupResponse;
+            this.mapUsersToGroups(); // Map users to their corresponding group
+          },
+          (error) => {
+            console.error('Error fetching groups', error);
+          }
+        );
       },
       (error) => {
         console.error('Error fetching posts', error);
@@ -50,6 +61,41 @@ export class ViewAllPostsComponent {
         });
       }
     );
+  }
+  
+  // Function to map users to their group based on group_id
+  mapUsersToGroups() {
+    this.userData.forEach(user => {
+      const userGroup = this.findGroupById(user.group_id, this.AllGroups);
+      if (userGroup) {
+        // Check if it's a child group or a parent group
+        if (userGroup.parent_group_id) {
+          // It's a child group, find the parent group
+          const parentGroup = this.AllGroups.find((group: { group_id: any; }) => group.group_id === userGroup.parent_group_id);
+          user.groupName = parentGroup ? `${parentGroup.group_name} -> ${userGroup.group_name}` : userGroup.group_name;
+        } else {
+          // It's a parent group
+          user.groupName = userGroup.group_name;
+        }
+      }
+    });
+  }
+  
+  // Helper function to find a group by its ID
+  findGroupById(groupId: number, groups: any[]): any {
+    for (let group of groups) {
+      if (group.group_id === groupId) {
+        return group;
+      }
+      // Check if the group has children
+      if (group.children && group.children.length > 0) {
+        const childGroup = group.children.find((child: { group_id: number; }) => child.group_id === groupId);
+        if (childGroup) {
+          return childGroup;
+        }
+      }
+    }
+    return null;
   }
 
   sortUsers() {
@@ -77,12 +123,13 @@ export class ViewAllPostsComponent {
     const end = start + this.pageSize;
 
     this.paginatedData = this.userData
-      .filter(user => 
-        this.filterQuery === '' ||
-        user.descr.toLowerCase().includes(this.filterQuery.toLowerCase()) ||
-        user.header_img_file_name.toLowerCase().includes(this.filterQuery.toLowerCase()) ||
-        user.attached_file_name?.toLowerCase().includes(this.filterQuery.toLowerCase())
-      )
+    .filter(user => 
+      this.filterQuery === '' ||
+      (user.title && user.title.toLowerCase().includes(this.filterQuery.toLowerCase())) || // Check if title exists
+      (user.descr && user.descr.toLowerCase().includes(this.filterQuery.toLowerCase())) || // Check if descr exists
+      (user.header_img_file_name && user.header_img_file_name.toLowerCase().includes(this.filterQuery.toLowerCase())) || // Check if header_img_file_name exists
+      (user.attached_file_name && user.attached_file_name.toLowerCase().includes(this.filterQuery.toLowerCase())) // Check if attached_file_name exists
+    )
       .slice(start, end);
   }
 
@@ -123,6 +170,16 @@ export class ViewAllPostsComponent {
       Swal.fire({
         title: 'Deleted!',
         text: 'Your post has been deleted.',
+        icon: 'success'
+      });
+      this.getUsers(); // Refresh the post list
+    });
+  }
+  ActivatePost(postId: any) {
+    this.sharedService.activatePost(postId).subscribe(() => {
+      Swal.fire({
+        title: 'Activated!',
+        text: 'Your post has been Activated.',
         icon: 'success'
       });
       this.getUsers(); // Refresh the post list

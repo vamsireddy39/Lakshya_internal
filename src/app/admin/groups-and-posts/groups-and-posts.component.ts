@@ -12,8 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./groups-and-posts.component.scss']
 })
 export class GroupsAndPostsComponent {
-  parentGroupPosts: any[] = [];
-  parentIdGroupPosts: any[] = [];
+  parentGroupPosts: any;
+  parentIdGroupPosts: any;
 
   subGroupDetails: any = { sub_groups: [] };
   userData: any[] = [];

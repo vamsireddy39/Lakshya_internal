@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../../shared.service';
+import Swal from 'sweetalert2';
+import { ObservablesService } from '../../observables.service';
 
 @Component({
   selector: 'app-registered-groups',
@@ -21,7 +23,7 @@ export class RegisteredGroupsComponent {
   subGroupsData: any[] = [];
   selectedGroupId: number | null = null;
 
-  constructor(private sharedService: SharedService, public router: Router) { }
+  constructor(private sharedService: SharedService, public router: Router,public observable:ObservablesService) { }
 
   ngOnInit() {
     this.getUsers();
@@ -78,14 +80,91 @@ export class RegisteredGroupsComponent {
     });
   }
 
-  editUser(userId: number) {
-    this.router.navigate(['/register', userId]);
-  }
+//   editUser(userId: number) {
+//  this.sharedService.getGroupById(userId).subscribe((response)=>
+// {    const newValue = {
+//   isSubGroup: true,
+//      parentGroupId: response || [] // Assuming response contains parentGroupId
+//   // Assuming 'response' contains the group data you want
+// };
 
-  deleteUser(userId: number) {
-    this.sharedService.deleteUser(userId).subscribe(response => {
-      console.log('User deleted', response);
-      this.getUsers();
-    });
+// this.observable.isGroupPathIndex$.next(newValue); //
+//   // this.observable.isGroupPathIndex$.next(true,response)
+//   console.log(response);
+//   this.router.navigate(['Admin/creategroups']);
+
+// })
+//   }
+editUser(userId: number) {
+  this.sharedService.getGroupById(userId).subscribe((response) => {
+    // Prepare the new value to send
+    const newValue = {
+      isGroup: true, // Sending true as required
+      groupData: response // Sending the entire response object
+    };
+
+    // Emit the new value to the observable
+    this.observable.isGroupPathIndex$.next(newValue);
+    
+    // Log the response for debugging
+    console.log(response);
+    
+    // Navigate to the creategroups page
+    this.router.navigate(['Admin/creategroups']);
+  });
+}
+
+
+  deleteUser(userId: number){
+    this.sharedService.deleteGroup(userId).subscribe(
+      (response) => {
+        console.log('User deleted successfully:', response);
+        // Show success alert
+        Swal.fire({
+          icon: 'success',
+          title: 'Deleted!',
+          text: 'User has been deleted.',
+        });
+        this.getUsers(); 
+        this.getSubGroups(userId)
+     // Refresh the user list after deletion
+      },
+      (error: any) => {
+        console.error('Error deleting user:', error);
+        // Show error alert
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'Failed to delete user. Please try again.',
+        });
+      }
+    );
+  }
+  activateUser(userId: number){
+    this.sharedService.activateGroup(userId).subscribe(
+      (response) => {
+        console.log('User activated successfully:', response);
+        // Show success alert
+        Swal.fire({
+          icon: 'success',
+          title: 'Activated!',
+          text: 'User has been deleted.',
+        });
+        this.getUsers(); 
+        this.getSubGroups(userId)
+        // Refresh the user list after deletion
+      },
+      (error: any) => {
+        console.error('Error deleting user:', error);
+        // Show error alert
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'Failed to activate user. Please try again.',
+        });
+      }
+    );
   }
 }
+
+

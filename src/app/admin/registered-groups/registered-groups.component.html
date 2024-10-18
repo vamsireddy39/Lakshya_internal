@@ -19,7 +19,7 @@
                                             <th (click)="sortData('created_at')">Created At</th>
                                             <th (click)="sortData('active_status')">Status</th>
                                             <th>Sub Groups</th>
-                                            <th>Edit/Delete</th>
+                                            <th>Edit/Delete/Activate</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -41,6 +41,9 @@
                                                 <a (click)="deleteUser(user.group_id)" class="avatar-text avatar-md">
                                                     <i class="feather-trash"></i>
                                                 </a>
+                                                <a (click)="activateUser(user.group_id)" class="avatar-text avatar-md">
+                                                    <i class="feather-user-plus"></i>
+                                                  </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -75,8 +78,8 @@
                                             <th>Sub Group Name</th>
                                             <th>Created At</th>
                                             <th>Status</th>
-                                            <th>Edit/Delete</th>
-                                            <th>Activate/DeActivate</th>
+                                            <th>Edit/Delete/Activate</th>
+                                            <!-- <th>Activate/DeActivate</th> -->
 
                                         </tr>
                                     </thead>
@@ -99,13 +102,11 @@
                                                     class="avatar-text avatar-md">
                                                     <i class="feather-trash"></i>
                                                 </a>
+                                                <a (click)="activateUser(subgroup.group_id)" class="avatar-text avatar-md">
+                                                    <i class="feather-user-plus"></i>
+                                                  </a>
                                             </td>
-                                            <td >
-                                                <a (click)="editUser(subgroup.group_id)" class="avatar-text avatar-md">
-                                                    <i class="feather-edit"></i>
-                                                </a>
-                                                
-                                            </td>
+                                           
                                         </tr>
                                     </tbody>
                                 </table>

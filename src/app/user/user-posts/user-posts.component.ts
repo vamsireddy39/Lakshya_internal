@@ -156,12 +156,13 @@ AllGroups:any;
     const end = start + this.pageSize;
 
     this.paginatedData = this.userData
-      .filter(user => 
-        this.filterQuery === '' ||
-        user.descr.toLowerCase().includes(this.filterQuery.toLowerCase()) ||
-        user.header_img_file_name.toLowerCase().includes(this.filterQuery.toLowerCase()) ||
-        user.attached_file_name?.toLowerCase().includes(this.filterQuery.toLowerCase())
-      )
+    .filter(user => 
+      this.filterQuery === '' ||
+      (user.title && user.title.toLowerCase().includes(this.filterQuery.toLowerCase())) || // Check if title exists
+      (user.descr && user.descr.toLowerCase().includes(this.filterQuery.toLowerCase())) || // Check if descr exists
+      (user.header_img_file_name && user.header_img_file_name.toLowerCase().includes(this.filterQuery.toLowerCase())) || // Check if header_img_file_name exists
+      (user.attached_file_name && user.attached_file_name.toLowerCase().includes(this.filterQuery.toLowerCase())) // Check if attached_file_name exists
+    )
       .slice(start, end);
   }
 
@@ -210,6 +211,16 @@ AllGroups:any;
   getPostById(postId: any) {
     this.sharedService.getPostsById(postId).subscribe((response) => {
       this.observable.postDetailsPathIndex$.next(response);
+    });
+  }
+  ActivatePost(postId: any) {
+    this.sharedService.activatePost(postId).subscribe(() => {
+      Swal.fire({
+        title: 'Activated!',
+        text: 'Your post has been Activated.',
+        icon: 'success'
+      });
+      this.getUsers(this.logindata.user_id) // Refresh the post list
     });
   }
 }

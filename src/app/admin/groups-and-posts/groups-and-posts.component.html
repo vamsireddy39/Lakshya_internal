@@ -9,7 +9,7 @@
               <button class="nav-link active" [attr.data-bs-target]="'#allPostsTab'" data-bs-toggle="tab">
                 All Posts  
                 <span style="margin-left: 15px; color: black; font-size: large;" 
-                      (click)="getAllGroupMembers(parentIdGroupPosts[0]?.group_id, false)">
+                      (click)="getAllGroupMembers( parentIdGroupPosts?.[0]?.group_id ?? parentGroupPosts?.group_id , false)">
                   <i style="font-size: large;" class="feather-user-plus"></i>
                 </span>
               </button>
@@ -21,7 +21,7 @@
                 <button class="nav-link" [attr.data-bs-target]="'#' + subgroup.group_name.replace(' ', '') + 'Tab'" data-bs-toggle="tab">
                   <span (click)="getPosts(subgroup.group_id)">{{ subgroup.group_name }}</span>
                   <span style="margin-left: 15px; color: black; font-size: large;" 
-                        (click)="getAllGroupMembers(subgroup.group_id, true, parentIdGroupPosts[0]?.group_id)">
+                        (click)="getAllGroupMembers(subgroup.group_id, true,  parentIdGroupPosts?.[0]?.group_id ?? parentGroupPosts?.group_id)">
                     <i style="font-size: large;" class="feather-user-plus"></i>
                   </span>
                 </button>
