@@ -138,7 +138,7 @@ export class RegisterComponent {
   
         // Reset the form after successful submission
         this.loginRegisterForm.reset();
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/Admin/registerdUsers');
 
       },
       (error: any) => {
@@ -176,7 +176,7 @@ export class RegisterComponent {
   
         // Reset the form after successful update
         this.RegisterForm.reset();
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/Admin/registerdUsers');
 
       },
       (error: any) => {

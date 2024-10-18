@@ -47,7 +47,7 @@ export class CreatePostsComponent {
 
     this.sharedService.getallgroupsbyuserid(this.roleID).subscribe((response) => {
       // console.log(response);
-      this.parentGroups = response;
+      this.parentGroups = response ;
     });
 
     // Check if there's an existing post to edit
@@ -71,7 +71,7 @@ console.log(response)
 
     // Load subgroups if available
     if (postData.group_id) {
-      this.getAllSubGroupsByParentId(postData.group_id);
+      // this.getAllSubGroupsByParentId(postData.group_id);
     }
   }
 
@@ -79,13 +79,26 @@ console.log(response)
     this.editorIntro.destroy();
   }
 
+  // onGroupSelect(event: any) {
+  //   const groupId = event.target.value;
+  //   if (groupId) {
+  //     this.getAllSubGroupsByParentId(groupId);
+  //   }
+  // }
   onGroupSelect(event: any) {
     const groupId = event.target.value;
-    if (groupId) {
-      this.getAllSubGroupsByParentId(groupId);
+    
+    // Find the selected parent group based on groupId
+    const selectedGroup = this.parentGroups.groups.find((group: any) => group.group_id === +groupId);
+  
+    // If the group exists and has subgroups, set them to SubparentGroups
+    if (selectedGroup && selectedGroup.sub_groups.length > 0) {
+      this.SubparentGroups.sub_groups = selectedGroup.sub_groups;
+    } else {
+      this.SubparentGroups.sub_groups = []; // Clear the subgroups if none are available
     }
   }
-
+  
   getAllSubGroupsByParentId(groupId: number) {
     this.sharedService.getAllSubGroupsByParentId(groupId).subscribe(
       (response) => {

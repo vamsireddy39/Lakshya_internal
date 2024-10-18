@@ -37,6 +37,7 @@ export class ViewUserIdPostsComponent implements OnInit {
   userDetails: UserDetails = {} as UserDetails;
   allComments: AllComments = { Comments: [] };
   replyForms: { [commentId: string]: FormGroup } = {};
+  roleID: any;
 
   constructor(
     private observable: ObservablesService,
@@ -56,6 +57,9 @@ export class ViewUserIdPostsComponent implements OnInit {
     this.observable.postDetailsPathIndex$.subscribe((response: any) => {
       this.userDetails = response.post as UserDetails;
       this.getAllComments();
+    });
+    this.observable.loginDetailsPathIndex$.subscribe((response) => {
+      this.roleID = response.user_id;
     });
   }
 
@@ -90,7 +94,7 @@ export class ViewUserIdPostsComponent implements OnInit {
     const formData = {
       comment_text: formGroup.controls['comment_text'].value,
       parent_id: parentId,
-      user_id: this.userDetails.user_id
+      user_id: this.roleID
     };
 
     this.sharedService.createAComment(this.userDetails.id, formData).subscribe(() => {

@@ -3,6 +3,7 @@ import { SharedService } from '../../shared.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { ObservablesService } from '../../observables.service';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-view-user-posts',
@@ -16,7 +17,8 @@ export class ViewUserPostsComponent {
   activeSubGroup: any = null; // Currently active subgroup
   posts: any; // Stores the posts data
   publicPosts: any; // Public posts data
-  
+  message: string = ''; // Error or message from the API
+  isError: boolean = false;
   constructor(
     private sharedService: SharedService,
     private sanitizer: DomSanitizer,
@@ -43,9 +45,16 @@ export class ViewUserPostsComponent {
   displayPublicPosts() {
     this.selectedGroup = null; // No group selected
     this.activeSubGroup = null; // No subgroup selected
-    // Assuming 5 is the group_id for the public group
-    this.sharedService.getForumPosts(5).subscribe((response) => {
-      this.posts = response;
+    this.message = ''; // Reset message
+    this.isError = false; // Reset error flag
+
+    this.sharedService.getForumPosts(5).subscribe({
+      next: (response) => {
+        this.handlePostResponse(response);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.handleError(error);
+      }
     });
   }
 
@@ -53,7 +62,7 @@ export class ViewUserPostsComponent {
   selectGroup(group: any) {
     this.selectedGroup = group;
     this.activeSubGroup = null; // Reset active subgroup when a group is selected
-    this.getForumPostsByUserId(group.id, this.logindata.user_id); // Use the group's ID
+    this.getForumPostsByUserId(group.group_id, this.logindata.user_id); // Use the group's ID
   }
 
   // Select a subgroup and fetch its posts
@@ -64,17 +73,48 @@ export class ViewUserPostsComponent {
       this.getForumPostsByUserId(subGroup.group_id, this.logindata.user_id);
     } else {
       // Fetch all posts for the selected group if 'All Posts' is selected
-      this.getForumPostsByUserId(this.selectedGroup.id, this.logindata.user_id);
+      this.getForumPostsByUserId(this.selectedGroup.group_id, this.logindata.user_id);
     }
   }
 
   // Fetch posts by group and user ID
   getForumPostsByUserId(groupId: number, userId: number) {
-    this.sharedService.getForumPostsByUserId(groupId, userId).subscribe((response) => {
-      this.posts = response;
+    this.sharedService.getForumPostsByUserId(groupId, userId).subscribe({
+      next: (response) => {
+        this.handlePostResponse(response);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.handleError(error);
+      }
     });
   }
+  handlePostResponse(response: any) {
+    this.message = ''; // Reset message
+    this.isError = false; // Reset error flag
+    if (response.message) {
+      // If there's a message instead of posts, display it
+      this.message = response.message;
+    } else if (response.posts || response.post) {
+      // If posts are present, display them
+      this.posts = response;
+    } else {
+      // If no posts and no message, show a default message
+      this.message = 'No posts found for this group and user combination';
+    }
+  }
 
+  // Handle API errors
+  handleError(error: HttpErrorResponse) {
+    this.posts = null; // Clear posts
+    this.isError = true; // Set error flag
+    if (error.status === 404) {
+      this.message = 'No posts found (Error 404)';
+    } else if (error.status === 500) {
+      this.message = 'Internal server error (Error 500). Please try again later.';
+    } else {
+      this.message = `Error ${error.status}: ${error.statusText}`;
+    }
+  }
   sanitizeDescription(descr: string, length: number = 100): string {
     const sanitizedDescr = this.sanitizer.bypassSecurityTrustHtml(descr) as string;
     const sanitizedText = typeof sanitizedDescr === 'string' ? sanitizedDescr : '';

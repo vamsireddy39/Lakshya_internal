@@ -5,6 +5,8 @@
             <!-- ========   change your logo hear   ============ -->
             <img src="../../assets/images/Lakshya Software Technologies Private Limited 2.png" alt="" class="logo logo-lg" />
     </div>
+      <h4 class="mt-4"><i class="feather-home fs-5 pt-4 text-dark"></i>
+     <a routerLink="#">Home</a></h4>
       <h4>Groups</h4>
       <ul class="list-group">
         <!-- Public group link -->
@@ -18,6 +20,7 @@
           </a>
         </li>
       </ul>
+      
       <div class="card card-1">
         <div class="card-body">
           <h6 class=" text-dark fw-bolder">User Options</h6>
@@ -57,55 +60,64 @@
     </div>
     <!-- <div class="row"> -->
       <!-- Check if posts.posts exists and display them -->
-      <div *ngIf="posts?.posts; else publicPosts">
-        <div class="row">
-          <div *ngFor="let post of posts.posts" class="col-md-4 col-sm-6 mb-4">
-            <div class="text-box">
-              <a (click)="getPostById(post.id)" routerLink="Post">
-                <img *ngIf="post.header_img_file_name" 
-                     [src]="'http://crocusglobal.com/ftp_forum_img/' + post.header_img_file_name" 
-                     alt="Image description" class="img-fluid" />
-                <div class="content">
-                  <h4>{{ post.title }}</h4>
-                  <p [innerHTML]="sanitizeDescription(post.descr, 100)"></p>
-                </div>
-                <div>
-                  <hr />
-                </div>
-                <div class="last-content">
-                  <p>Created At: {{ post.created_at | date: 'dd/MM/yyyy HH:mm' }}</p>
-                </div>
-              </a>
-            </div>
+     <!-- Final fallback: No posts message at the top -->
+<div *ngIf="!posts?.posts && !posts?.post" class="text-center mb-4">
+  <p>No posts available at the moment.</p>
+</div>
+
+<!-- Display posts if available -->
+<div *ngIf="posts?.posts; else checkPublicPosts">
+  <!-- If posts?.posts exists -->
+  <div class="row">
+    <div *ngFor="let post of posts.posts" class="col-md-4 col-sm-6 mb-4">
+      <div class="text-box">
+        <a (click)="getPostById(post.id)" routerLink="Post">
+          <img *ngIf="post.header_img_file_name" 
+               [src]="'http://crocusglobal.com/ftp_forum_img/' + post.header_img_file_name" 
+               alt="Image description" class="img-fluid" />
+          <div class="content">
+            <h4>{{ post.title }}</h4>
+            <p [innerHTML]="sanitizeDescription(post.descr, 100)"></p>
           </div>
+          <div>
+            <hr />
+          </div>
+          <div class="last-content">
+            <p>Created At: {{ post.created_at | date: 'dd/MM/yyyy HH:mm' }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Check if posts.post exists -->
+<ng-template #checkPublicPosts>
+  <div *ngIf="posts?.post">
+    <div class="row">
+      <div *ngFor="let post of posts.post" class="col-md-4 col-sm-6 mb-4">
+        <div class="text-box">
+          <a (click)="getPostById(post.id)" routerLink="Post">
+            <img *ngIf="post.header_img_file_name" 
+                 [src]="'http://crocusglobal.com/ftp_forum_img/' + post.header_img_file_name" 
+                 alt="Image description" class="img-fluid" />
+            <div class="content">
+              <h4>{{ post.title }}</h4>
+              <p [innerHTML]="sanitizeDescription(post.descr, 100)"></p>
+            </div>
+            <div>
+              <hr />
+            </div>
+            <div class="last-content">
+              <p>Created At: {{ post.created_at | date: 'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+          </a>
         </div>
       </div>
-    
-      <!-- Fallback to check if posts.post exists -->
-      <ng-template #publicPosts>
-        <div class="row">
-          <div *ngFor="let post of posts.post" class="col-md-4 col-sm-6 mb-4">
-            <div class="text-box">
-              <a (click)="getPostById(post.id)" routerLink="Post">
-                <img *ngIf="post.header_img_file_name" 
-                     [src]="'http://crocusglobal.com/ftp_forum_img/' + post.header_img_file_name" 
-                     alt="Image description" class="img-fluid" />
-                <div class="content">
-                  <h4>{{ post.title }}</h4>
-                  <p [innerHTML]="sanitizeDescription(post.descr, 100)"></p>
-                </div>
-                <div>
-                  <hr />
-                </div>
-                <div class="last-content">
-                  <p>Created At: {{ post.created_at | date: 'dd/MM/yyyy HH:mm' }}</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </ng-template>
     </div>
+  </div>
+</ng-template>
+</div>
     
      <!-- </div> -->
 </div>

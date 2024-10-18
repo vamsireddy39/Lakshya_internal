@@ -5,21 +5,24 @@
         <img src="../../assets/images/Lakshya Software Technologies Private Limited 2.png" alt=""
           class="logo logo-lg" />
       </div>
-
+      <span>
+        <h4><i class="feather-home fs-4 text-dark"></i>
+        <a routerLink="/User">Home</a></h4>
+      </span>
       <div class="card card-1 pt-5">
         <div class="card-body">
           <h6 class=" text-dark fw-bolder">User Options</h6>
 
           <span>
             <i class="feather-edit fs-4 text-dark"></i>
-            <a routerLink="create">Create Post</a>
+            <a routerLink="#">Create Post</a>
           </span>
 
         </div>
         <div class="card-body pt-0">
           <span>
             <i class="feather-file fs-4 text-dark"></i>
-            <a routerLink="MyPosts">My Post</a>
+            <a routerLink="/User/MyPosts">My Post</a>
           </span>
 
         </div>
@@ -84,7 +87,7 @@
                     <option value="" disabled>--- Choose the group name ---</option>
                     <option [value]="5">Public Group</option>
 
-                    <option *ngFor="let group of parentGroups" [value]="group.group_id">{{ group.group_name }}
+                    <option *ngFor="let group of parentGroups.groups" [value]="group.group_id">{{ group.group_name }}
                     </option>
                   </select>
                   <div
